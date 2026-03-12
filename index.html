@@ -23,7 +23,6 @@
             --c-scroll: #00ddff;
             --c-curr-pr: #00ddff;
             
-            /* Prayer Specific Colors */
             --c-azan-fajr: #ff5555; --c-jamaat-fajr: #33ff55;
             --c-azan-dhuhr: #ff5555; --c-jamaat-dhuhr: #33ff55;
             --c-azan-asr: #ff5555; --c-jamaat-asr: #33ff55;
@@ -31,7 +30,6 @@
             --c-azan-isha: #ff5555; --c-jamaat-isha: #33ff55;
             --c-azan-jumuah: #ff5555; --c-jamaat-jumuah: #33ff55;
             
-            /* New Individual Elements Colors */
             --c-calligraphy: #22ff44;
             --c-sahr-iftar: #ff5555;
             --c-tulu-zawal-gurub: #ffdd00;
@@ -100,7 +98,6 @@
         .col-jamaat { color: var(--c-jamaat); text-shadow: none; font-variant-numeric: tabular-nums; }
         .col-scroll { color: var(--c-scroll); text-shadow: none; }
 
-        /* Specific Item Color Overrides */
         .color-sahr-iftar { color: var(--c-sahr-iftar) !important; }
         .color-tulu-zawal { color: var(--c-tulu-zawal-gurub) !important; }
         .color-eid-chasht { color: var(--c-eid-chasht) !important; }
@@ -585,33 +582,39 @@
         let audioCtx = null;
         let lastBeepTime = "";
 
-        // Web Audio API Beep Generator
         function initAudio() {
             if (!audioCtx) { audioCtx = new (window.AudioContext || window.webkitAudioContext)(); }
             if (audioCtx.state === 'suspended') { audioCtx.resume(); }
         }
 
+        // 1. Updated Beep Tone Duration
         function playBeep() {
             try {
                 if (!audioCtx) return;
+                if (audioCtx.state === 'suspended') audioCtx.resume();
                 let osc = audioCtx.createOscillator();
                 let gain = audioCtx.createGain();
                 osc.connect(gain);
                 gain.connect(audioCtx.destination);
                 osc.type = "sine";
                 osc.frequency.setValueAtTime(800, audioCtx.currentTime);
+                
                 gain.gain.setValueAtTime(1, audioCtx.currentTime);
-                gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.5);
+                gain.gain.setValueAtTime(1, audioCtx.currentTime + 2.5); // Holds volume for 2.5 seconds
+                gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 3.0); // Fades out
+                
                 osc.start(audioCtx.currentTime);
-                osc.stop(audioCtx.currentTime + 0.5);
+                osc.stop(audioCtx.currentTime + 3.0);
             } catch(e) { console.log("Audio play blocked", e); }
         }
 
+        // 3. Screen Should Stay On (24 Hours)
         async function requestWakeLock() {
             try {
                 if ('wakeLock' in navigator) {
+                    if (window.wakeLock !== null) return;
                     window.wakeLock = await navigator.wakeLock.request('screen');
-                    window.wakeLock.addEventListener('release', () => {});
+                    window.wakeLock.addEventListener('release', () => { window.wakeLock = null; });
                 }
             } catch (e) { console.log('Wake Lock:', e.message); }
         }
@@ -619,6 +622,8 @@
         document.addEventListener('visibilitychange', () => {
             if (document.visibilityState === 'visible') requestWakeLock();
         });
+        
+        setInterval(requestWakeLock, 30000); // Actively keeps the screen on every 30 seconds
 
         window.hijriBeforeMaghrib = null; 
         window.hijriAfterMaghrib = null;  
@@ -750,7 +755,6 @@
             document.getElementById("c_date_g").value = ac.dateG; document.getElementById("c_date_h").value = ac.dateH;
             document.getElementById("c_curr_pr").value = ac.currPr; document.getElementById("c_scroll").value = ac.scroll;
             
-            // New items
             document.getElementById("c_calligraphy").value = ac.calligraphy || "#22ff44";
             document.getElementById("c_sahr_iftar").value = ac.sahrIftar || "#ff5555";
             document.getElementById("c_tulu_zawal_gurub").value = ac.tuluZawalGurub || "#ffdd00";
@@ -862,7 +866,7 @@
         function closeSettings() { document.getElementById("settingsModal").style.display = "none"; }
         
         document.body.addEventListener('click', function(e) {
-            initAudio(); // Required to unlock browser audio capability
+            initAudio(); 
             if(!e.target.closest('.modal-content') && !e.target.closest('.settings-btn') && !e.target.closest('select') && !e.target.closest('input')) {
                 if (!document.fullscreenElement) {
                     document.documentElement.requestFullscreen().catch(err => console.log(`Auto full-screen blocked.`));
@@ -874,11 +878,19 @@
         function formatMinsTo12(totalMins) { let h = Math.floor(totalMins / 60) % 24; let m = totalMins % 60; let h12 = h % 12 || 12; let mStr = m < 10 ? '0' + m : m; return h12 + ':' + mStr; }
         function t12(time24) { let [h, m] = time24.split(':'); h = parseInt(h); return (h % 12 || 12) + ':' + m; }
 
-        function roundMinutes(mins, roundVal) {
-            if (roundVal <= 1) return mins;
-            let remainder = mins % roundVal;
-            if (remainder === 0) return mins;
-            return mins + (roundVal - remainder);
+        // 2. Updated Adhan Advance Logic
+        function applyAdvanceRounding(mins, advanceVal) {
+            advanceVal = parseInt(advanceVal);
+            if (isNaN(advanceVal) || advanceVal <= 1) return mins;
+            
+            let remainder = mins % 5;
+            let baseRounded = (remainder === 0) ? mins : mins + (5 - remainder);
+            
+            if (advanceVal === 5) return baseRounded;
+            if (advanceVal === 10) return baseRounded + 5;
+            if (advanceVal === 15) return baseRounded + 10;
+            
+            return baseRounded; 
         }
 
         function applyConfig(rawTimeMins, configKey) {
@@ -889,8 +901,8 @@
                 let aMins = jMins - (cfg.fixedAzanGap || 15);
                 return { azanMins: aMins, jamaatMins: jMins };
             } else {
-                let azan = roundMinutes(rawTimeMins + cfg.offset, cfg.aRound);
-                let jamaat = roundMinutes(azan + cfg.jGap, cfg.jRound);
+                let azan = applyAdvanceRounding(rawTimeMins + cfg.offset, cfg.aRound);
+                let jamaat = applyAdvanceRounding(azan + cfg.jGap, cfg.jRound);
                 return { azanMins: azan, jamaatMins: jamaat };
             }
         }
@@ -932,33 +944,26 @@
                 if (navigator.geolocation) {
                     navigator.geolocation.getCurrentPosition(
                         async (pos) => {
-                            let lat = pos.coords.latitude;
-                            let lon = pos.coords.longitude;
+                            let lat = pos.coords.latitude; let lon = pos.coords.longitude;
                             try {
                                 let res = await fetch(`https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${lat}&longitude=${lon}&localityLanguage=en`);
                                 let data = await res.json();
-                                let city = data.city || data.locality || "GPS Location";
-                                let country = data.countryName || "";
-                                resolve({ lat, lon, city, country, type: 'GPS' });
-                            } catch(e) { resolve({ lat, lon, city: "GPS Location", country: "", type: 'GPS' }); }
+                                let city = data.city || data.locality || "Location Detected";
+                                resolve({ lat, lon, city, country: data.countryName || "", type: 'GPS' });
+                            } catch(e) { resolve({ lat, lon, city: "Location Detected", country: "", type: 'GPS' }); }
                         },
                         async () => { resolve(await getIpLocation()); },
                         { enableHighAccuracy: true, timeout: 8000, maximumAge: 0 }
                     );
-                } else {
-                    getIpLocation().then(resolve);
-                }
+                } else { getIpLocation().then(resolve); }
             });
         }
 
         async function getIpLocation() {
             try {
-                const res = await fetch('https://ipapi.co/json/');
-                const data = await res.json();
+                const res = await fetch('https://ipapi.co/json/'); const data = await res.json();
                 return { lat: data.latitude, lon: data.longitude, city: data.city, country: data.country_name, type: 'IP' };
-            } catch(e) {
-                return { lat: 19.0330, lon: 73.0297, city: "Navi Mumbai", country: "India", type: 'Default' };
-            }
+            } catch(e) { return { lat: 19.0330, lon: 73.0297, city: "Navi Mumbai", country: "India", type: 'Default' }; }
         }
 
         function processApiData(resultToday, resultTomorrow) {
@@ -1001,8 +1006,9 @@
             try {
                 document.getElementById('locationNameDisplay').innerText = "DETECTING LOCATION...";
                 let loc = await detectLocation();
-                let locDisplay = loc.city + (loc.country ? ", " + loc.country : "");
-                document.getElementById('locationNameDisplay').innerText = locDisplay.toUpperCase() + ` (${loc.type})`;
+                
+                // 5. Clean Location Name Display
+                document.getElementById('locationNameDisplay').innerText = loc.city.toUpperCase();
 
                 try {
                     const weatherRes = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${loc.lat}&longitude=${loc.lon}&current_weather=true`);
@@ -1081,7 +1087,8 @@
             }
         }
 
-        function checkAndBeep(nowTotalMins) {
+        // 4. Checking logic for Beep and Eid
+        function checkAndBeep(nowTotalMins, finalHijri) {
             let current12 = formatMinsTo12(nowTotalMins);
             if (lastBeepTime === current12) return; 
 
@@ -1094,9 +1101,21 @@
             if (window.sunriseMins === nowTotalMins) shouldBeep = true;
             if (window.sunriseMins + currentConfig.general.chashtOffset === nowTotalMins) shouldBeep = true;
             
-            let [eH, eM] = currentConfig.general.eidTime.split(':');
-            let eidMins = parseInt(eH)*60 + parseInt(eM);
-            if (eidMins === nowTotalMins) shouldBeep = true;
+            // Checking if today is Eid Day
+            let isEidDay = false;
+            if (finalHijri) {
+                let m = parseInt(finalHijri.month.number);
+                let d = parseInt(finalHijri.day);
+                if ((m === 10 && d === 1) || (m === 12 && d === 10)) {
+                    isEidDay = true;
+                }
+            }
+
+            if (isEidDay) {
+                let [eH, eM] = currentConfig.general.eidTime.split(':');
+                let eidMins = parseInt(eH)*60 + parseInt(eM);
+                if (eidMins === nowTotalMins) shouldBeep = true;
+            }
 
             if (shouldBeep) {
                 playBeep();
@@ -1115,8 +1134,6 @@
                 let hours = now.getHours(); let minutes = now.getMinutes(); let seconds = now.getSeconds();
                 let nowTotalMins = (hours * 60) + minutes;
 
-                checkAndBeep(nowTotalMins); // Triggers beep if condition meets
-
                 const daysEn = ["SUNDAY", "MONDAY", "TUESDAY", "WEDNESDAY", "THURSDAY", "FRIDAY", "SATURDAY"];
                 const daysUr = ["اتوار", "پیر", "منگل", "بدھ", "جمعرات", "جمعہ", "ہفتہ"];
                 document.getElementById('dayName').innerHTML = daysEn[now.getDay()] + " | <span style=\"font-family: 'Amiri', serif; font-size: 1.4em;\">" + daysUr[now.getDay()] + "</span>";
@@ -1125,12 +1142,15 @@
                 document.getElementById('hoursMins').innerText = displayHours + ':' + (minutes < 10 ? '0' + minutes : minutes);
                 document.getElementById('seconds').innerText = seconds < 10 ? '0' + seconds : seconds;
 
+                let finalHijri = null;
                 if (window.hijriBeforeMaghrib && window.hijriAfterMaghrib && window.maghribMins > 0) {
                     let activeHijri = (nowTotalMins >= window.maghribMins) ? window.hijriAfterMaghrib : window.hijriBeforeMaghrib;
-                    let finalHijri = getAdjustedHijri(activeHijri, parseInt(currentConfig.general.hijriOffset || 0));
+                    finalHijri = getAdjustedHijri(activeHijri, parseInt(currentConfig.general.hijriOffset || 0));
                     document.getElementById('hijriDate').innerText = finalHijri.day + '-' + String(finalHijri.month.number).padStart(2, '0') + '-' + finalHijri.year + ' ' + finalHijri.month.ar;
                 }
                 
+                checkAndBeep(nowTotalMins, finalHijri);
+
                 let isMakrooh = false; let alertText = ""; let chashtMins = window.sunriseMins + currentConfig.general.chashtOffset;
                 if (window.sunriseMins && nowTotalMins >= window.sunriseMins && nowTotalMins < chashtMins) {
                     isMakrooh = true; alertText = "مکروہ وقت شروع ہو گیا ہے";
