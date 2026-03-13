@@ -591,7 +591,7 @@
         let lastBeepTime = "";
         let noSleepVideoCreated = false;
 
-        // Core Engine Data Objects (These will maintain strict consistency across all panels)
+        // Core Engine Data Objects
         window.todayData = null;
         window.tomorrowData = null;
         window.lastIsTomorrow = null;
@@ -663,14 +663,6 @@
             } catch(e) { console.log("Audio play blocked", e); }
         }
 
-        window.hijriBeforeMaghrib = null; 
-        window.hijriAfterMaghrib = null;  
-        window.maghribMins = 0;           
-        window.sunriseMins = 0;
-        window.zawalMins = 0;
-        window.currentGregorianDateStr = ""; 
-        window.lastApiResultToday = null;
-        window.lastApiResultTomorrow = null;
         const defaultScrollText = "<span class='led-text'>Please keep your mobile phones turned off</span> &nbsp;&nbsp; | &nbsp;&nbsp; براہِ کرم اپنے موبائل فون بند رکھیں";
 
         const defaultConfig = {
@@ -736,7 +728,7 @@
             document.getElementById("configChasht").value = currentConfig.general.chashtOffset;
             document.getElementById("configHijriOffset").value = currentConfig.general.hijriOffset || "0";
             
-            let scrollMode = document.getElementById("configScrollMode").value;
+            let scrollMode = currentConfig.general.scrollMode || "scroll";
             document.getElementById("configScrollMode").value = scrollMode;
             let scrollEl = document.getElementById("scrollText");
             if(scrollMode === "static") { scrollEl.classList.add("static-scroll"); }
@@ -935,6 +927,7 @@
         function applyAdvanceRounding(mins, advanceVal) {
             advanceVal = parseInt(advanceVal);
             if (isNaN(advanceVal) || advanceVal <= 1) return mins;
+            
             let remainder = mins % 5;
             let baseRounded = (remainder === 0) ? mins : mins + (5 - remainder);
             
@@ -1018,7 +1011,6 @@
             } catch(e) { return { lat: 19.0330, lon: 73.0297, city: "Navi Mumbai", country: "India", type: 'Default' }; }
         }
 
-        // STATIC DISPLAY UPDATER FUNCTION
         function updateStaticDisplays(isTomorrow) {
             let data = isTomorrow ? window.tomorrowData : window.todayData;
             if (!data) return;
@@ -1062,7 +1054,7 @@
 
             window.maghribMins = timeToMins(window.todayData.timings.Sunset); 
 
-            window.lastIsTomorrow = null; // Force static displays to render correctly based on current time
+            window.lastIsTomorrow = null; 
             updateActivePrayerTracking(); 
         }
 
@@ -1107,8 +1099,9 @@
             if (!window.todayData) return;
             let now = new Date();
             let nowTotalMins = (now.getHours() * 60) + now.getMinutes();
-            let p = window.todayData.calc.s; // Use today's boundaries to determine state
+            let p = window.todayData.calc.s; 
 
+            // --- 1. CENTER CLOCK LOGIC (Advances 5 mins after Jamaat) ---
             let activeIndex = 0;
             let isTomorrow = false;
             
@@ -1127,7 +1120,6 @@
                 isTomorrow = true; 
             }
 
-            // --- MAGIC FIX: Shift the ENTIRE board to Tomorrow if past Isha! ---
             if (window.lastIsTomorrow !== isTomorrow) {
                 updateStaticDisplays(isTomorrow);
                 window.lastIsTomorrow = isTomorrow;
@@ -1140,25 +1132,33 @@
             document.getElementById('currentAzanTime').innerText = activePrayerCenter.azan12;
             document.getElementById('currentJamaatTime').innerText = activePrayerCenter.jamaat12;
 
-            // RIGHT PANEL HEADER LOGIC (Strictly Current Waqt)
+            // --- 2. RIGHT PANEL HEADER LOGIC (Strictly Current Waqt) ---
             let currentWaqtPrayer = p[0];
+            let displayEndStr = p[0].end;
+            
             if (nowTotalMins >= p[0].startMins && nowTotalMins < p[0].endMins) {
-                currentWaqtPrayer = p[0];
+                currentWaqtPrayer = p[0]; displayEndStr = p[0].end;
             } else if (nowTotalMins >= p[1].startMins && nowTotalMins < p[1].endMins) {
-                currentWaqtPrayer = p[1];
+                currentWaqtPrayer = p[1]; displayEndStr = p[1].end;
             } else if (nowTotalMins >= p[2].startMins && nowTotalMins < p[2].endMins) {
-                currentWaqtPrayer = p[2];
+                currentWaqtPrayer = p[2]; displayEndStr = p[2].end;
             } else if (nowTotalMins >= p[3].startMins && nowTotalMins < p[3].endMins) {
-                currentWaqtPrayer = p[3];
-            } else if (nowTotalMins >= p[4].startMins || nowTotalMins < p[0].startMins) {
+                currentWaqtPrayer = p[3]; displayEndStr = p[3].end;
+            } else if (nowTotalMins >= p[4].startMins) {
                 currentWaqtPrayer = p[4]; 
+                // Isha End matches exactly Tomorrow's Fajr/Sahr
+                displayEndStr = window.tomorrowData ? t12(window.tomorrowData.timings.Fajr) : p[4].end;
+            } else if (nowTotalMins < p[0].startMins) {
+                currentWaqtPrayer = p[4]; 
+                // Post-midnight Isha End matches Today's Fajr/Sahr
+                displayEndStr = p[0].start; 
             } else if (nowTotalMins >= p[0].endMins && nowTotalMins < p[1].startMins) {
-                currentWaqtPrayer = p[1]; 
+                currentWaqtPrayer = p[1]; displayEndStr = p[1].end;
             }
 
             document.getElementById('rangePrayerName').innerText = currentWaqtPrayer.en;
             document.getElementById('rangeStart').innerText = currentWaqtPrayer.start;
-            document.getElementById('rangeEnd').innerText = currentWaqtPrayer.end;
+            document.getElementById('rangeEnd').innerText = displayEndStr;
 
             let notifyRow = document.getElementById('jamaatNotifyRow');
             let inAzanJamaatWindow = false; let minsLeft = 0; let notifyPrayer = null;
