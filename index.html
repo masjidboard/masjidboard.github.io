@@ -1011,49 +1011,6 @@
             } catch(e) { return { lat: 19.0330, lon: 73.0297, city: "Navi Mumbai", country: "India", type: 'Default' }; }
         }
 
-        function updateStaticDisplays(isTomorrow) {
-            let data = isTomorrow ? window.tomorrowData : window.todayData;
-            if (!data) return;
-            let t = data.timings;
-            
-            document.getElementById('sahrTime').innerText = t12(t.Fajr);
-            document.getElementById('sahrTop').innerText = t12(t.Fajr);
-            document.getElementById('tuluTime').innerText = t12(t.Sunrise);
-            document.getElementById('zawalTime').innerText = t12(t.Dhuhr);
-            document.getElementById('gurubTime').innerText = t12(t.Sunset);
-            document.getElementById('iftarTime').innerText = t12(t.Sunset);
-            document.getElementById('iftarTop').innerText = t12(t.Sunset);
-            
-            let chashtMins = timeToMins(t.Sunrise) + currentConfig.general.chashtOffset;
-            document.getElementById('chashtTime').innerText = formatMinsTo12(chashtMins);
-            
-            window.sunriseMins = timeToMins(t.Sunrise); 
-            window.zawalMins = timeToMins(t.Dhuhr);
-        }
-
-        function updatePrayerTableTimes(nowTotalMins) {
-            if (!window.todayData || !window.tomorrowData) return;
-            let cToday = window.todayData.calc;
-            let cTmrw = window.tomorrowData.calc;
-
-            const updateRow = (idAzan, idJamaat, todayObj, tmrwObj) => {
-                if (nowTotalMins >= todayObj.jamaatMins) {
-                    document.getElementById(idAzan).innerText = formatMinsTo12(tmrwObj.azanMins);
-                    document.getElementById(idJamaat).innerText = formatMinsTo12(tmrwObj.jamaatMins);
-                } else {
-                    document.getElementById(idAzan).innerText = formatMinsTo12(todayObj.azanMins);
-                    document.getElementById(idJamaat).innerText = formatMinsTo12(todayObj.jamaatMins);
-                }
-            };
-
-            updateRow('fajrAzan', 'fajrJamaat', cToday.f, cTmrw.f);
-            updateRow('zuharAzan', 'zuharJamaat', cToday.z, cTmrw.z);
-            updateRow('asrAzan', 'asrJamaat', cToday.a, cTmrw.a);
-            updateRow('magribAzan', 'magribJamaat', cToday.m, cTmrw.m);
-            updateRow('ishaAzan', 'ishaJamaat', cToday.i, cTmrw.i);
-            updateRow('jumuahAzan', 'jumuahJamaat', cToday.j, cTmrw.j);
-        }
-
         function processApiData(resultToday, resultTomorrow) {
             const date = resultToday.data.date;
             let isFriday = new Date().getDay() === 5;
@@ -1117,13 +1074,35 @@
             }
         }
 
+        function updatePrayerTableTimes(nowTotalMins) {
+            if (!window.todayData || !window.tomorrowData) return;
+            let cToday = window.todayData.calc;
+            let cTmrw = window.tomorrowData.calc;
+
+            const updateRow = (idAzan, idJamaat, todayObj, tmrwObj) => {
+                if (nowTotalMins >= todayObj.jamaatMins) {
+                    document.getElementById(idAzan).innerText = formatMinsTo12(tmrwObj.azanMins);
+                    document.getElementById(idJamaat).innerText = formatMinsTo12(tmrwObj.jamaatMins);
+                } else {
+                    document.getElementById(idAzan).innerText = formatMinsTo12(todayObj.azanMins);
+                    document.getElementById(idJamaat).innerText = formatMinsTo12(todayObj.jamaatMins);
+                }
+            };
+
+            updateRow('fajrAzan', 'fajrJamaat', cToday.f, cTmrw.f);
+            updateRow('zuharAzan', 'zuharJamaat', cToday.z, cTmrw.z);
+            updateRow('asrAzan', 'asrJamaat', cToday.a, cTmrw.a);
+            updateRow('magribAzan', 'magribJamaat', cToday.m, cTmrw.m);
+            updateRow('ishaAzan', 'ishaJamaat', cToday.i, cTmrw.i);
+            updateRow('jumuahAzan', 'jumuahJamaat', cToday.j, cTmrw.j);
+        }
+
         function updateActivePrayerTracking() {
             if (!window.todayData) return;
             let now = new Date();
             let nowTotalMins = (now.getHours() * 60) + now.getMinutes();
             let p = window.todayData.calc.s; 
 
-            // --- 1. CENTER CLOCK LOGIC (Advances 5 mins after Jamaat) ---
             let activeIndex = 0;
             let isTomorrow = false;
             
@@ -1142,11 +1121,6 @@
                 isTomorrow = true; 
             }
 
-            if (window.lastIsTomorrow !== isTomorrow) {
-                updateStaticDisplays(isTomorrow);
-                window.lastIsTomorrow = isTomorrow;
-            }
-
             let dataToUse = isTomorrow ? window.tomorrowData : window.todayData;
             let activePrayerCenter = dataToUse.calc.s[activeIndex];
 
@@ -1154,7 +1128,6 @@
             document.getElementById('currentAzanTime').innerText = activePrayerCenter.azan12;
             document.getElementById('currentJamaatTime').innerText = activePrayerCenter.jamaat12;
 
-            // --- 2. RIGHT PANEL HEADER LOGIC (Strictly Current Waqt) ---
             let currentWaqtPrayer = p[0];
             let displayEndStr = p[0].end;
             
@@ -1206,42 +1179,6 @@
             }
         }
 
-        function checkAndBeep(nowTotalMins, finalHijri) {
-            let current12 = formatMinsTo12(nowTotalMins);
-            if (lastBeepTime === current12) return; 
-
-            let shouldBeep = false;
-            let dataToUse = window.lastIsTomorrow ? window.tomorrowData : window.todayData;
-            
-            if (dataToUse && dataToUse.calc.s.length) {
-                dataToUse.calc.s.forEach(p => {
-                    if (p.azanMins === nowTotalMins || p.jamaatMins === nowTotalMins) shouldBeep = true;
-                });
-            }
-            if (window.sunriseMins === nowTotalMins) shouldBeep = true;
-            if (window.sunriseMins + currentConfig.general.chashtOffset === nowTotalMins) shouldBeep = true;
-            
-            let isEidDay = false;
-            if (finalHijri) {
-                let m = parseInt(finalHijri.month.number);
-                let d = parseInt(finalHijri.day);
-                if ((m === 10 && d === 1) || (m === 12 && d === 10)) {
-                    isEidDay = true;
-                }
-            }
-
-            if (isEidDay) {
-                let [eH, eM] = currentConfig.general.eidTime.split(':');
-                let eidMins = parseInt(eH)*60 + parseInt(eM);
-                if (eidMins === nowTotalMins) shouldBeep = true;
-            }
-
-            if (shouldBeep) {
-                playBeep();
-                lastBeepTime = current12;
-            }
-        }
-
         function updateLiveClock() {
             try {
                 const now = new Date();
@@ -1268,6 +1205,27 @@
                     document.getElementById('hijriDate').innerText = finalHijri.day + '-' + String(finalHijri.month.number).padStart(2, '0') + '-' + finalHijri.year + ' ' + finalHijri.month.ar;
                 }
 
+                // لیفٹ پینل کے تمام اوقات مغرب کے فوراً بعد (اسلامی تاریخ بدلتے ہی) آئندہ کل پر شفٹ ہو جائیں گے
+                if (window.todayData && window.tomorrowData) {
+                    let isNextIslamicDay = (nowTotalMins >= window.maghribMins);
+                    let activeLeftData = isNextIslamicDay ? window.tomorrowData : window.todayData;
+                    let lt = activeLeftData.timings;
+
+                    let sahrStr = t12(lt.Fajr);
+                    let iftarStr = t12(lt.Sunset);
+                    
+                    document.getElementById('sahrTop').innerText = sahrStr;
+                    document.getElementById('sahrTime').innerText = sahrStr;
+                    document.getElementById('iftarTop').innerText = iftarStr;
+                    document.getElementById('iftarTime').innerText = iftarStr;
+                    document.getElementById('tuluTime').innerText = t12(lt.Sunrise);
+                    document.getElementById('zawalTime').innerText = t12(lt.Dhuhr);
+                    document.getElementById('gurubTime').innerText = t12(lt.Sunset);
+                    
+                    let chashtM = timeToMins(lt.Sunrise) + currentConfig.general.chashtOffset;
+                    document.getElementById('chashtTime').innerText = formatMinsTo12(chashtM);
+                }
+
                 let isEidDay = false;
                 if (finalHijri) {
                     let m = parseInt(finalHijri.month.number);
@@ -1289,7 +1247,7 @@
                     isMakrooh = true; 
                     alertUrdu = "مکروہ وقت شروع ہو گیا ہے"; 
                     alertEng = "MAKROOH TIME STARTED";
-                } else if (window.zawalMins && nowTotalMins >= (window.zawalMins - 4) && window.zawalMins < window.zawalMins) {
+                } else if (window.zawalMins && nowTotalMins >= (window.zawalMins - 5) && nowTotalMins < window.zawalMins) {
                     isMakrooh = true; 
                     alertUrdu = "زوال کا وقت شروع ہو گیا ہے"; 
                     alertEng = "ZAWAL TIME STARTED";
