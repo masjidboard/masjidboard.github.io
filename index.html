@@ -1117,6 +1117,18 @@
             }
         }
 
+        // UNIFIED GAP-LESS STATE ENGINE FOR COUNTDOWN & HEADER
+        function getCurrentWaqtState(nowTotalMins, p, tmrwData) {
+            if (nowTotalMins >= p[0].startMins && nowTotalMins < p[0].endMins) return { index: 0, nextStart: p[0].endMins }; 
+            if (nowTotalMins >= p[0].endMins && nowTotalMins < p[1].startMins) return { index: -1, nextStart: p[1].startMins }; 
+            if (nowTotalMins >= p[1].startMins && nowTotalMins < p[2].startMins) return { index: 1, nextStart: p[2].startMins }; 
+            if (nowTotalMins >= p[2].startMins && nowTotalMins < p[3].startMins) return { index: 2, nextStart: p[3].startMins }; 
+            if (nowTotalMins >= p[3].startMins && nowTotalMins < p[4].startMins) return { index: 3, nextStart: p[4].startMins }; 
+            if (nowTotalMins >= p[4].startMins) return { index: 4, nextStart: (tmrwData ? 1440 + tmrwData.calc.s[0].startMins : 1440 + p[0].startMins) }; 
+            if (nowTotalMins < p[0].startMins) return { index: 4, nextStart: p[0].startMins }; 
+            return { index: -1, nextStart: null };
+        }
+
         function updateActivePrayerTracking() {
             if (!window.todayData) return;
             let now = new Date();
@@ -1126,19 +1138,17 @@
             let activeIndex = 0;
             let isTomorrow = false;
             
-            if (nowTotalMins < p[0].expireMins) {
-                activeIndex = 0;
-            } else if (nowTotalMins < p[1].expireMins) {
-                activeIndex = 1;
-            } else if (nowTotalMins < p[2].expireMins) {
-                activeIndex = 2;
-            } else if (nowTotalMins < p[3].expireMins) {
-                activeIndex = 3;
-            } else if (nowTotalMins < p[4].expireMins) {
-                activeIndex = 4;
-            } else {
-                activeIndex = 0;
-                isTomorrow = true; 
+            // 1. Center Clock Logic (Advances 5 mins after Jamaat)
+            if (nowTotalMins < p[0].expireMins) { activeIndex = 0; }
+            else if (nowTotalMins < p[1].expireMins) { activeIndex = 1; }
+            else if (nowTotalMins < p[2].expireMins) { activeIndex = 2; }
+            else if (nowTotalMins < p[3].expireMins) { activeIndex = 3; }
+            else if (nowTotalMins < p[4].expireMins) { activeIndex = 4; }
+            else { activeIndex = 0; isTomorrow = true; }
+
+            if (window.lastIsTomorrow !== isTomorrow) {
+                updateStaticDisplays(isTomorrow);
+                window.lastIsTomorrow = isTomorrow;
             }
 
             let dataToUse = isTomorrow ? window.tomorrowData : window.todayData;
@@ -1148,32 +1158,38 @@
             document.getElementById('currentAzanTime').innerText = activePrayerCenter.azan12;
             document.getElementById('currentJamaatTime').innerText = activePrayerCenter.jamaat12;
 
-            // Header End Time Logic
-            let currentWaqtPrayer = p[0];
-            let displayEndStr = p[0].end;
+            // 2. Right Panel Header & Countdown Logic (Strictly Current Waqt, NO GAPS)
+            let state = getCurrentWaqtState(nowTotalMins, p, window.tomorrowData);
+            let currentWaqtPrayer = state.index === -1 ? p[1] : p[state.index];
             
-            if (nowTotalMins >= p[0].startMins && nowTotalMins < p[0].endMins) {
-                currentWaqtPrayer = p[0]; displayEndStr = p[0].end;
-            } else if (nowTotalMins >= p[1].startMins && nowTotalMins < p[2].startMins) {
-                currentWaqtPrayer = p[1]; displayEndStr = p[1].end; 
-            } else if (nowTotalMins >= p[2].startMins && nowTotalMins < p[3].startMins) {
-                currentWaqtPrayer = p[2]; displayEndStr = p[2].end; 
-            } else if (nowTotalMins >= p[3].startMins && nowTotalMins < p[4].startMins) {
-                currentWaqtPrayer = p[3]; displayEndStr = p[3].end; 
-            } else if (nowTotalMins >= p[4].startMins) {
-                currentWaqtPrayer = p[4]; 
-                displayEndStr = window.tomorrowData ? t12(window.tomorrowData.timings.Fajr) : p[4].end;
-            } else if (nowTotalMins < p[0].startMins) {
-                currentWaqtPrayer = p[4]; 
-                displayEndStr = p[0].start; 
-            } else if (nowTotalMins >= p[0].endMins && nowTotalMins < p[1].startMins) {
-                currentWaqtPrayer = p[1]; displayEndStr = p[1].end;
+            let displayEndStr = currentWaqtPrayer.end;
+            if (state.index === 4 && nowTotalMins >= p[4].startMins && window.tomorrowData) {
+                displayEndStr = t12(window.tomorrowData.timings.Fajr);
+            } else if (state.index === 4 && nowTotalMins < p[0].startMins) {
+                displayEndStr = p[0].start;
             }
 
             document.getElementById('rangePrayerName').innerText = currentWaqtPrayer.en;
             document.getElementById('rangeStart').innerText = currentWaqtPrayer.start;
             document.getElementById('rangeEnd').innerText = displayEndStr;
 
+            // Update Countdown seamlessly
+            let cBox = document.getElementById('prayerCountdownBox');
+            if (state.index !== -1 && state.nextStart !== null) {
+                let diff = state.nextStart - nowTotalMins;
+                if (diff < 0) diff = 0;
+                let h = Math.floor(diff / 60); let m = diff % 60;
+                let timeStr = (h > 0 ? h + "h " : "") + m + "m";
+                
+                document.getElementById('countdownUrduName').innerText = currentWaqtPrayer.ur + " کا باقی وقت";
+                document.getElementById('countdownEngName').innerText = currentWaqtPrayer.en + " TIME LEFT";
+                document.getElementById('prayerCountdownTime').innerText = timeStr;
+                cBox.style.display = "block";
+            } else { 
+                cBox.style.display = "none"; 
+            }
+
+            // 3. Notify Row Logic
             let notifyRow = document.getElementById('jamaatNotifyRow');
             let inAzanJamaatWindow = false; let minsLeft = 0; let notifyPrayer = null;
             
@@ -1188,6 +1204,7 @@
                 document.getElementById('jamaatCountdown').innerText = minsLeft === 1 ? 'Jamaat in 1 min' : `Jamaat in ${minsLeft} min`;
             } else { notifyRow.style.display = 'none'; }
 
+            // 4. Tomorrow Box Logic
             if (window.tomorrowData) {
                 let tmrwPrayer = window.tomorrowData.calc.s[activeIndex];
                 document.getElementById('tmrwPrayerNameEn').innerText = tmrwPrayer.en;
@@ -1197,6 +1214,42 @@
                     let alertMsg = `<span class="col-pr-en" style="font-family: 'Share Tech Mono', monospace;">TOMORROW ${tmrwPrayer.en} JAMAAT: ${tmrwPrayer.jamaat12}</span> &nbsp;&nbsp; | &nbsp;&nbsp; <span class="nastaleeq-text" style="color: var(--c-pr-en);">آئندہ کل ${tmrwPrayer.ur} کی جماعت ${tmrwPrayer.jamaat12} پر ہوگی</span>`;
                     document.getElementById('scrollText').innerHTML = alertMsg;
                 } else { document.getElementById('scrollText').innerHTML = defaultScrollText; }
+            }
+        }
+
+        function checkAndBeep(nowTotalMins, finalHijri) {
+            let current12 = formatMinsTo12(nowTotalMins);
+            if (lastBeepTime === current12) return; 
+
+            let shouldBeep = false;
+            let dataToUse = window.todayData; 
+            
+            if (dataToUse && dataToUse.calc.s.length) {
+                dataToUse.calc.s.forEach(p => {
+                    if (p.azanMins === nowTotalMins || p.jamaatMins === nowTotalMins) shouldBeep = true;
+                });
+            }
+            if (window.sunriseMins === nowTotalMins) shouldBeep = true;
+            if (window.sunriseMins + currentConfig.general.chashtOffset === nowTotalMins) shouldBeep = true;
+            
+            let isEidDay = false;
+            if (finalHijri) {
+                let m = parseInt(finalHijri.month.number);
+                let d = parseInt(finalHijri.day);
+                if ((m === 10 && d === 1) || (m === 12 && d === 10)) {
+                    isEidDay = true;
+                }
+            }
+
+            if (isEidDay) {
+                let [eH, eM] = currentConfig.general.eidTime.split(':');
+                let eidMins = parseInt(eH)*60 + parseInt(eM);
+                if (eidMins === nowTotalMins) shouldBeep = true;
+            }
+
+            if (shouldBeep) {
+                playBeep();
+                lastBeepTime = current12;
             }
         }
 
@@ -1226,27 +1279,6 @@
                     document.getElementById('hijriDate').innerText = finalHijri.day + '-' + String(finalHijri.month.number).padStart(2, '0') + '-' + finalHijri.year + ' ' + finalHijri.month.ar;
                 }
 
-                if (window.todayData && window.tomorrowData) {
-                    let isNextIslamicDay = (nowTotalMins >= window.maghribMins);
-                    let activeLeftData = isNextIslamicDay ? window.tomorrowData : window.todayData;
-                    let lt = activeLeftData.timings;
-
-                    let sahrStr = t12(lt.Fajr);
-                    let iftarStr = t12(lt.Sunset);
-                    
-                    document.getElementById('sahrTop').innerText = sahrStr;
-                    document.getElementById('sahrTime').innerText = sahrStr;
-                    document.getElementById('iftarTop').innerText = iftarStr;
-                    document.getElementById('iftarTime').innerText = iftarStr;
-                    document.getElementById('tuluTime').innerText = t12(lt.Sunrise);
-                    document.getElementById('zawalTime').innerText = t12(lt.Dhuhr);
-                    document.getElementById('gurubTime').innerText = t12(lt.Sunset);
-                    
-                    let chashtOffsetVal = parseInt(currentConfig.general.chashtOffset) || 15;
-                    let chashtM = timeToMins(lt.Sunrise) + chashtOffsetVal;
-                    document.getElementById('chashtTime').innerText = formatMinsTo12(chashtM);
-                }
-
                 let isEidDay = false;
                 if (finalHijri) {
                     let m = parseInt(finalHijri.month.number);
@@ -1262,8 +1294,7 @@
                 let isMakrooh = false; 
                 let alertUrdu = ""; 
                 let alertEng = ""; 
-                let chashtOffsetVal2 = parseInt(currentConfig.general.chashtOffset) || 15;
-                let chashtMins = window.sunriseMins + chashtOffsetVal2;
+                let chashtMins = window.sunriseMins + currentConfig.general.chashtOffset;
                 
                 if (window.sunriseMins && nowTotalMins >= window.sunriseMins && nowTotalMins < chashtMins) {
                     isMakrooh = true; 
@@ -1286,37 +1317,6 @@
                 } else { 
                     alertDivLeft.style.display = "none"; 
                     leftBottomBox.style.marginTop = "auto";
-                }
-
-                // Countdown Logic Fix
-                if (window.todayData) {
-                    let p = window.todayData.calc.s; 
-                    let currentWaqtEnd = null; let activeUr = ""; let activeEn = "";
-                    if (nowTotalMins >= p[0].startMins && nowTotalMins < p[0].endMins) {
-                        currentWaqtEnd = p[0].endMins; activeUr = p[0].ur; activeEn = "FAJR";
-                    } else if (nowTotalMins >= p[1].startMins && nowTotalMins < p[2].startMins) {
-                        currentWaqtEnd = p[2].startMins; activeUr = p[1].ur; activeEn = p[1].en; 
-                    } else if (nowTotalMins >= p[2].startMins && nowTotalMins < p[3].startMins) {
-                        currentWaqtEnd = p[3].startMins; activeUr = p[2].ur; activeEn = "ASR";
-                    } else if (nowTotalMins >= p[3].startMins && nowTotalMins < p[4].startMins) {
-                        currentWaqtEnd = p[4].startMins; activeUr = p[3].ur; activeEn = "MAGHRIB";
-                    } else if (nowTotalMins >= p[4].startMins) {
-                        let tmrwFajrMins = window.tomorrowData ? window.tomorrowData.calc.s[0].startMins : p[0].startMins;
-                        currentWaqtEnd = 1440 + tmrwFajrMins; activeUr = p[4].ur; activeEn = "ISHA'";
-                    } else if (nowTotalMins < p[0].startMins) {
-                        currentWaqtEnd = p[0].startMins; activeUr = p[4].ur; activeEn = "ISHA'";
-                    }
-
-                    let cBox = document.getElementById('prayerCountdownBox');
-                    if (currentWaqtEnd !== null) {
-                        let diff = currentWaqtEnd - nowTotalMins;
-                        let h = Math.floor(diff / 60); let m = diff % 60;
-                        let timeStr = (h > 0 ? h + "h " : "") + m + "m";
-                        document.getElementById('countdownUrduName').innerText = activeUr + " کا باقی وقت";
-                        document.getElementById('countdownEngName').innerText = activeEn + " TIME LEFT";
-                        document.getElementById('prayerCountdownTime').innerText = timeStr;
-                        cBox.style.display = "block";
-                    } else { cBox.style.display = "none"; }
                 }
 
                 updatePrayerTableTimes(nowTotalMins);
