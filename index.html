@@ -728,7 +728,7 @@
             document.getElementById("configChasht").value = currentConfig.general.chashtOffset;
             document.getElementById("configHijriOffset").value = currentConfig.general.hijriOffset || "0";
             
-            let scrollMode = currentConfig.general.scrollMode || "scroll";
+            let scrollMode = document.getElementById("configScrollMode").value;
             document.getElementById("configScrollMode").value = scrollMode;
             let scrollEl = document.getElementById("scrollText");
             if(scrollMode === "static") { scrollEl.classList.add("static-scroll"); }
@@ -1015,8 +1015,6 @@
             let data = isTomorrow ? window.tomorrowData : window.todayData;
             if (!data) return;
             let t = data.timings;
-            let c = data.calc;
-            let s = c.s;
             
             document.getElementById('sahrTime').innerText = t12(t.Fajr);
             document.getElementById('sahrTop').innerText = t12(t.Fajr);
@@ -1029,15 +1027,31 @@
             let chashtMins = timeToMins(t.Sunrise) + currentConfig.general.chashtOffset;
             document.getElementById('chashtTime').innerText = formatMinsTo12(chashtMins);
             
-            document.getElementById('fajrAzan').innerText = s[0].azan12; document.getElementById('fajrJamaat').innerText = s[0].jamaat12;
-            document.getElementById('zuharAzan').innerText = formatMinsTo12(c.z.azanMins); document.getElementById('zuharJamaat').innerText = formatMinsTo12(c.z.jamaatMins);
-            document.getElementById('asrAzan').innerText = s[2].azan12; document.getElementById('asrJamaat').innerText = s[2].jamaat12;
-            document.getElementById('magribAzan').innerText = s[3].azan12; document.getElementById('magribJamaat').innerText = s[3].jamaat12;
-            document.getElementById('ishaAzan').innerText = s[4].azan12; document.getElementById('ishaJamaat').innerText = s[4].jamaat12;
-            document.getElementById('jumuahAzan').innerText = formatMinsTo12(c.j.azanMins); document.getElementById('jumuahJamaat').innerText = formatMinsTo12(c.j.jamaatMins);
-
             window.sunriseMins = timeToMins(t.Sunrise); 
             window.zawalMins = timeToMins(t.Dhuhr);
+        }
+
+        function updatePrayerTableTimes(nowTotalMins) {
+            if (!window.todayData || !window.tomorrowData) return;
+            let cToday = window.todayData.calc;
+            let cTmrw = window.tomorrowData.calc;
+
+            const updateRow = (idAzan, idJamaat, todayObj, tmrwObj) => {
+                if (nowTotalMins >= todayObj.jamaatMins) {
+                    document.getElementById(idAzan).innerText = formatMinsTo12(tmrwObj.azanMins);
+                    document.getElementById(idJamaat).innerText = formatMinsTo12(tmrwObj.jamaatMins);
+                } else {
+                    document.getElementById(idAzan).innerText = formatMinsTo12(todayObj.azanMins);
+                    document.getElementById(idJamaat).innerText = formatMinsTo12(todayObj.jamaatMins);
+                }
+            };
+
+            updateRow('fajrAzan', 'fajrJamaat', cToday.f, cTmrw.f);
+            updateRow('zuharAzan', 'zuharJamaat', cToday.z, cTmrw.z);
+            updateRow('asrAzan', 'asrJamaat', cToday.a, cTmrw.a);
+            updateRow('magribAzan', 'magribJamaat', cToday.m, cTmrw.m);
+            updateRow('ishaAzan', 'ishaJamaat', cToday.i, cTmrw.i);
+            updateRow('jumuahAzan', 'jumuahJamaat', cToday.j, cTmrw.j);
         }
 
         function processApiData(resultToday, resultTomorrow) {
@@ -1049,12 +1063,20 @@
             window.todayData = { timings: resultToday.data.timings, calc: calculateSchedule(resultToday.data.timings, isFriday) };
             window.tomorrowData = { timings: resultTomorrow.data.timings, calc: calculateSchedule(resultTomorrow.data.timings, tomorrowIsFriday) };
 
+            window.prayerSchedule = window.todayData.calc.s;
+            window.tomorrowSchedule = window.tomorrowData.calc.s;
+
             window.hijriAfterMaghrib = resultToday.data.date.hijri;
             document.getElementById('gregorianDate').innerText = date.gregorian.day + '-' + date.gregorian.month.number + '-' + date.gregorian.year + ' ' + date.gregorian.month.en.toUpperCase();
 
             window.maghribMins = timeToMins(window.todayData.timings.Sunset); 
 
             window.lastIsTomorrow = null; 
+            
+            let now = new Date();
+            let nowTotalMins = (now.getHours() * 60) + now.getMinutes();
+            updatePrayerTableTimes(nowTotalMins);
+            
             updateActivePrayerTracking(); 
         }
 
@@ -1146,11 +1168,9 @@
                 currentWaqtPrayer = p[3]; displayEndStr = p[3].end;
             } else if (nowTotalMins >= p[4].startMins) {
                 currentWaqtPrayer = p[4]; 
-                // Isha End matches exactly Tomorrow's Fajr/Sahr
                 displayEndStr = window.tomorrowData ? t12(window.tomorrowData.timings.Fajr) : p[4].end;
             } else if (nowTotalMins < p[0].startMins) {
                 currentWaqtPrayer = p[4]; 
-                // Post-midnight Isha End matches Today's Fajr/Sahr
                 displayEndStr = p[0].start; 
             } else if (nowTotalMins >= p[0].endMins && nowTotalMins < p[1].startMins) {
                 currentWaqtPrayer = p[1]; displayEndStr = p[1].end;
@@ -1269,7 +1289,7 @@
                     isMakrooh = true; 
                     alertUrdu = "مکروہ وقت شروع ہو گیا ہے"; 
                     alertEng = "MAKROOH TIME STARTED";
-                } else if (window.zawalMins && nowTotalMins >= (window.zawalMins - 4) && nowTotalMins < window.zawalMins) {
+                } else if (window.zawalMins && nowTotalMins >= (window.zawalMins - 4) && window.zawalMins < window.zawalMins) {
                     isMakrooh = true; 
                     alertUrdu = "زوال کا وقت شروع ہو گیا ہے"; 
                     alertEng = "ZAWAL TIME STARTED";
@@ -1318,6 +1338,7 @@
                     } else { cBox.style.display = "none"; }
                 }
 
+                updatePrayerTableTimes(nowTotalMins);
                 updateActivePrayerTracking();
             } catch (e) { console.log(e); }
         }
