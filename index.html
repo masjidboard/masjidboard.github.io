@@ -8,226 +8,70 @@
     
     <style>
         :root {
-            --c-bg: #050505;
-            --c-panel: #080808;
-            --c-board: #030303;
-            --c-clock: #ff6600;
-            --c-seconds: #ff6600;
-            --c-date-g: #00ddff;
-            --c-date-h: #22ff44;
-            --c-headers: #00ddff;
-            --c-pr-en: #ffdd00;
-            --c-pr-ur: #22ff44;
-            --c-azan: #ff5555;
-            --c-jamaat: #33ff55;
-            --c-scroll: #00ddff;
-            --c-curr-pr: #00ddff;
-            
-            --c-azan-fajr: #ff5555; --c-jamaat-fajr: #33ff55;
-            --c-azan-dhuhr: #ff5555; --c-jamaat-dhuhr: #33ff55;
-            --c-azan-asr: #ff5555; --c-jamaat-asr: #33ff55;
-            --c-azan-maghrib: #ff5555; --c-jamaat-maghrib: #33ff55;
-            --c-azan-isha: #ff5555; --c-jamaat-isha: #33ff55;
-            --c-azan-jumuah: #ff5555; --c-jamaat-jumuah: #33ff55;
-            
-            --c-calligraphy: #22ff44;
-            --c-tomorrow: #ffdd00;
-            --c-range: #00ddff;
-
-            --c-sahr-name: #ff5555; --c-sahr-time: #ff5555;
-            --c-iftar-name: #ff5555; --c-iftar-time: #ff5555;
-            --c-tzg-name: #ffdd00; --c-tzg-time: #ffdd00; 
-            --c-ec-name: #00ddff; --c-ec-time: #00ddff; 
-
-            --rot: 90deg; 
-            --ur-size: 26px; 
+            --c-bg: #050505; --c-panel: #080808; --c-board: #030303; --c-clock: #ff6600; --c-seconds: #ff6600;
+            --c-date-g: #00ddff; --c-date-h: #22ff44; --c-headers: #00ddff; --c-pr-en: #ffdd00; --c-pr-ur: #22ff44;
+            --c-azan: #ff5555; --c-jamaat: #33ff55; --c-scroll: #00ddff; --c-curr-pr: #00ddff;
+            --c-azan-fajr: #ff5555; --c-jamaat-fajr: #33ff55; --c-azan-dhuhr: #ff5555; --c-jamaat-dhuhr: #33ff55;
+            --c-azan-asr: #ff5555; --c-jamaat-asr: #33ff55; --c-azan-maghrib: #ff5555; --c-jamaat-maghrib: #33ff55;
+            --c-azan-isha: #ff5555; --c-jamaat-isha: #33ff55; --c-azan-jumuah: #ff5555; --c-jamaat-jumuah: #33ff55;
+            --c-calligraphy: #22ff44; --c-tomorrow: #ffdd00; --c-range: #00ddff;
+            --c-sahr-name: #ff5555; --c-sahr-time: #ff5555; --c-iftar-name: #ff5555; --c-iftar-time: #ff5555;
+            --c-tzg-name: #ffdd00; --c-tzg-time: #ffdd00; --c-ec-name: #00ddff; --c-ec-time: #00ddff; 
+            --rot: 90deg; --ur-size: 14px; 
         }
-
         * { box-sizing: border-box; }
-        
-        body {
-            background-color: var(--c-bg);
-            margin: 0;
-            padding: 1.5vh 1.5vw; 
-            font-family: 'Share Tech Mono', 'Orbitron', Arial, sans-serif;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            overflow: hidden; 
-            cursor: default; 
-        }
-
-        *:focus {
-            outline: 3px solid var(--c-headers) !important;
-            outline-offset: 2px !important;
-            box-shadow: 0 0 15px var(--c-headers);
-        }
-
-        .led-board {
-            background: linear-gradient(180deg, var(--c-board, #030303) 0%, #000 100%);
-            border: 1px solid #1a2a1a; 
-            border-radius: 8px;
-            width: 100%;
-            flex: 1; 
-            min-height: 0;
-            padding: 2vh 2vw;
-            box-shadow: 0 0 30px rgba(0, 0, 0, 0.9);
-            direction: ltr;
-            transition: all 0.5s ease;
-        }
-
-        body[data-mode="all"] .led-board {
-            display: grid;
-            grid-template-columns: minmax(0, 1fr) minmax(0, 2fr) minmax(0, 1fr);
-            gap: 2vw;
-            align-items: stretch;
-        }
-
+        body { background-color: var(--c-bg); margin: 0; padding: 1.5vh 1.5vw; font-family: 'Share Tech Mono', 'Orbitron', Arial, sans-serif; display: flex; flex-direction: column; justify-content: center; align-items: center; height: 100vh; overflow: hidden; cursor: default; }
+        *:focus { outline: 3px solid var(--c-headers) !important; outline-offset: 2px !important; box-shadow: 0 0 15px var(--c-headers); }
+        .led-board { background: linear-gradient(180deg, var(--c-board, #030303) 0%, #000 100%); border: 1px solid #1a2a1a; border-radius: 8px; width: 100%; flex: 1; min-height: 0; padding: 2vh 2vw; box-shadow: 0 0 30px rgba(0, 0, 0, 0.9); direction: ltr; transition: all 0.5s ease; }
+        body[data-mode="all"] .led-board { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 2fr) minmax(0, 1fr); gap: 2vw; align-items: stretch; }
         .led-text { font-family: 'Share Tech Mono', 'Orbitron', monospace; font-weight: 700; }
         .arabic-text { font-family: 'Amiri', serif; font-weight: bold; }
         .nastaleeq-text { font-family: 'Amiri', serif; font-weight: bold; line-height: 1.1; }
-
-        .col-date-g { color: var(--c-date-g); text-shadow: none; }
-        .col-date-h { color: var(--c-date-h); text-shadow: none; }
-        .col-clock { color: var(--c-clock); text-shadow: none; }
-        .col-curr { color: var(--c-curr-pr); text-shadow: none; }
-        .col-header { color: var(--c-headers); text-shadow: none; }
-        .col-pr-en { color: var(--c-pr-en); text-shadow: none; }
-        .col-pr-ur { color: var(--c-pr-ur); text-shadow: none; }
-        .col-azan { color: var(--c-azan); text-shadow: none; font-variant-numeric: tabular-nums; }
-        .col-jamaat { color: var(--c-jamaat); text-shadow: none; font-variant-numeric: tabular-nums; }
-        .col-scroll { color: var(--c-scroll); text-shadow: none; }
-
-        .color-tomorrow { color: var(--c-tomorrow) !important; }
-        .color-range { color: var(--c-range) !important; }
-
-        .col-left, .col-center, .col-right {
-            background-color: var(--c-panel);
-            border: 1px solid #1a1a1a; 
-            border-radius: 8px;
-            display: flex;
-            flex-direction: column;
-            overflow: hidden;
-        }
-
-        .col-left, .col-right { padding: 1.5vh 1.5vw; justify-content: space-between; gap: 1vh; }
-        .col-center { padding: 2vh 2vw; justify-content: space-between; align-items: center; }
-
-        .panel-box {
-            background-color: transparent; 
-            border: 1px solid #1a1a1a;
-            border-radius: 6px;
-            padding: 1.5vh 1vw;
-            width: 100%;
-        }
-
-        .shared-en-name { font-size: min(1.8vw, 2.5vh); letter-spacing: 1px; font-weight: 700; }
-        .shared-time { font-size: min(2.2vw, 3.2vh); letter-spacing: 1px; font-weight: 700; font-family: 'Orbitron', sans-serif;}
+        .col-date-g { color: var(--c-date-g); text-shadow: none; } .col-date-h { color: var(--c-date-h); text-shadow: none; }
+        .col-clock { color: var(--c-clock); text-shadow: none; } .col-curr { color: var(--c-curr-pr); text-shadow: none; }
+        .col-header { color: var(--c-headers); text-shadow: none; } .col-pr-en { color: var(--c-pr-en); text-shadow: none; }
+        .col-pr-ur { color: var(--c-pr-ur); text-shadow: none; } .col-azan { color: var(--c-azan); text-shadow: none; font-variant-numeric: tabular-nums; }
+        .col-jamaat { color: var(--c-jamaat); text-shadow: none; font-variant-numeric: tabular-nums; } .col-scroll { color: var(--c-scroll); text-shadow: none; }
+        .color-tomorrow { color: var(--c-tomorrow) !important; } .color-range { color: var(--c-range) !important; }
+        .col-left, .col-center, .col-right { background-color: var(--c-panel); border: 1px solid #1a1a1a; border-radius: 8px; display: flex; flex-direction: column; overflow: hidden; }
+        .col-left, .col-right { padding: 1.5vh 1.5vw; justify-content: space-between; gap: 1vh; } .col-center { padding: 2vh 2vw; justify-content: space-between; align-items: center; }
+        .panel-box { background-color: transparent; border: 1px solid #1a1a1a; border-radius: 6px; padding: 1.5vh 1vw; width: 100%; }
+        .shared-en-name { font-size: min(1.8vw, 2.5vh); letter-spacing: 1px; font-weight: 700; } .shared-time { font-size: min(2.2vw, 3.2vh); letter-spacing: 1px; font-weight: 700; font-family: 'Orbitron', sans-serif;}
         .shared-ur-name { font-size: var(--ur-size); }
-
-        .date-section { text-align: center; display: flex; flex-direction: column; gap: 0.8vh; border: none; padding-top: 0;}
-        .date-section .col-date-g { font-size: min(1.8vw, 2.8vh); letter-spacing: 1px; }
-        .hijri-date-ar { font-size: min(2.2vw, 3.2vh); }
-        .sahr-iftar-top { font-size: min(1.5vw, 2.2vh) !important; font-family: 'Share Tech Mono', sans-serif !important; border-top: 1px solid #1a1a1a; padding-top: 1vh;}
-        
-        .time-row { display: flex; justify-content: space-between; align-items: center; padding: 0.8vh 0; white-space: nowrap; gap: 0.5vw; }
-        .time-row .time-label { text-align: left; width: 30%; flex-shrink: 0; }
-        .time-row .col-azan, .time-row .col-jamaat, .time-row .shared-time { text-align: center; width: 40%; flex-shrink: 0; }
-        .time-row .ur-label { text-align: right; width: 30%; flex-shrink: 0; padding-right: 1.5vw; }
-
-        .calligraphy { display: flex; justify-content: space-between; align-items: center; width: 100%; font-size: min(3.5vw, 5vh); white-space: nowrap; margin-bottom: 0;}
-        .calligraphy .bismillah { flex: 1; text-align: center; color: var(--c-calligraphy); font-weight: 700; }
-        .calligraphy .badge { width: min(4vw, 6vh); height: min(4vw, 6vh); display: flex; align-items: center; justify-content: center; border: 2px solid var(--c-pr-en); border-radius: 50%; color: var(--c-pr-en); font-size: 0.4em; }
-        
-        .main-clock { font-family: 'Orbitron', sans-serif; font-size: min(13vw, 20vh); display: flex; align-items: baseline; justify-content: center; line-height: 1; font-weight: 700; letter-spacing: 2px; margin: 1vh 0; }
-        .sec { font-size: 0.35em; margin-left: 1vw; opacity: 0.9; transform: translateY(-1vh); }
-        #seconds { color: var(--c-seconds); }
-        
-        .current-prayer-display { text-align: center; width: 100%; display: flex; flex-direction: column; justify-content: center; gap: 1vh; }
-        .current-prayer-name { font-size: min(3.5vw, 5vh); letter-spacing: 2px; display: flex; justify-content: center; align-items: center; gap: 1vw;}
-        
-        .active-times-box { font-family: 'Orbitron', sans-serif; font-size: min(6vw, 9vh); display: flex; justify-content: center; align-items: center; gap: 4vw; }
-        .time-group { display: flex; flex-direction: column; align-items: center; gap: 2px; }
-        .time-label-small { font-size: min(1.5vw, 2.2vh); color: rgba(255,255,255,0.7); letter-spacing: 2px; font-family: 'Share Tech Mono', monospace;}
-
-        .bottom-info { display: flex; flex-direction: column; justify-content: flex-end; align-items: center; gap: 1vh; width: 100%; }
-        .jamaat-notify-row { display: flex; align-items: center; justify-content: center; gap: 0.8vw; }
-        .jamaat-icon { font-size: min(2vw, 3vh); opacity: 0.95; }
-        .jamaat-countdown { font-family: 'Orbitron', monospace; font-size: min(1.8vw, 2.6vh); font-weight: 700; letter-spacing: 1px; }
-        .location-temp-row { display: flex; justify-content: space-between; align-items: center; width: 100%; padding: 0 5%; font-size: min(1.5vw, 2.2vh); color: rgba(255,255,255,0.6); }
-
-        .prayer-header { display: flex; justify-content: space-between; align-items: center; padding: 1vh 1vw; border: none; border-bottom: 1px solid #1a1a1a; margin-bottom: 0.5vh;}
-        .prayer-header-side { display: flex; flex-direction: column; align-items: center; color: rgba(255,255,255,0.7); gap: 2px;}
-        .prayer-header-side span:first-child { font-size: min(1vw, 1.5vh); letter-spacing: 1px;}
-        .prayer-header-side span:last-child { font-size: min(2vw, 3vh); font-family: 'Orbitron', sans-serif;}
-        .prayer-header h2 { margin: 0; font-size: min(2.5vw, 4vh); letter-spacing: 2px; }
-        
-        .prayer-table { width: 100%; border-collapse: collapse; table-layout: fixed; }
-        .prayer-table th { font-size: min(1.2vw, 1.8vh); padding: 1vh 0; border-bottom: 1px solid #1a1a1a; letter-spacing: 1px; color: rgba(255,255,255,0.6); font-weight: normal;}
-        .prayer-table td { padding: 1vh 0; vertical-align: middle; white-space: nowrap; }
-        
-        .prayer-table th:nth-child(1), .prayer-table td:nth-child(1) { text-align: left; width: 18%; }
-        .prayer-table th:nth-child(2), .prayer-table td:nth-child(2) { text-align: center; width: 32%; }
-        .prayer-table th:nth-child(3), .prayer-table td:nth-child(3) { text-align: center; width: 32%; }
-        .prayer-table th:nth-child(4), .prayer-table td:nth-child(4) { text-align: right; width: 18%; }
-
+        .date-section { text-align: center; display: flex; flex-direction: column; gap: 0.8vh; border: none; padding-top: 0;} .date-section .col-date-g { font-size: min(1.8vw, 2.8vh); letter-spacing: 1px; }
+        .hijri-date-ar { font-size: min(2.2vw, 3.2vh); } .sahr-iftar-top { font-size: min(1.5vw, 2.2vh) !important; font-family: 'Share Tech Mono', sans-serif !important; border-top: 1px solid #1a1a1a; padding-top: 1vh;}
+        .time-row { display: flex; justify-content: space-between; align-items: center; padding: 0.8vh 0; white-space: nowrap; gap: 0.5vw; } .time-row .time-label { text-align: left; width: 30%; flex-shrink: 0; }
+        .time-row .col-azan, .time-row .col-jamaat, .time-row .shared-time { text-align: center; width: 40%; flex-shrink: 0; } .time-row .ur-label { text-align: right; width: 30%; flex-shrink: 0; padding-right: 1.5vw; }
+        .calligraphy { display: flex; justify-content: space-between; align-items: center; width: 100%; font-size: min(3.5vw, 5vh); white-space: nowrap; margin-bottom: 0;} .calligraphy .bismillah { flex: 1; text-align: center; color: var(--c-calligraphy); font-weight: 700; } .calligraphy .badge { width: min(4vw, 6vh); height: min(4vw, 6vh); display: flex; align-items: center; justify-content: center; border: 2px solid var(--c-pr-en); border-radius: 50%; color: var(--c-pr-en); font-size: 0.4em; }
+        .main-clock { font-family: 'Orbitron', sans-serif; font-size: min(13vw, 20vh); display: flex; align-items: baseline; justify-content: center; line-height: 1; font-weight: 700; letter-spacing: 2px; margin: 1vh 0; } .sec { font-size: 0.35em; margin-left: 1vw; opacity: 0.9; transform: translateY(-1vh); } #seconds { color: var(--c-seconds); }
+        .current-prayer-display { text-align: center; width: 100%; display: flex; flex-direction: column; justify-content: center; gap: 1vh; } .current-prayer-name { font-size: min(3.5vw, 5vh); letter-spacing: 2px; display: flex; justify-content: center; align-items: center; gap: 1vw;}
+        .active-times-box { font-family: 'Orbitron', sans-serif; font-size: min(6vw, 9vh); display: flex; justify-content: center; align-items: center; gap: 4vw; } .time-group { display: flex; flex-direction: column; align-items: center; gap: 2px; } .time-label-small { font-size: min(1.5vw, 2.2vh); color: rgba(255,255,255,0.7); letter-spacing: 2px; font-family: 'Share Tech Mono', monospace;}
+        .bottom-info { display: flex; flex-direction: column; justify-content: flex-end; align-items: center; gap: 1vh; width: 100%; } .jamaat-notify-row { display: flex; align-items: center; justify-content: center; gap: 0.8vw; } .jamaat-icon { font-size: min(2vw, 3vh); opacity: 0.95; } .jamaat-countdown { font-family: 'Orbitron', monospace; font-size: min(1.8vw, 2.6vh); font-weight: 700; letter-spacing: 1px; } .location-temp-row { display: flex; justify-content: space-between; align-items: center; width: 100%; padding: 0 5%; font-size: min(1.5vw, 2.2vh); color: rgba(255,255,255,0.6); }
+        .prayer-header { display: flex; justify-content: space-between; align-items: center; padding: 1vh 1vw; border: none; border-bottom: 1px solid #1a1a1a; margin-bottom: 0.5vh;} .prayer-header-side { display: flex; flex-direction: column; align-items: center; color: rgba(255,255,255,0.7); gap: 2px;} .prayer-header-side span:first-child { font-size: min(1vw, 1.5vh); letter-spacing: 1px;} .prayer-header-side span:last-child { font-size: min(2vw, 3vh); font-family: 'Orbitron', sans-serif;} .prayer-header h2 { margin: 0; font-size: min(2.5vw, 4vh); letter-spacing: 2px; }
+        .prayer-table { width: 100%; border-collapse: collapse; table-layout: fixed; } .prayer-table th { font-size: min(1.2vw, 1.8vh); padding: 1vh 0; border-bottom: 1px solid #1a1a1a; letter-spacing: 1px; color: rgba(255,255,255,0.6); font-weight: normal;} .prayer-table td { padding: 1vh 0; vertical-align: middle; white-space: nowrap; }
+        .prayer-table th:nth-child(1), .prayer-table td:nth-child(1) { text-align: left; width: 18%; } .prayer-table th:nth-child(2), .prayer-table td:nth-child(2) { text-align: center; width: 32%; } .prayer-table th:nth-child(3), .prayer-table td:nth-child(3) { text-align: center; width: 32%; } .prayer-table th:nth-child(4), .prayer-table td:nth-child(4) { text-align: right; width: 18%; }
         .prayer-table .shared-time { font-weight: 500; font-size: min(1.9vw, 2.8vh); letter-spacing: 0px; }
-
         #fajrAzan { color: var(--c-azan-fajr) !important; } #fajrJamaat { color: var(--c-jamaat-fajr) !important; }
         #zuharAzan { color: var(--c-azan-dhuhr) !important; } #zuharJamaat { color: var(--c-jamaat-dhuhr) !important; }
         #asrAzan { color: var(--c-azan-asr) !important; } #asrJamaat { color: var(--c-jamaat-asr) !important; }
         #magribAzan { color: var(--c-azan-maghrib) !important; } #magribJamaat { color: var(--c-jamaat-maghrib) !important; }
         #ishaAzan { color: var(--c-azan-isha) !important; } #ishaJamaat { color: var(--c-jamaat-isha) !important; }
         #jumuahAzan { color: var(--c-azan-jumuah) !important; } #jumuahJamaat { color: var(--c-jamaat-jumuah) !important; }
-
         .tomorrow-box { text-align: center; display: flex; flex-direction: column; align-items: center; gap: 0.5vh; border: none; border-top: 1px solid #1a1a1a; padding-top: 1.5vh; }
-
-        .footer-wrapper { width: 100%; margin-top: 1.5vh; flex-shrink: 0; margin-bottom: 0.5vh;}
-        .footer-scroll { background: var(--c-panel); width: 100%; padding: 0.8vh 1.5vw; border: 1px solid #1a1a1a; border-radius: 6px; overflow: hidden; white-space: nowrap; position: relative; }
-        
-        .scroll-text { display: inline-block; font-size: min(2vw, 3.2vh); font-weight: 700; letter-spacing: 1px; animation: moveLeft 25s linear infinite; }
-        @keyframes moveLeft { 0% { transform: translateX(100%); } 100% { transform: translateX(-100%); } }
-        .static-scroll { animation: none !important; display: block !important; text-align: center; width: 100%; transform: none !important; white-space: normal !important; overflow: hidden;}
-
+        .footer-wrapper { width: 100%; margin-top: 1.5vh; flex-shrink: 0; margin-bottom: 0.5vh;} .footer-scroll { background: var(--c-panel); width: 100%; padding: 0.8vh 1.5vw; border: 1px solid #1a1a1a; border-radius: 6px; overflow: hidden; white-space: nowrap; position: relative; }
+        .scroll-text { display: inline-block; font-size: min(2vw, 3.2vh); font-weight: 700; letter-spacing: 1px; animation: moveLeft 25s linear infinite; } @keyframes moveLeft { 0% { transform: translateX(100%); } 100% { transform: translateX(-100%); } } .static-scroll { animation: none !important; display: block !important; text-align: center; width: 100%; transform: none !important; white-space: normal !important; overflow: hidden;}
         @keyframes pulsePulse { 0% { opacity: 1; } 50% { opacity: 0.4; } 100% { opacity: 1; } }
-
-        .top-buttons { position: fixed; top: 10px; right: 5px; display: flex; gap: 10px; z-index: 9999; }
-        .settings-btn { background: transparent; color: #555; border: none; cursor: pointer; font-size: min(2vw, 24px); opacity: 0.4; transition: 0.3s; padding: 5px; border-radius: 5px;}
-        .settings-btn:hover, .settings-btn:focus { opacity: 1; color: var(--c-headers); text-shadow: none; }
+        .top-buttons { position: fixed; top: 10px; right: 5px; display: flex; gap: 10px; z-index: 9999; } .settings-btn { background: transparent; color: #555; border: none; cursor: pointer; font-size: min(2vw, 24px); opacity: 0.4; transition: 0.3s; padding: 5px; border-radius: 5px;} .settings-btn:hover, .settings-btn:focus { opacity: 1; color: var(--c-headers); text-shadow: none; }
         
         .modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.9); justify-content: center; align-items: center; }
         .modal-content { background-color: #111; border: 1px solid var(--c-headers); border-radius: 8px; width: 95%; max-width: 900px; max-height: 90vh; overflow-y: auto; padding: 25px; color: white; direction: rtl; }
-        .modal-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #333; padding-bottom: 15px; margin-bottom: 20px; }
-        .modal-header h2 { margin: 0; color: var(--c-headers); font-family: 'Share Tech Mono', sans-serif;}
-        .close-btn { font-size: 32px; font-weight: bold; cursor: pointer; color: #ff3333; background: none; border: none; border-radius: 5px; padding: 0 10px;}
+        .modal-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #333; padding-bottom: 15px; margin-bottom: 20px; } .modal-header h2 { margin: 0; color: var(--c-headers); font-family: 'Share Tech Mono', sans-serif;} .close-btn { font-size: 32px; font-weight: bold; cursor: pointer; color: #ff3333; background: none; border: none; border-radius: 5px; padding: 0 10px;}
+        .settings-section { margin-bottom: 25px; border: 1px solid #222; padding: 15px; border-radius: 6px; background: #0a0a0a; } .settings-section h3 { margin-top: 0; color: #ffaa00; border-bottom: 1px dashed #333; padding-bottom: 8px; margin-bottom: 15px; font-family: 'Share Tech Mono', sans-serif;}
+        .table-responsive { width: 100%; } table.config-table { width: 100%; border-collapse: collapse; text-align: center; } table.config-table th, table.config-table td { border: 1px solid #333; padding: 10px; vertical-align: middle; } table.config-table th { background-color: #1a1a1a; font-size: 14px; color: #aaa;} table.config-table select, table.config-table input[type="time"], table.config-table input[type="text"] { background: #222; color: white; border: 1px solid #444; padding: 6px; border-radius: 4px; outline: none; width: 100%; font-family: 'Share Tech Mono', sans-serif;}
+        .loc-btn { background: #00ddff; color: #000; border: none; padding: 8px 12px; border-radius: 4px; cursor: pointer; font-weight: bold; margin-top: 5px;}
         
-        .settings-section { margin-bottom: 25px; border: 1px solid #222; padding: 15px; border-radius: 6px; background: #0a0a0a; }
-        .settings-section h3 { margin-top: 0; color: #ffaa00; border-bottom: 1px dashed #333; padding-bottom: 8px; margin-bottom: 15px; font-family: 'Share Tech Mono', sans-serif;}
-        
-        .table-responsive { width: 100%; }
-        table.config-table { width: 100%; border-collapse: collapse; text-align: center; }
-        table.config-table th, table.config-table td { border: 1px solid #333; padding: 10px; vertical-align: middle; }
-        table.config-table th { background-color: #1a1a1a; font-size: 14px; color: #aaa;}
-        table.config-table select, table.config-table input[type="time"] { background: #222; color: white; border: 1px solid #444; padding: 6px; border-radius: 4px; outline: none; width: 100%; font-family: 'Share Tech Mono', sans-serif;}
-        
-        @media (max-width: 768px) {
-            .table-responsive table.config-table thead { display: none; }
-            .table-responsive table.config-table, .table-responsive table.config-table tbody, .table-responsive table.config-table tr, .table-responsive table.config-table td { display: block; width: 100%; }
-            .table-responsive table.config-table tr { margin-bottom: 15px; background: #1a1a1a; border: 1px solid #444; border-radius: 8px; padding: 10px; }
-            .table-responsive table.config-table td { border: none; text-align: right; padding: 8px 0; border-bottom: 1px dotted #333; display: flex; flex-direction: column; gap: 5px;}
-            .table-responsive table.config-table td:last-child { border-bottom: none; }
-            .table-responsive table.config-table td::before { content: attr(data-label); color: #ffaa00; font-size: 13px; font-weight: bold; margin-bottom: 2px;}
-        }
-
-        .adv-color-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 15px; }
-        .color-item { display: flex; flex-direction: column; align-items: center; gap: 5px; background: #1a1a1a; padding: 10px; border-radius: 6px; border: 1px solid #333; }
-        .color-item span { font-size: 12px; text-align: center; color: #ccc;}
-        .color-item input[type="color"] { width: 100%; height: 35px; border: none; cursor: pointer; border-radius: 4px; background: transparent; padding: 0; }
-        
-        .save-btn { background-color: #00ddff; color: #000; font-weight: bold; font-size: 18px; padding: 12px; width: 100%; border: none; border-radius: 5px; cursor: pointer; margin-top: 10px; font-family: 'Share Tech Mono', sans-serif;}
-        .save-btn:hover, .save-btn:focus { background-color: #00ffcc; outline: none; }
+        .adv-color-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 15px; } .color-item { display: flex; flex-direction: column; align-items: center; gap: 5px; background: #1a1a1a; padding: 10px; border-radius: 6px; border: 1px solid #333; } .color-item span { font-size: 12px; text-align: center; color: #ccc;} .color-item input[type="color"] { width: 100%; height: 35px; border: none; cursor: pointer; border-radius: 4px; background: transparent; padding: 0; }
+        .save-btn { background-color: #00ddff; color: #000; font-weight: bold; font-size: 18px; padding: 12px; width: 100%; border: none; border-radius: 5px; cursor: pointer; margin-top: 10px; font-family: 'Share Tech Mono', sans-serif;} .save-btn:hover, .save-btn:focus { background-color: #00ffcc; outline: none; }
 
         body:not([data-mode="all"]) .footer-wrapper { display: none !important; } 
         body[data-mode="left"] .col-center, body[data-mode="left"] .col-right { display: none !important; }
@@ -235,11 +79,12 @@
         body[data-mode="right"] .col-left, body[data-mode="right"] .col-center { display: none !important; }
         body:not([data-mode="all"]) .led-board { border: none; box-shadow: none; background: transparent; display: flex; flex-direction: column; justify-content: space-evenly; margin: 0; }
         body:not([data-mode="all"]) .col-left, body:not([data-mode="all"]) .col-center, body:not([data-mode="all"]) .col-right { background: transparent; border: none; height: 100%; width: 100%; padding: 5%; }
-        
         @media (orientation: landscape) { body:not([data-mode="all"]) .led-board { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%) rotate(var(--rot)); width: 100vh; height: 100vw; padding: 4vh; } }
         @media (orientation: portrait) { body:not([data-mode="all"]) .led-board { width: 100%; height: 100vh; padding: 4vw; } }
-
     </style>
+    <script>
+        function PrayTimes(method){var defParams={karachi:{fajr:18,isha:18},mwl:{fajr:18,isha:17},is способовna:{fajr:15,isha:15},egypt:{fajr:19.5,isha:17.5},makkah:{fajr:18.5,isha:"90 min"},tehran:{fajr:17.7,isha:14,maghrib:4.5,midnight:"Jafari"},jafari:{fajr:16,isha:14,maghrib:4,midnight:"Jafari"}},calcMethod="karachi",setting={juristic:"Standard",highLats:"NightMiddle",adjustHighLats:!0,timeFormat:"24h",offset:{}},timeNames={fajr:"Fajr",sunrise:"Sunrise",dhuhr:"Dhuhr",asr:"Asr",sunset:"Sunset",maghrib:"Maghrib",isha:"Isha",midnight:"Midnight"},methods=defParams;this.setMethod=function(m){methods[m]&&(calcMethod=m,setting=Object.assign(setting,methods[m]))};this.adjust=function(p){for(var i in p)setting[i]=p[i]};this.getTimes=function(date,coords,timezone,dst){var lat=coords[0],lng=coords[1],elv=coords[2]?coords[2]:0,tz=timezone+(dst?1:0),d=computeDay(date),times=computeTimes(d,lat,lng,elv,tz);return adjustTimes(times,lat,elv,tz)};var computeDay=function(d){var y=d.getFullYear(),m=d.getMonth()+1,day=d.getDate();m<=2&&(y-=1,m+=12);var a=Math.floor(y/100),b=2-a+Math.floor(a/4);return Math.floor(365.25*(y+4716))+Math.floor(30.6001*(m+1))+day+b-1524.5},computeTimes=function(d,lat,lng,elv,tz){var jDate=d-lng/360,eqT=equationOfTime(jDate),decl=sunDeclination(jDate),midDay=12-eqT,times={dhuhr:midDay,fajr:midDay-timeDiff(setting.fajr,decl,lat)/15,sunrise:midDay-timeDiff(0.833+0.0347*Math.sqrt(elv),decl,lat)/15,asr:midDay+asrTime(setting.juristic,decl,lat)/15,sunset:midDay+timeDiff(0.833+0.0347*Math.sqrt(elv),decl,lat)/15,maghrib:midDay+timeDiff(setting.maghrib?setting.maghrib:0.833,decl,lat)/15,isha:midDay+timeDiff(setting.isha?setting.isha:18,decl,lat)/15};return times},adjustTimes=function(times,lat,elv,tz){var res={};for(var i in times)res[i]=formatTime(times[i]+tz);return res},formatTime=function(t){if(isNaN(t))return"--:--";var h=Math.floor(t),m=Math.floor(60*(t-h));return(h<10?"0":"")+h+":"+(m<10?"0":"")+m},equationOfTime=function(d){var u=fixAngle(280.46061837+360.98564736629*d);return 2.2918*Math.sin(deg2rad(2*u))-4.815*Math.sin(deg2rad(u))},sunDeclination=function(d){var u=fixAngle(280.46061837+360.98564736629*d),v=u+1.914666471*Math.sin(deg2rad(u))+0.019994643*Math.sin(deg2rad(2*u));return rad2deg(Math.asin(0.39782*Math.sin(deg2rad(v))))},timeDiff=function(angle,decl,lat){var calc=-Math.sin(deg2rad(angle))-Math.sin(deg2rad(decl))*Math.sin(deg2rad(lat));calc/=Math.cos(deg2rad(decl))*Math.cos(deg2rad(lat));return rad2deg(Math.acos(calc))},asrTime=function(factor,decl,lat){var calc=Math.sin(Math.atan(1/(factor=="Hanafi"?2:1+Math.tan(Math.abs(deg2rad(lat)-deg2rad(decl))))));return rad2deg(Math.acos((calc-Math.sin(deg2rad(decl))*Math.sin(deg2rad(lat)))/(Math.cos(deg2rad(decl))*Math.cos(deg2rad(lat)))))},deg2rad=function(d){return d*Math.PI/180},rad2deg=function(r){return r*180/Math.PI},fixAngle=function(a){return a-360*Math.floor(a/360)};this.setMethod(calcMethod);}
+    </script>
 </head>
 <body data-mode="all">
 
@@ -441,6 +286,36 @@
                 <h2>کنٹرول پینل (Settings)</h2>
                 <button tabindex="0" class="close-btn" onclick="closeSettings()">&times;</button>
             </div>
+
+            <div class="settings-section">
+                <h3>لوکیشن سیٹنگز (Location Settings)</h3>
+                <table class="config-table" style="margin-bottom: 10px;">
+                    <tr>
+                        <td data-label="لوکیشن موڈ (Location Mode)">
+                            <select tabindex="0" id="configLocMode" onchange="toggleLocationMode()">
+                                <option value="auto">آٹو موڈ (Auto GPS / IP)</option>
+                                <option value="manual_search">شہر کا نام سرچ کریں (City Search)</option>
+                                <option value="manual_coords">عرض بلد / طول بلد (Lat / Lon)</option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr id="rowManualSearch" style="display:none;">
+                        <td data-label="شہر کا نام (City Name)">
+                            <input tabindex="0" type="text" id="configSearchCity" placeholder="مثال: Taloja, Navi Mumbai" style="width: 70%; display: inline-block;">
+                            <button class="loc-btn" onclick="searchCityLatLon()">Search</button>
+                            <div id="searchResult" style="font-size: 12px; color: #22ff44; margin-top: 5px;"></div>
+                        </td>
+                    </tr>
+                    <tr id="rowManualCoords" style="display:none;">
+                        <td data-label="کوآرڈینیٹس (Coordinates)">
+                            <div style="display: flex; gap: 10px;">
+                                <input tabindex="0" type="text" id="configLat" placeholder="Latitude (مثال: 19.0330)">
+                                <input tabindex="0" type="text" id="configLon" placeholder="Longitude (مثال: 73.0297)">
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </div>
             
             <div class="settings-section">
                 <h3>عمومی سیٹنگز (General Settings)</h3>
@@ -448,8 +323,8 @@
                     <tr>
                         <td data-label="اردو نام کی سائز (Font Size)">
                             <div style="display: flex; align-items: center; gap: 15px; width: 100%;">
-                                <input tabindex="0" type="range" id="configUrduSize" min="14" max="50" value="26" style="flex: 1; cursor: pointer;" oninput="updateUrduSize(this.value)">
-                                <span id="urduSizeVal" style="min-width: 45px; color: #ffaa00; font-weight: bold; font-family: sans-serif;">26px</span>
+                                <input tabindex="0" type="range" id="configUrduSize" min="14" max="50" value="14" style="flex: 1; cursor: pointer;" oninput="updateUrduSize(this.value)">
+                                <span id="urduSizeVal" style="min-width: 45px; color: #ffaa00; font-weight: bold; font-family: sans-serif;">14px</span>
                             </div>
                         </td>
                     </tr>
@@ -558,20 +433,16 @@
                     <div class="color-item"><span>جمعہ: جماعت (JUM row)</span><input tabindex="0" type="color" id="c_jamaat_jumuah"></div>
                     
                     <div class="color-item"><span>بسم اللہ (Calligraphy)</span><input tabindex="0" type="color" id="c_calligraphy"></div>
-                    
                     <div class="color-item"><span>سحر کا نام (Name)</span><input tabindex="0" type="color" id="c_sahr_name"></div>
                     <div class="color-item"><span>سحر کا وقت (Time)</span><input tabindex="0" type="color" id="c_sahr_time"></div>
                     <div class="color-item"><span>افطار کا نام (Name)</span><input tabindex="0" type="color" id="c_iftar_name"></div>
                     <div class="color-item"><span>افطار کا وقت (Time)</span><input tabindex="0" type="color" id="c_iftar_time"></div>
-                    
                     <div class="color-item"><span>طلوع/زوال/غروب نام</span><input tabindex="0" type="color" id="c_tzg_name"></div>
                     <div class="color-item"><span>طلوع/زوال/غروب وقت</span><input tabindex="0" type="color" id="c_tzg_time"></div>
                     <div class="color-item"><span>عید/چاشت نام</span><input tabindex="0" type="color" id="c_ec_name"></div>
                     <div class="color-item"><span>عید/چاشت وقت</span><input tabindex="0" type="color" id="c_ec_time"></div>
-
                     <div class="color-item"><span>کل کی نماز (Tomorrow)</span><input tabindex="0" type="color" id="c_tomorrow"></div>
                     <div class="color-item"><span>رائٹ پینل ہیڈر (Start/End)</span><input tabindex="0" type="color" id="c_range"></div>
-
                     <div class="color-item"><span>ہجری تاریخ</span><input tabindex="0" type="color" id="c_date_h"></div>
                     <div class="color-item"><span>انگریزی تاریخ</span><input tabindex="0" type="color" id="c_date_g"></div>
                     <div class="color-item"><span>موجودہ نماز کا نام</span><input tabindex="0" type="color" id="c_curr_pr"></div>
@@ -594,6 +465,11 @@
         window.todayData = null;
         window.tomorrowData = null;
         window.lastIsTomorrow = null;
+        
+        // WEATHER & LOCATION GLOBAL VARIABLES
+        window.globalLat = 19.0330;
+        window.globalLon = 73.0297;
+        window.globalCity = "NAVI MUMBAI";
 
         function createNoSleepVideo() {
             if (noSleepVideoCreated) return;
@@ -603,7 +479,6 @@
                 canvas.width = 1; canvas.height = 1;
                 const ctx = canvas.getContext('2d');
                 ctx.fillStyle = 'black'; ctx.fillRect(0, 0, 1, 1);
-                
                 const stream = canvas.captureStream(1); 
                 const video = document.createElement('video');
                 video.setAttribute('playsinline', '');
@@ -612,60 +487,38 @@
                 video.style.display = 'none';
                 video.srcObject = stream;
                 document.body.appendChild(video);
-                
-                const playVideo = () => {
-                    video.play().catch(e => console.log('NoSleep Hack Blocked:', e));
-                    document.removeEventListener('click', playVideo);
-                    document.removeEventListener('touchstart', playVideo);
-                };
-                document.addEventListener('click', playVideo);
-                document.addEventListener('touchstart', playVideo);
-            } catch(e) { console.log('NoSleep Video not supported', e); }
+                const playVideo = () => { video.play().catch(e => console.log(e)); document.removeEventListener('click', playVideo); document.removeEventListener('touchstart', playVideo); };
+                document.addEventListener('click', playVideo); document.addEventListener('touchstart', playVideo);
+            } catch(e) {}
         }
 
         async function requestWakeLock() {
-            try {
-                if ('wakeLock' in navigator) {
-                    if (window.wakeLock !== null) return;
-                    window.wakeLock = await navigator.wakeLock.request('screen');
-                    window.wakeLock.addEventListener('release', () => { window.wakeLock = null; });
-                }
-            } catch (e) { console.log('Wake Lock:', e.message); }
+            try { if ('wakeLock' in navigator) { if (window.wakeLock !== null) return; window.wakeLock = await navigator.wakeLock.request('screen'); window.wakeLock.addEventListener('release', () => { window.wakeLock = null; }); } } catch (e) {}
         }
-
-        document.addEventListener('visibilitychange', () => {
-            if (document.visibilityState === 'visible') requestWakeLock();
-        });
+        document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'visible') requestWakeLock(); });
         setInterval(requestWakeLock, 30000); 
 
-        function initAudio() {
-            if (!audioCtx) { audioCtx = new (window.AudioContext || window.webkitAudioContext)(); }
-            if (audioCtx.state === 'suspended') { audioCtx.resume(); }
-        }
+        function initAudio() { if (!audioCtx) { audioCtx = new (window.AudioContext || window.webkitAudioContext)(); } if (audioCtx.state === 'suspended') { audioCtx.resume(); } }
 
         function playBeep() {
             try {
                 if (!audioCtx) return;
                 if (audioCtx.state === 'suspended') audioCtx.resume();
-                let osc = audioCtx.createOscillator();
-                let gain = audioCtx.createGain();
-                osc.connect(gain); gain.connect(audioCtx.destination);
-                osc.type = "sine";
+                let osc = audioCtx.createOscillator(); let gain = audioCtx.createGain();
+                osc.connect(gain); gain.connect(audioCtx.destination); osc.type = "sine";
                 osc.frequency.setValueAtTime(800, audioCtx.currentTime);
-                
                 gain.gain.setValueAtTime(1, audioCtx.currentTime);
                 gain.gain.setValueAtTime(1, audioCtx.currentTime + 2.5); 
                 gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 3.0); 
-                
-                osc.start(audioCtx.currentTime);
-                osc.stop(audioCtx.currentTime + 3.0);
-            } catch(e) { console.log("Audio play blocked", e); }
+                osc.start(audioCtx.currentTime); osc.stop(audioCtx.currentTime + 3.0);
+            } catch(e) {}
         }
 
         const defaultScrollText = "<span class='led-text'>Please keep your mobile phones turned off</span> &nbsp;&nbsp; | &nbsp;&nbsp; براہِ کرم اپنے موبائل فون بند رکھیں";
 
         const defaultConfig = {
-            general: { fiqh: "1", eidTime: "07:00", chashtOffset: 15, hijriOffset: "0", displayMode: "all", rotation: "90deg", scrollMode: "scroll", urduFontSize: "26" },
+            general: { fiqh: "1", eidTime: "07:00", chashtOffset: 15, hijriOffset: "0", displayMode: "all", rotation: "90deg", scrollMode: "scroll", urduFontSize: "14" },
+            location: { mode: "auto", lat: "", lon: "", city: "" },
             timings: {
                 fajr:   { mode: "auto", fixedTime: "05:30", fixedAzanGap: 20, offset: 0, aRound: 5, jGap: 20, jRound: 5, name: "فجر" },
                 dhuhr:  { mode: "auto", fixedTime: "13:30", fixedAzanGap: 15, offset: 0, aRound: 5, jGap: 20, jRound: 5, name: "ظہر" },
@@ -675,25 +528,19 @@
                 jumuah: { mode: "auto", fixedTime: "13:30", fixedAzanGap: 30, offset: 0, aRound: 5, jGap: 40, jRound: 5, name: "جمعہ" }
             },
             advColors: {
-                bg: "#111111", panel: "#0a0a0a", clock: "#ffaa00", headers: "#00ffff",
-                prEn: "#ffaa00", prUr: "#00ff00", azan: "#ff3333", jamaat: "#00ff00",
-                dateG: "#00ffff", dateH: "#00ff00", currPr: "#00ffff", scroll: "#00ffff",
-                seconds: "#ffaa00",
-                azanFajr: "#ff3333", jamaatFajr: "#00ff00", azanDhuhr: "#ff3333", jamaatDhuhr: "#00ff00",
-                azanAsr: "#ff3333", jamaatAsr: "#00ff00", azanMaghrib: "#ff3333", jamaatMaghrib: "#00ff00",
-                azanIsha: "#ff3333", jamaatIsha: "#00ff00", azanJumuah: "#ff3333", jamaatJumuah: "#00ff00",
-                calligraphy: "#22ff44", 
-                sahrName: "#ff5555", sahrTime: "#ff5555", iftarName: "#ff5555", iftarTime: "#ff5555",
-                tzgName: "#ffdd00", tzgTime: "#ffdd00", ecName: "#00ddff", ecTime: "#00ddff", 
-                tomorrow: "#ffdd00", range: "#00ddff"
+                bg: "#111111", panel: "#0a0a0a", clock: "#ffaa00", headers: "#00ffff", prEn: "#ffaa00", prUr: "#00ff00", azan: "#ff3333", jamaat: "#00ff00",
+                dateG: "#00ffff", dateH: "#00ff00", currPr: "#00ffff", scroll: "#00ffff", seconds: "#ffaa00",
+                azanFajr: "#ff3333", jamaatFajr: "#00ff00", azanDhuhr: "#ff3333", jamaatDhuhr: "#00ff00", azanAsr: "#ff3333", jamaatAsr: "#00ff00",
+                azanMaghrib: "#ff3333", jamaatMaghrib: "#00ff00", azanIsha: "#ff3333", jamaatIsha: "#00ff00", azanJumuah: "#ff3333", jamaatJumuah: "#00ff00",
+                calligraphy: "#22ff44", sahrName: "#ff5555", sahrTime: "#ff5555", iftarName: "#ff5555", iftarTime: "#ff5555",
+                tzgName: "#ffdd00", tzgTime: "#ffdd00", ecName: "#00ddff", ecTime: "#00ddff", tomorrow: "#ffdd00", range: "#00ddff"
             }
         };
 
-        let currentConfig = JSON.parse(localStorage.getItem("masjidConfig_v9"));
-        if (!currentConfig) {
-            currentConfig = JSON.parse(JSON.stringify(defaultConfig));
-        }
+        let currentConfig = JSON.parse(localStorage.getItem("masjidConfig_v14"));
+        if (!currentConfig) { currentConfig = JSON.parse(JSON.stringify(defaultConfig)); }
         currentConfig.general = { ...defaultConfig.general, ...(currentConfig.general || {}) };
+        currentConfig.location = { ...defaultConfig.location, ...(currentConfig.location || {}) };
         currentConfig.timings = { ...defaultConfig.timings, ...(currentConfig.timings || {}) };
         currentConfig.advColors = { ...defaultConfig.advColors, ...(currentConfig.advColors || {}) };
 
@@ -702,25 +549,43 @@
             document.documentElement.style.setProperty('--ur-size', val + 'px');
         }
 
+        function toggleLocationMode() {
+            let mode = document.getElementById("configLocMode").value;
+            document.getElementById("rowManualSearch").style.display = (mode === 'manual_search') ? 'table-row' : 'none';
+            document.getElementById("rowManualCoords").style.display = (mode === 'manual_coords') ? 'table-row' : 'none';
+        }
+
+        async function searchCityLatLon() {
+            let city = document.getElementById("configSearchCity").value; let resBox = document.getElementById("searchResult");
+            if(!city) { resBox.innerText = "Please enter city name."; return; }
+            resBox.innerText = "Searching...";
+            try {
+                let url = `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(city)}&limit=1`;
+                let response = await fetch(url); let data = await response.json();
+                if(data && data.length > 0) {
+                    let lat = parseFloat(data[0].lat).toFixed(4); let lon = parseFloat(data[0].lon).toFixed(4);
+                    let name = data[0].display_name.split(',')[0];
+                    document.getElementById("configLat").value = lat; document.getElementById("configLon").value = lon;
+                    currentConfig.location.city = name; resBox.innerText = `Found: ${name} (${lat}, ${lon})`;
+                } else { resBox.innerText = "City not found!"; }
+            } catch(e) { resBox.innerText = "Error searching city."; }
+        }
+
         function initSettingsForm() {
-            let eidSelect = document.getElementById("configEid");
-            eidSelect.innerHTML = "";
-            for(let h=6; h<=8; h++){
-                for(let m=0; m<60; m+=5){
-                    if(h===6 && m<30) continue;
-                    if(h===8 && m>30) break;
-                    let t = (h<10?'0'+h:h) + ':' + (m<10?'0'+m:m);
-                    eidSelect.innerHTML += `<option value="${t}">${t}</option>`;
-                }
-            }
+            let eidSelect = document.getElementById("configEid"); eidSelect.innerHTML = "";
+            for(let h=6; h<=8; h++){ for(let m=0; m<60; m+=5){ if(h===6 && m<30) continue; if(h===8 && m>30) break; let t = (h<10?'0'+h:h) + ':' + (m<10?'0'+m:m); eidSelect.innerHTML += `<option value="${t}">${t}</option>`; } }
 
-            document.getElementById("configUrduSize").value = currentConfig.general.urduFontSize || "26";
-            updateUrduSize(currentConfig.general.urduFontSize || "26");
-
+            document.getElementById("configUrduSize").value = currentConfig.general.urduFontSize || "14"; updateUrduSize(currentConfig.general.urduFontSize || "14");
+            
             document.getElementById("configDisplayMode").value = currentConfig.general.displayMode || "all";
             document.body.setAttribute('data-mode', currentConfig.general.displayMode || "all");
             document.getElementById("configRotation").value = currentConfig.general.rotation || "90deg";
             document.documentElement.style.setProperty('--rot', currentConfig.general.rotation || "90deg");
+
+            document.getElementById("configLocMode").value = currentConfig.location.mode || "auto";
+            document.getElementById("configLat").value = currentConfig.location.lat || "";
+            document.getElementById("configLon").value = currentConfig.location.lon || "";
+            toggleLocationMode();
 
             document.getElementById("configFiqh").value = currentConfig.general.fiqh;
             document.getElementById("configEid").value = currentConfig.general.eidTime;
@@ -728,142 +593,70 @@
             document.getElementById("configHijriOffset").value = currentConfig.general.hijriOffset || "0";
             
             let scrollMode = document.getElementById("configScrollMode").value;
-            document.getElementById("configScrollMode").value = scrollMode;
+            document.getElementById("configScrollMode").value = currentConfig.general.scrollMode || "scroll";
             let scrollEl = document.getElementById("scrollText");
-            if(scrollMode === "static") { scrollEl.classList.add("static-scroll"); }
-            else { scrollEl.classList.remove("static-scroll"); }
+            if(currentConfig.general.scrollMode === "static") { scrollEl.classList.add("static-scroll"); } else { scrollEl.classList.remove("static-scroll"); }
 
-            const tbody = document.getElementById("timingsTableBody");
-            tbody.innerHTML = "";
+            const tbody = document.getElementById("timingsTableBody"); tbody.innerHTML = "";
             const keys = Object.keys(currentConfig.timings);
-            
             keys.forEach(key => {
-                const conf = currentConfig.timings[key];
-                let cMode = conf.mode || "auto";
+                const conf = currentConfig.timings[key]; let cMode = conf.mode || "auto";
                 let modeOpts = `<option value="auto">آٹو</option><option value="fixed">فکسڈ</option>`;
                 let offsetOpts = `<option value="-3">-3 منٹ</option><option value="-2">-2 منٹ</option><option value="-1">-1 منٹ</option><option value="0">عین وقت پر</option><option value="1">+1 منٹ</option><option value="2">+2 منٹ</option><option value="3">+3 منٹ</option>`;
                 let roundOpts = `<option value="1">راؤنڈ نہیں</option><option value="5">اگلے 5 منٹ</option><option value="10">اگلے 10 منٹ</option><option value="15">اگلے 15 منٹ</option>`;
-                let gapOpts = "";
-                for(let i=1; i<=60; i++) { gapOpts += `<option value="${i}">${i} منٹ پہلے</option>`; }
-                let jGapOpts = "";
-                for(let i=1; i<=60; i++) { jGapOpts += `<option value="${i}">${i} منٹ بعد</option>`; }
+                let gapOpts = ""; for(let i=1; i<=60; i++) { gapOpts += `<option value="${i}">${i} منٹ پہلے</option>`; }
+                let jGapOpts = ""; for(let i=1; i<=60; i++) { jGapOpts += `<option value="${i}">${i} منٹ بعد</option>`; }
 
                 let tr = document.createElement("tr");
                 tr.innerHTML = `
                     <td data-label="نماز" class="col-pr-en nastaleeq-text" style="font-size:16px;">${conf.name}</td>
                     <td data-label="موڈ"><select tabindex="0" id="cfg_${key}_mode" onchange="toggleMode('${key}')">${modeOpts.replace(`value="${cMode}"`, `value="${cMode}" selected`)}</select></td>
-                    <td data-label="آٹو: اذان سیٹنگ">
-                        <select tabindex="0" id="cfg_${key}_offset" class="auto-input-${key}" style="margin-bottom:5px;">${offsetOpts.replace(`value="${conf.offset}"`, `value="${conf.offset}" selected`)}</select>
-                        <select tabindex="0" id="cfg_${key}_aRound" class="auto-input-${key}">${roundOpts.replace(`value="${conf.aRound}"`, `value="${conf.aRound}" selected`)}</select>
-                    </td>
-                    <td data-label="آٹو: جماعت سیٹنگ">
-                        <select tabindex="0" id="cfg_${key}_jGap" class="auto-input-${key}" style="margin-bottom:5px;">${jGapOpts.replace(`value="${conf.jGap}"`, `value="${conf.jGap}" selected`)}</select>
-                        <select tabindex="0" id="cfg_${key}_jRound" class="auto-input-${key}">${roundOpts.replace(`value="${conf.jRound}"`, `value="${conf.jRound}" selected`)}</select>
-                    </td>
-                    <td data-label="فکس: وقت کی سیٹنگ">
-                        <input tabindex="0" type="time" id="cfg_${key}_fixedTime" class="fixed-input-${key}" value="${conf.fixedTime || '13:30'}" style="margin-bottom:5px;">
-                        <select tabindex="0" id="cfg_${key}_fixedAzanGap" class="fixed-input-${key}">
-                            ${gapOpts.replace(`value="${conf.fixedAzanGap || 15}"`, `value="${conf.fixedAzanGap || 15}" selected`)}
-                        </select>
-                    </td>
+                    <td data-label="آٹو: اذان سیٹنگ"><select tabindex="0" id="cfg_${key}_offset" class="auto-input-${key}" style="margin-bottom:5px;">${offsetOpts.replace(`value="${conf.offset}"`, `value="${conf.offset}" selected`)}</select><select tabindex="0" id="cfg_${key}_aRound" class="auto-input-${key}">${roundOpts.replace(`value="${conf.aRound}"`, `value="${conf.aRound}" selected`)}</select></td>
+                    <td data-label="آٹو: جماعت سیٹنگ"><select tabindex="0" id="cfg_${key}_jGap" class="auto-input-${key}" style="margin-bottom:5px;">${jGapOpts.replace(`value="${conf.jGap}"`, `value="${conf.jGap}" selected`)}</select><select tabindex="0" id="cfg_${key}_jRound" class="auto-input-${key}">${roundOpts.replace(`value="${conf.jRound}"`, `value="${conf.jRound}" selected`)}</select></td>
+                    <td data-label="فکس: وقت کی سیٹنگ"><input tabindex="0" type="time" id="cfg_${key}_fixedTime" class="fixed-input-${key}" value="${conf.fixedTime || '13:30'}" style="margin-bottom:5px;"><select tabindex="0" id="cfg_${key}_fixedAzanGap" class="fixed-input-${key}">${gapOpts.replace(`value="${conf.fixedAzanGap || 15}"`, `value="${conf.fixedAzanGap || 15}" selected`)}</select></td>
                 `;
-                tbody.appendChild(tr);
-                setTimeout(() => toggleMode(key), 0);
+                tbody.appendChild(tr); setTimeout(() => toggleMode(key), 0);
             });
 
             let ac = currentConfig.advColors;
-            document.getElementById("c_bg").value = ac.bg; document.getElementById("c_panel").value = ac.panel;
-            document.getElementById("c_clock").value = ac.clock; document.getElementById("c_seconds").value = ac.seconds || ac.clock;
-            document.getElementById("c_headers").value = ac.headers; document.getElementById("c_pr_en").value = ac.prEn;
-            document.getElementById("c_pr_ur").value = ac.prUr; document.getElementById("c_azan").value = ac.azan;
-            document.getElementById("c_jamaat").value = ac.jamaat; document.getElementById("c_azan_fajr").value = ac.azanFajr || ac.azan;
-            document.getElementById("c_jamaat_fajr").value = ac.jamaatFajr || ac.jamaat; document.getElementById("c_azan_dhuhr").value = ac.azanDhuhr || ac.azan;
-            document.getElementById("c_jamaat_dhuhr").value = ac.jamaatDhuhr || ac.jamaat; document.getElementById("c_azan_asr").value = ac.azanAsr || ac.azan;
-            document.getElementById("c_jamaat_asr").value = ac.jamaatAsr || ac.jamaat; document.getElementById("c_azan_maghrib").value = ac.azanMaghrib || ac.azan;
-            document.getElementById("c_jamaat_maghrib").value = ac.jamaatMaghrib || ac.jamaat; document.getElementById("c_azan_isha").value = ac.azanIsha || ac.azan;
-            document.getElementById("c_jamaat_isha").value = ac.jamaatIsha || ac.jamaat; document.getElementById("c_azan_jumuah").value = ac.azanJumuah || ac.azanDhuhr || ac.azan;
-            document.getElementById("c_jamaat_jumuah").value = ac.jamaatJumuah || ac.jamaatDhuhr || ac.jamaat;
-            document.getElementById("c_date_g").value = ac.dateG; document.getElementById("c_date_h").value = ac.dateH;
-            document.getElementById("c_curr_pr").value = ac.currPr; document.getElementById("c_scroll").value = ac.scroll;
-            
-            document.getElementById("c_calligraphy").value = ac.calligraphy || "#22ff44";
-            document.getElementById("c_sahr_name").value = ac.sahrName || "#ff5555";
-            document.getElementById("c_sahr_time").value = ac.sahrTime || "#ff5555";
-            document.getElementById("c_iftar_name").value = ac.iftarName || "#ff5555";
-            document.getElementById("c_iftar_time").value = ac.iftarTime || "#ff5555";
-            document.getElementById("c_tzg_name").value = ac.tzgName || "#ffdd00";
-            document.getElementById("c_tzg_time").value = ac.tzgTime || "#ffdd00";
-            document.getElementById("c_ec_name").value = ac.ecName || "#00ddff";
-            document.getElementById("c_ec_time").value = ac.ecTime || "#00ddff";
-            document.getElementById("c_tomorrow").value = ac.tomorrow || "#ffdd00";
-            document.getElementById("c_range").value = ac.range || "#00ddff";
+            document.getElementById("c_bg").value = ac.bg; document.getElementById("c_panel").value = ac.panel; document.getElementById("c_clock").value = ac.clock; document.getElementById("c_seconds").value = ac.seconds || ac.clock; document.getElementById("c_headers").value = ac.headers; document.getElementById("c_pr_en").value = ac.prEn; document.getElementById("c_pr_ur").value = ac.prUr; document.getElementById("c_azan").value = ac.azan; document.getElementById("c_jamaat").value = ac.jamaat;
+            document.getElementById("c_azan_fajr").value = ac.azanFajr || ac.azan; document.getElementById("c_jamaat_fajr").value = ac.jamaatFajr || ac.jamaat; document.getElementById("c_azan_dhuhr").value = ac.azanDhuhr || ac.azan; document.getElementById("c_jamaat_dhuhr").value = ac.jamaatDhuhr || ac.jamaat; document.getElementById("c_azan_asr").value = ac.azanAsr || ac.azan; document.getElementById("c_jamaat_asr").value = ac.jamaatAsr || ac.jamaat; document.getElementById("c_azan_maghrib").value = ac.azanMaghrib || ac.azan; document.getElementById("c_jamaat_maghrib").value = ac.jamaatMaghrib || ac.jamaat; document.getElementById("c_azan_isha").value = ac.azanIsha || ac.azan; document.getElementById("c_jamaat_isha").value = ac.jamaatIsha || ac.jamaat; document.getElementById("c_azan_jumuah").value = ac.azanJumuah || ac.azanDhuhr || ac.azan; document.getElementById("c_jamaat_jumuah").value = ac.jamaatJumuah || ac.jamaatDhuhr || ac.jamaat;
+            document.getElementById("c_date_g").value = ac.dateG; document.getElementById("c_date_h").value = ac.dateH; document.getElementById("c_curr_pr").value = ac.currPr; document.getElementById("c_scroll").value = ac.scroll;
+            document.getElementById("c_calligraphy").value = ac.calligraphy || "#22ff44"; document.getElementById("c_sahr_name").value = ac.sahrName || "#ff5555"; document.getElementById("c_sahr_time").value = ac.sahrTime || "#ff5555"; document.getElementById("c_iftar_name").value = ac.iftarName || "#ff5555"; document.getElementById("c_iftar_time").value = ac.iftarTime || "#ff5555"; document.getElementById("c_tzg_name").value = ac.tzgName || "#ffdd00"; document.getElementById("c_tzg_time").value = ac.tzgTime || "#ffdd00"; document.getElementById("c_ec_name").value = ac.ecName || "#00ddff"; document.getElementById("c_ec_time").value = ac.ecTime || "#00ddff"; document.getElementById("c_tomorrow").value = ac.tomorrow || "#ffdd00"; document.getElementById("c_range").value = ac.range || "#00ddff";
             
             applyColorsToBoard();
         }
 
         function toggleMode(key) {
-            let mode = document.getElementById(`cfg_${key}_mode`).value;
-            let autoInputs = document.querySelectorAll(`.auto-input-${key}`);
-            let fixedInputs = document.querySelectorAll(`.fixed-input-${key}`);
-            if (mode === 'fixed') {
-                autoInputs.forEach(el => { el.disabled = true; el.style.opacity = '0.3'; });
-                fixedInputs.forEach(el => { el.disabled = false; el.style.opacity = '1'; });
-            } else {
-                autoInputs.forEach(el => { el.disabled = false; el.style.opacity = '1'; });
-                fixedInputs.forEach(el => { el.disabled = true; el.style.opacity = '0.3'; });
-            }
+            let mode = document.getElementById(`cfg_${key}_mode`).value; let autoInputs = document.querySelectorAll(`.auto-input-${key}`); let fixedInputs = document.querySelectorAll(`.fixed-input-${key}`);
+            if (mode === 'fixed') { autoInputs.forEach(el => { el.disabled = true; el.style.opacity = '0.3'; }); fixedInputs.forEach(el => { el.disabled = false; el.style.opacity = '1'; }); } else { autoInputs.forEach(el => { el.disabled = false; el.style.opacity = '1'; }); fixedInputs.forEach(el => { el.disabled = true; el.style.opacity = '0.3'; }); }
         }
 
         function applyColorsToBoard() {
-            let ac = currentConfig.advColors;
-            let root = document.documentElement.style;
-            root.setProperty('--c-bg', ac.bg); root.setProperty('--c-panel', ac.panel);
-            root.setProperty('--c-clock', ac.clock); root.setProperty('--c-seconds', ac.seconds || ac.clock);
-            root.setProperty('--c-headers', ac.headers); root.setProperty('--c-pr-en', ac.prEn);
-            root.setProperty('--c-pr-ur', ac.prUr); root.setProperty('--c-azan', ac.azan);
-            root.setProperty('--c-jamaat', ac.jamaat); root.setProperty('--c-date-g', ac.dateG);
-            root.setProperty('--c-date-h', ac.dateH); root.setProperty('--c-curr-pr', ac.currPr);
-            root.setProperty('--c-scroll', ac.scroll);
-            root.setProperty('--c-azan-fajr', ac.azanFajr || ac.azan); root.setProperty('--c-jamaat-fajr', ac.jamaatFajr || ac.jamaat);
-            root.setProperty('--c-azan-dhuhr', ac.azanDhuhr || ac.azan); root.setProperty('--c-jamaat-dhuhr', ac.jamaatDhuhr || ac.jamaat);
-            root.setProperty('--c-azan-asr', ac.azanAsr || ac.azan); root.setProperty('--c-jamaat-asr', ac.jamaatAsr || ac.jamaat);
-            root.setProperty('--c-azan-maghrib', ac.azanMaghrib || ac.azan); root.setProperty('--c-jamaat-maghrib', ac.jamaatMaghrib || ac.jamaat);
-            root.setProperty('--c-azan-isha', ac.azanIsha || ac.azan); root.setProperty('--c-jamaat-isha', ac.jamaatIsha || ac.jamaat);
-            root.setProperty('--c-azan-jumuah', ac.azanJumuah || ac.azanDhuhr || ac.azan); root.setProperty('--c-jamaat-jumuah', ac.jamaatJumuah || ac.jamaatDhuhr || ac.jamaat);
-            
-            root.setProperty('--c-calligraphy', ac.calligraphy || "#22ff44");
-            root.setProperty('--c-sahr-name', ac.sahrName || "#ff5555");
-            root.setProperty('--c-sahr-time', ac.sahrTime || "#ff5555");
-            root.setProperty('--c-iftar-name', ac.iftarName || "#ff5555");
-            root.setProperty('--c-iftar-time', ac.iftarTime || "#ff5555");
-            root.setProperty('--c-tzg-name', ac.tzgName || "#ffdd00");
-            root.setProperty('--c-tzg-time', ac.tzgTime || "#ffdd00");
-            root.setProperty('--c-ec-name', ac.ecName || "#00ddff");
-            root.setProperty('--c-ec-time', ac.ecTime || "#00ddff");
-            root.setProperty('--c-tomorrow', ac.tomorrow || "#ffdd00");
-            root.setProperty('--c-range', ac.range || "#00ddff");
+            let ac = currentConfig.advColors; let root = document.documentElement.style;
+            root.setProperty('--c-bg', ac.bg || '#050505'); root.setProperty('--c-panel', ac.panel || '#080808'); root.setProperty('--c-clock', ac.clock || '#ff6600'); root.setProperty('--c-seconds', ac.seconds || ac.clock || '#ff6600'); root.setProperty('--c-headers', ac.headers || '#00ddff'); root.setProperty('--c-pr-en', ac.prEn || '#ffdd00'); root.setProperty('--c-pr-ur', ac.prUr || '#22ff44'); root.setProperty('--c-azan', ac.azan || '#ff5555'); root.setProperty('--c-jamaat', ac.jamaat || '#33ff55'); root.setProperty('--c-date-g', ac.dateG || '#00ddff'); root.setProperty('--c-date-h', ac.dateH || '#22ff44'); root.setProperty('--c-curr-pr', ac.currPr || '#00ddff'); root.setProperty('--c-scroll', ac.scroll || '#00ddff');
+            root.setProperty('--c-azan-fajr', ac.azanFajr || ac.azan); root.setProperty('--c-jamaat-fajr', ac.jamaatFajr || ac.jamaat); root.setProperty('--c-azan-dhuhr', ac.azanDhuhr || ac.azan); root.setProperty('--c-jamaat-dhuhr', ac.jamaatDhuhr || ac.jamaat); root.setProperty('--c-azan-asr', ac.azanAsr || ac.azan); root.setProperty('--c-jamaat-asr', ac.jamaatAsr || ac.jamaat); root.setProperty('--c-azan-maghrib', ac.azanMaghrib || ac.azan); root.setProperty('--c-jamaat-maghrib', ac.jamaatMaghrib || ac.jamaat); root.setProperty('--c-azan-isha', ac.azanIsha || ac.azan); root.setProperty('--c-jamaat-isha', ac.jamaatIsha || ac.jamaat); root.setProperty('--c-azan-jumuah', ac.azanJumuah || ac.azanDhuhr || ac.azan); root.setProperty('--c-jamaat-jumuah', ac.jamaatJumuah || ac.jamaatDhuhr || ac.jamaat);
+            root.setProperty('--c-calligraphy', ac.calligraphy || "#22ff44"); root.setProperty('--c-sahr-name', ac.sahrName || "#ff5555"); root.setProperty('--c-sahr-time', ac.sahrTime || "#ff5555"); root.setProperty('--c-iftar-name', ac.iftarName || "#ff5555"); root.setProperty('--c-iftar-time', ac.iftarTime || "#ff5555"); root.setProperty('--c-tzg-name', ac.tzgName || "#ffdd00"); root.setProperty('--c-tzg-time', ac.tzgTime || "#ffdd00"); root.setProperty('--c-ec-name', ac.ecName || "#00ddff"); root.setProperty('--c-ec-time', ac.ecTime || "#00ddff"); root.setProperty('--c-tomorrow', ac.tomorrow || "#ffdd00"); root.setProperty('--c-range', ac.range || "#00ddff");
         }
 
         function saveSettings() {
-            let oldFiqh = currentConfig.general.fiqh;
-
             currentConfig.general.urduFontSize = document.getElementById("configUrduSize").value;
             currentConfig.general.displayMode = document.getElementById("configDisplayMode").value;
             document.body.setAttribute('data-mode', currentConfig.general.displayMode);
-            
             currentConfig.general.rotation = document.getElementById("configRotation").value;
             document.documentElement.style.setProperty('--rot', currentConfig.general.rotation);
-
             currentConfig.general.fiqh = document.getElementById("configFiqh").value;
             currentConfig.general.eidTime = document.getElementById("configEid").value;
             currentConfig.general.chashtOffset = parseInt(document.getElementById("configChasht").value);
             currentConfig.general.hijriOffset = document.getElementById("configHijriOffset").value;
-            
             let scrollMode = document.getElementById("configScrollMode").value;
             currentConfig.general.scrollMode = scrollMode;
             let scrollEl = document.getElementById("scrollText");
-            if(scrollMode === "static") { scrollEl.classList.add("static-scroll"); }
-            else { scrollEl.classList.remove("static-scroll"); }
+            if(scrollMode === "static") { scrollEl.classList.add("static-scroll"); } else { scrollEl.classList.remove("static-scroll"); }
+
+            currentConfig.location.mode = document.getElementById("configLocMode").value;
+            currentConfig.location.lat = document.getElementById("configLat").value;
+            currentConfig.location.lon = document.getElementById("configLon").value;
 
             const keys = Object.keys(currentConfig.timings);
             keys.forEach(key => {
@@ -877,247 +670,141 @@
             });
 
             currentConfig.advColors = {
-                bg: document.getElementById("c_bg").value, panel: document.getElementById("c_panel").value,
-                clock: document.getElementById("c_clock").value, seconds: document.getElementById("c_seconds").value,
-                headers: document.getElementById("c_headers").value, prEn: document.getElementById("c_pr_en").value,
-                prUr: document.getElementById("c_pr_ur").value, azan: document.getElementById("c_azan").value,
-                jamaat: document.getElementById("c_jamaat").value,
-                azanFajr: document.getElementById("c_azan_fajr").value, jamaatFajr: document.getElementById("c_jamaat_fajr").value,
-                azanDhuhr: document.getElementById("c_azan_dhuhr").value, jamaatDhuhr: document.getElementById("c_jamaat_dhuhr").value,
-                azanAsr: document.getElementById("c_azan_asr").value, jamaatAsr: document.getElementById("c_jamaat_asr").value,
-                azanMaghrib: document.getElementById("c_azan_maghrib").value, jamaatMaghrib: document.getElementById("c_jamaat_maghrib").value,
-                azanIsha: document.getElementById("c_azan_isha").value, jamaatIsha: document.getElementById("c_jamaat_isha").value,
-                azanJumuah: document.getElementById("c_azan_jumuah").value, jamaatJumuah: document.getElementById("c_jamaat_jumuah").value,
-                calligraphy: document.getElementById("c_calligraphy").value, 
-                sahrName: document.getElementById("c_sahr_name").value, sahrTime: document.getElementById("c_sahr_time").value,
-                iftarName: document.getElementById("c_iftar_name").value, iftarTime: document.getElementById("c_iftar_time").value,
-                tzgName: document.getElementById("c_tzg_name").value, tzgTime: document.getElementById("c_tzg_time").value,
-                ecName: document.getElementById("c_ec_name").value, ecTime: document.getElementById("c_ec_time").value,
-                tomorrow: document.getElementById("c_tomorrow").value, range: document.getElementById("c_range").value,
-                dateG: document.getElementById("c_date_g").value, dateH: document.getElementById("c_date_h").value,
-                currPr: document.getElementById("c_curr_pr").value, scroll: document.getElementById("c_scroll").value
+                bg: document.getElementById("c_bg").value, panel: document.getElementById("c_panel").value, clock: document.getElementById("c_clock").value, seconds: document.getElementById("c_seconds").value, headers: document.getElementById("c_headers").value, prEn: document.getElementById("c_pr_en").value, prUr: document.getElementById("c_pr_ur").value, azan: document.getElementById("c_azan").value, jamaat: document.getElementById("c_jamaat").value,
+                azanFajr: document.getElementById("c_azan_fajr").value, jamaatFajr: document.getElementById("c_jamaat_fajr").value, azanDhuhr: document.getElementById("c_azan_dhuhr").value, jamaatDhuhr: document.getElementById("c_jamaat_dhuhr").value, azanAsr: document.getElementById("c_azan_asr").value, jamaatAsr: document.getElementById("c_jamaat_asr").value, azanMaghrib: document.getElementById("c_azan_maghrib").value, jamaatMaghrib: document.getElementById("c_jamaat_maghrib").value, azanIsha: document.getElementById("c_azan_isha").value, jamaatIsha: document.getElementById("c_jamaat_isha").value, azanJumuah: document.getElementById("c_azan_jumuah").value, jamaatJumuah: document.getElementById("c_jamaat_jumuah").value,
+                calligraphy: document.getElementById("c_calligraphy").value, sahrName: document.getElementById("c_sahr_name").value, sahrTime: document.getElementById("c_sahr_time").value, iftarName: document.getElementById("c_iftar_name").value, iftarTime: document.getElementById("c_iftar_time").value, tzgName: document.getElementById("c_tzg_name").value, tzgTime: document.getElementById("c_tzg_time").value, ecName: document.getElementById("c_ec_name").value, ecTime: document.getElementById("c_ec_time").value, tomorrow: document.getElementById("c_tomorrow").value, range: document.getElementById("c_range").value, dateG: document.getElementById("c_date_g").value, dateH: document.getElementById("c_date_h").value, currPr: document.getElementById("c_curr_pr").value, scroll: document.getElementById("c_scroll").value
             };
 
-            localStorage.setItem("masjidConfig_v9", JSON.stringify(currentConfig));
-            applyColorsToBoard(); 
-            closeSettings();
-            
-            if(oldFiqh !== currentConfig.general.fiqh) { fetchDailyTimes(); } 
-            else if(window.lastApiResultToday) { processApiData(window.lastApiResultToday, window.lastApiResultTomorrow); updateLiveClock(); }
+            localStorage.setItem("masjidConfig_v14", JSON.stringify(currentConfig));
+            applyColorsToBoard(); closeSettings(); fetchDailyTimes(); 
         }
 
         function openSettings() { document.getElementById("settingsModal").style.display = "flex"; }
         function closeSettings() { document.getElementById("settingsModal").style.display = "none"; }
-        
-        document.body.addEventListener('click', function(e) {
-            initAudio(); 
-            createNoSleepVideo(); 
-            if(!e.target.closest('.modal-content') && !e.target.closest('.settings-btn') && !e.target.closest('select') && !e.target.closest('input')) {
-                if (!document.fullscreenElement) {
-                    document.documentElement.requestFullscreen().catch(err => console.log(`Auto full-screen blocked.`));
-                }
-            }
-        });
+        document.body.addEventListener('click', function(e) { initAudio(); createNoSleepVideo(); if(!e.target.closest('.modal-content') && !e.target.closest('.settings-btn') && !e.target.closest('select') && !e.target.closest('input') && !e.target.closest('button')) { if (!document.fullscreenElement) { document.documentElement.requestFullscreen().catch(err => console.log(err)); } } });
 
         function timeToMins(time24) { let [h, m] = time24.split(':'); return (parseInt(h) * 60) + parseInt(m); }
         function formatMinsTo12(totalMins) { let h = Math.floor(totalMins / 60) % 24; let m = totalMins % 60; let h12 = h % 12 || 12; let mStr = m < 10 ? '0' + m : m; return h12 + ':' + mStr; }
         function t12(time24) { let [h, m] = time24.split(':'); h = parseInt(h); return (h % 12 || 12) + ':' + m; }
-
-        function applyAdvanceRounding(mins, advanceVal) {
-            advanceVal = parseInt(advanceVal);
-            if (isNaN(advanceVal) || advanceVal <= 1) return mins;
-            
-            let remainder = mins % 5;
-            let baseRounded = (remainder === 0) ? mins : mins + (5 - remainder);
-            
-            if (advanceVal === 5) return baseRounded;
-            if (advanceVal === 10) return baseRounded + 5;
-            if (advanceVal === 15) return baseRounded + 10;
-            
-            return baseRounded; 
-        }
-
+        function applyAdvanceRounding(mins, advanceVal) { advanceVal = parseInt(advanceVal); if (isNaN(advanceVal) || advanceVal <= 1) return mins; let remainder = mins % 5; let baseRounded = (remainder === 0) ? mins : mins + (5 - remainder); if (advanceVal === 5) return baseRounded; if (advanceVal === 10) return baseRounded + 5; if (advanceVal === 15) return baseRounded + 10; return baseRounded; }
+        
         function applyConfig(rawTimeMins, configKey) {
             let cfg = currentConfig.timings[configKey];
-            if (cfg.mode === "fixed") {
-                let [fH, fM] = (cfg.fixedTime || "13:30").split(':');
-                let jMins = (parseInt(fH) * 60) + parseInt(fM);
-                let aMins = jMins - (cfg.fixedAzanGap || 15);
-                return { azanMins: aMins, jamaatMins: jMins };
-            } else {
-                let azan = applyAdvanceRounding(rawTimeMins + cfg.offset, cfg.aRound);
-                let jamaat = applyAdvanceRounding(azan + cfg.jGap, cfg.jRound);
-                return { azanMins: azan, jamaatMins: jamaat };
-            }
+            if (cfg.mode === "fixed") { let [fH, fM] = (cfg.fixedTime || "13:30").split(':'); let jMins = (parseInt(fH) * 60) + parseInt(fM); let aMins = jMins - (cfg.fixedAzanGap || 15); return { azanMins: aMins, jamaatMins: jMins }; }
+            else { let azan = applyAdvanceRounding(rawTimeMins + cfg.offset, cfg.aRound); let jamaat = applyAdvanceRounding(azan + cfg.jGap, cfg.jRound); return { azanMins: azan, jamaatMins: jamaat }; }
         }
 
         function calculateSchedule(times, isFriday) {
-            let fTime = applyConfig(timeToMins(times.Fajr), 'fajr');
-            let zTime = applyConfig(timeToMins(times.Dhuhr), 'dhuhr');
-            let aTime = applyConfig(timeToMins(times.Asr), 'asr');
-            let mTime = applyConfig(timeToMins(times.Sunset), 'maghrib');
-            let iTime = applyConfig(timeToMins(times.Isha), 'isha');
-            let jTime = applyConfig(timeToMins(times.Dhuhr), 'jumuah'); 
-
+            let fTime = applyConfig(timeToMins(times.Fajr), 'fajr'); let zTime = applyConfig(timeToMins(times.Dhuhr), 'dhuhr'); let aTime = applyConfig(timeToMins(times.Asr), 'asr'); let mTime = applyConfig(timeToMins(times.Sunset), 'maghrib'); let iTime = applyConfig(timeToMins(times.Isha), 'isha'); let jTime = applyConfig(timeToMins(times.Dhuhr), 'jumuah'); 
             let schedule = [
-                { en: "FAJR", ur: "فجر", azanMins: fTime.azanMins, jamaatMins: fTime.jamaatMins, azan12: formatMinsTo12(fTime.azanMins), jamaat12: formatMinsTo12(fTime.jamaatMins), expireMins: fTime.jamaatMins + 5, start: t12(times.Fajr), end: t12(times.Sunrise), startMins: timeToMins(times.Fajr), endMins: timeToMins(times.Sunrise) },
-                { en: "ZUHAR", ur: "ظہر", azanMins: zTime.azanMins, jamaatMins: zTime.jamaatMins, azan12: formatMinsTo12(zTime.azanMins), jamaat12: formatMinsTo12(zTime.jamaatMins), expireMins: zTime.jamaatMins + 5, start: t12(times.Dhuhr), end: t12(times.Asr), startMins: timeToMins(times.Dhuhr), endMins: timeToMins(times.Asr) },
-                { en: "ASR", ur: "عصر", azanMins: aTime.azanMins, jamaatMins: aTime.jamaatMins, azan12: formatMinsTo12(aTime.azanMins), jamaat12: formatMinsTo12(aTime.jamaatMins), expireMins: aTime.jamaatMins + 5, start: t12(times.Asr), end: t12(times.Sunset), startMins: timeToMins(times.Asr), endMins: timeToMins(times.Sunset) },
-                { en: "MAGRIB", ur: "مغرب", azanMins: mTime.azanMins, jamaatMins: mTime.jamaatMins, azan12: formatMinsTo12(mTime.azanMins), jamaat12: formatMinsTo12(mTime.jamaatMins), expireMins: mTime.jamaatMins + 5, start: t12(times.Sunset), end: t12(times.Isha), startMins: timeToMins(times.Sunset), endMins: timeToMins(times.Isha) },
-                { en: "ISHA'", ur: "عشاء", azanMins: iTime.azanMins, jamaatMins: iTime.jamaatMins, azan12: formatMinsTo12(iTime.azanMins), jamaat12: formatMinsTo12(iTime.jamaatMins), expireMins: iTime.jamaatMins + 5, start: t12(times.Isha), end: t12(times.Fajr), startMins: timeToMins(times.Isha), endMins: timeToMins(times.Fajr) }
+                { id: "FAJR", en: "FAJR", ur: "فجر", azanMins: fTime.azanMins, jamaatMins: fTime.jamaatMins, azan12: formatMinsTo12(fTime.azanMins), jamaat12: formatMinsTo12(fTime.jamaatMins), expireMins: fTime.jamaatMins + 5, start: t12(times.Fajr), end: t12(times.Sunrise), startMins: timeToMins(times.Fajr), endMins: timeToMins(times.Sunrise) },
+                { id: "DHUHR", en: "ZUHAR", ur: "ظہر", azanMins: zTime.azanMins, jamaatMins: zTime.jamaatMins, azan12: formatMinsTo12(zTime.azanMins), jamaat12: formatMinsTo12(zTime.jamaatMins), expireMins: zTime.jamaatMins + 5, start: t12(times.Dhuhr), end: t12(times.Asr), startMins: timeToMins(times.Dhuhr), endMins: timeToMins(times.Asr) },
+                { id: "ASR", en: "ASR", ur: "عصر", azanMins: aTime.azanMins, jamaatMins: aTime.jamaatMins, azan12: formatMinsTo12(aTime.azanMins), jamaat12: formatMinsTo12(aTime.jamaatMins), expireMins: aTime.jamaatMins + 5, start: t12(times.Asr), end: t12(times.Sunset), startMins: timeToMins(times.Asr), endMins: timeToMins(times.Sunset) },
+                { id: "MAGHRIB", en: "MAGRIB", ur: "مغرب", azanMins: mTime.azanMins, jamaatMins: mTime.jamaatMins, azan12: formatMinsTo12(mTime.azanMins), jamaat12: formatMinsTo12(mTime.jamaatMins), expireMins: mTime.jamaatMins + 5, start: t12(times.Sunset), end: t12(times.Isha), startMins: timeToMins(times.Sunset), endMins: timeToMins(times.Isha) },
+                { id: "ISHA", en: "ISHA'", ur: "عشاء", azanMins: iTime.azanMins, jamaatMins: iTime.jamaatMins, azan12: formatMinsTo12(iTime.azanMins), jamaat12: formatMinsTo12(iTime.jamaatMins), expireMins: iTime.jamaatMins + 5, start: t12(times.Isha), end: t12(times.Fajr), startMins: timeToMins(times.Isha), endMins: timeToMins(times.Fajr) }
             ];
-
-            if (isFriday) {
-                schedule[1] = { en: "JUMU'AH", ur: "جمعہ", azanMins: jTime.azanMins, jamaatMins: jTime.jamaatMins, azan12: formatMinsTo12(jTime.azanMins), jamaat12: formatMinsTo12(jTime.jamaatMins), expireMins: jTime.jamaatMins + 5, start: t12(times.Dhuhr), end: t12(times.Asr), startMins: timeToMins(times.Dhuhr), endMins: timeToMins(times.Asr) };
-            }
+            if (isFriday) { schedule[1] = { id: "JUMUAH", en: "JUMU'AH", ur: "جمعہ", azanMins: jTime.azanMins, jamaatMins: jTime.jamaatMins, azan12: formatMinsTo12(jTime.azanMins), jamaat12: formatMinsTo12(jTime.jamaatMins), expireMins: jTime.jamaatMins + 5, start: t12(times.Dhuhr), end: t12(times.Asr), startMins: timeToMins(times.Dhuhr), endMins: timeToMins(times.Asr) }; }
             return { s: schedule, f: fTime, z: zTime, a: aTime, m: mTime, i: iTime, j: jTime };
         }
 
         function getAdjustedHijri(hijriObj, offset) {
-            if(offset === 0) return hijriObj;
-            let d = parseInt(hijriObj.day) + offset;
-            let m = parseInt(hijriObj.month.number);
-            let y = parseInt(hijriObj.year);
+            if(offset === 0) return hijriObj; let d = parseInt(hijriObj.day) + offset; let m = parseInt(hijriObj.month.number); let y = parseInt(hijriObj.year);
             if (d > 30) { d -= 30; m += 1; } else if (d < 1) { d += 30; m -= 1; }
             if (m > 12) { m = 1; y += 1; } else if (m < 1) { m = 12; y -= 1; }
             return { day: String(d).padStart(2, '0'), month: { ...hijriObj.month, number: m }, year: String(y) };
         }
 
         async function detectLocation() {
+            if (currentConfig.location.mode === 'manual_coords' || currentConfig.location.mode === 'manual_search') {
+                let lat = parseFloat(currentConfig.location.lat); let lon = parseFloat(currentConfig.location.lon);
+                if (!isNaN(lat) && !isNaN(lon)) { let city = currentConfig.location.city || "Manual Location"; return { lat: lat, lon: lon, city: city, type: 'MANUAL' }; }
+            }
             return new Promise((resolve) => {
                 if (navigator.geolocation) {
                     navigator.geolocation.getCurrentPosition(
-                        async (pos) => {
-                            let lat = pos.coords.latitude; let lon = pos.coords.longitude;
-                            try {
-                                let res = await fetch(`https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${lat}&longitude=${lon}&localityLanguage=en`);
-                                let data = await res.json();
-                                let city = data.city || data.locality || "Location Detected";
-                                resolve({ lat, lon, city, country: data.countryName || "", type: 'GPS' });
-                            } catch(e) { resolve({ lat, lon, city: "Location Detected", country: "", type: 'GPS' }); }
-                        },
-                        async () => { resolve(await getIpLocation()); },
-                        { enableHighAccuracy: true, timeout: 8000, maximumAge: 0 }
+                        async (pos) => { let lat = pos.coords.latitude; let lon = pos.coords.longitude; try { let res = await fetch(`https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${lat}&longitude=${lon}&localityLanguage=en`); let data = await res.json(); resolve({ lat, lon, city: data.city || data.locality || "Auto Location", type: 'GPS' }); } catch(e) { resolve({ lat, lon, city: "Auto Location", type: 'GPS' }); } },
+                        async () => { resolve(await getIpLocation()); }, { enableHighAccuracy: true, timeout: 8000, maximumAge: 0 }
                     );
                 } else { getIpLocation().then(resolve); }
             });
         }
+        async function getIpLocation() { try { const res = await fetch('https://ipapi.co/json/'); const data = await res.json(); return { lat: data.latitude, lon: data.longitude, city: data.city, type: 'IP' }; } catch(e) { return { lat: 19.0330, lon: 73.0297, city: "Navi Mumbai", type: 'Default' }; } }
 
-        async function getIpLocation() {
-            try {
-                const res = await fetch('https://ipapi.co/json/'); const data = await res.json();
-                return { lat: data.latitude, lon: data.longitude, city: data.city, country: data.country_name, type: 'IP' };
-            } catch(e) { return { lat: 19.0330, lon: 73.0297, city: "Navi Mumbai", country: "India", type: 'Default' }; }
-        }
-
-        function updateStaticDisplays(isTomorrow) {
-            let data = isTomorrow ? window.tomorrowData : window.todayData;
-            if (!data) return;
-            let t = data.timings;
-            
-            document.getElementById('sahrTime').innerText = t12(t.Fajr);
-            document.getElementById('sahrTop').innerText = t12(t.Fajr);
-            document.getElementById('tuluTime').innerText = t12(t.Sunrise);
-            document.getElementById('zawalTime').innerText = t12(t.Dhuhr);
-            document.getElementById('gurubTime').innerText = t12(t.Sunset);
-            document.getElementById('iftarTime').innerText = t12(t.Sunset);
-            document.getElementById('iftarTop').innerText = t12(t.Sunset);
-            
-            let chashtOffsetVal = parseInt(currentConfig.general.chashtOffset) || 15;
-            let chashtMins = timeToMins(t.Sunrise) + chashtOffsetVal;
-            document.getElementById('chashtTime').innerText = formatMinsTo12(chashtMins);
-            
-            window.sunriseMins = timeToMins(t.Sunrise); 
-            window.zawalMins = timeToMins(t.Dhuhr);
+        function updateStaticDisplays(nowTotalMins) {
+            if (!window.todayData || !window.tomorrowData) return;
+            let isNextIslamicDay = (nowTotalMins >= window.maghribMins); let activeLeftData = isNextIslamicDay ? window.tomorrowData : window.todayData; let t = activeLeftData.timings;
+            document.getElementById('sahrTime').innerText = t12(t.Fajr); document.getElementById('sahrTop').innerText = t12(t.Fajr); document.getElementById('tuluTime').innerText = t12(t.Sunrise); document.getElementById('zawalTime').innerText = t12(t.Dhuhr); document.getElementById('gurubTime').innerText = t12(t.Sunset); document.getElementById('iftarTime').innerText = t12(t.Sunset); document.getElementById('iftarTop').innerText = t12(t.Sunset);
+            let chashtOffsetVal = parseInt(currentConfig.general.chashtOffset) || 15; let chashtMins = timeToMins(t.Sunrise) + chashtOffsetVal; document.getElementById('chashtTime').innerText = formatMinsTo12(chashtMins);
+            window.sunriseMins = timeToMins(window.todayData.timings.Sunrise); window.zawalMins = timeToMins(window.todayData.timings.Dhuhr);
         }
 
         function updatePrayerTableTimes(nowTotalMins) {
             if (!window.todayData || !window.tomorrowData) return;
-            let cToday = window.todayData.calc;
-            let cTmrw = window.tomorrowData.calc;
+            let cToday = window.todayData.calc; let cTmrw = window.tomorrowData.calc;
+            const updateRow = (idAzan, idJamaat, todayObj, tmrwObj) => { if (nowTotalMins >= todayObj.jamaatMins) { document.getElementById(idAzan).innerText = formatMinsTo12(tmrwObj.azanMins); document.getElementById(idJamaat).innerText = formatMinsTo12(tmrwObj.jamaatMins); } else { document.getElementById(idAzan).innerText = formatMinsTo12(todayObj.azanMins); document.getElementById(idJamaat).innerText = formatMinsTo12(todayObj.jamaatMins); } };
+            updateRow('fajrAzan', 'fajrJamaat', cToday.f, cTmrw.f); updateRow('zuharAzan', 'zuharJamaat', cToday.z, cTmrw.z); updateRow('asrAzan', 'asrJamaat', cToday.a, cTmrw.a); updateRow('magribAzan', 'magribJamaat', cToday.m, cTmrw.m); updateRow('ishaAzan', 'ishaJamaat', cToday.i, cTmrw.i); updateRow('jumuahAzan', 'jumuahJamaat', cToday.j, cTmrw.j);
+        }
 
-            const updateRow = (idAzan, idJamaat, todayObj, tmrwObj) => {
-                if (nowTotalMins >= todayObj.jamaatMins) {
-                    document.getElementById(idAzan).innerText = formatMinsTo12(tmrwObj.azanMins);
-                    document.getElementById(idJamaat).innerText = formatMinsTo12(tmrwObj.jamaatMins);
-                } else {
-                    document.getElementById(idAzan).innerText = formatMinsTo12(todayObj.azanMins);
-                    document.getElementById(idJamaat).innerText = formatMinsTo12(todayObj.jamaatMins);
-                }
-            };
-
-            updateRow('fajrAzan', 'fajrJamaat', cToday.f, cTmrw.f);
-            updateRow('zuharAzan', 'zuharJamaat', cToday.z, cTmrw.z);
-            updateRow('asrAzan', 'asrJamaat', cToday.a, cTmrw.a);
-            updateRow('magribAzan', 'magribJamaat', cToday.m, cTmrw.m);
-            updateRow('ishaAzan', 'ishaJamaat', cToday.i, cTmrw.i);
-            updateRow('jumuahAzan', 'jumuahJamaat', cToday.j, cTmrw.j);
+        function generateOfflineData(date, lat, lon) {
+            let pt = new PrayTimes(); pt.setMethod('Karachi'); if(currentConfig.general.fiqh === "1") pt.adjust({asr: 'Hanafi'});
+            let tz = -date.getTimezoneOffset() / 60; let times = pt.getTimes(date, [lat, lon], tz);
+            let hijriDateStr = new Intl.DateTimeFormat('en-TN-u-ca-islamic', {day: 'numeric', month: 'numeric', year: 'numeric'}).format(date);
+            let hParts = hijriDateStr.split('/'); let hMonthNames = ["محرم", "صفر", "ربیع الاول", "ربیع الثانی", "جمادی الاول", "جمادی الثانی", "رجب", "شعبان", "رمضان", "شوال", "ذیقعدہ", "ذی الحجہ"];
+            let mName = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+            return { timings: { Fajr: times.fajr, Sunrise: times.sunrise, Dhuhr: times.dhuhr, Asr: times.asr, Sunset: times.sunset, Maghrib: times.maghrib, Isha: times.isha }, date: { gregorian: { day: String(date.getDate()).padStart(2,'0'), month: { number: date.getMonth()+1, en: mName[date.getMonth()] }, year: date.getFullYear() }, hijri: { day: hParts[1], month: { number: parseInt(hParts[0]), ar: hMonthNames[parseInt(hParts[0])-1] }, year: hParts[2] } } };
         }
 
         function processApiData(resultToday, resultTomorrow) {
-            const date = resultToday.data.date;
-            let isFriday = new Date().getDay() === 5;
-            let tomorrow = new Date(); tomorrow.setDate(tomorrow.getDate() + 1);
-            let tomorrowIsFriday = tomorrow.getDay() === 5;
-
-            window.todayData = { timings: resultToday.data.timings, calc: calculateSchedule(resultToday.data.timings, isFriday) };
-            window.tomorrowData = { timings: resultTomorrow.data.timings, calc: calculateSchedule(resultTomorrow.data.timings, tomorrowIsFriday) };
-
-            window.prayerSchedule = window.todayData.calc.s;
-            window.tomorrowSchedule = window.tomorrowData.calc.s;
-
-            window.hijriAfterMaghrib = resultToday.data.date.hijri;
-            document.getElementById('gregorianDate').innerText = date.gregorian.day + '-' + date.gregorian.month.number + '-' + date.gregorian.year + ' ' + date.gregorian.month.en.toUpperCase();
-
-            window.maghribMins = timeToMins(window.todayData.timings.Sunset); 
-
+            let isFriday = new Date().getDay() === 5; let tomorrow = new Date(); tomorrow.setDate(tomorrow.getDate() + 1); let tomorrowIsFriday = tomorrow.getDay() === 5;
+            window.todayData = { timings: resultToday.data.timings, calc: calculateSchedule(resultToday.data.timings, isFriday) }; window.tomorrowData = { timings: resultTomorrow.data.timings, calc: calculateSchedule(resultTomorrow.data.timings, tomorrowIsFriday) };
+            
+            window.hijriAfterMaghrib = resultToday.data.date.hijri; document.getElementById('gregorianDate').innerText = resultToday.data.date.gregorian.day + '-' + resultToday.data.date.gregorian.month.number + '-' + resultToday.data.date.gregorian.year + ' ' + resultToday.data.date.gregorian.month.en.toUpperCase(); window.maghribMins = timeToMins(window.todayData.timings.Sunset); 
             window.lastIsTomorrow = null; 
             
-            let now = new Date();
-            let nowTotalMins = (now.getHours() * 60) + now.getMinutes();
-            updatePrayerTableTimes(nowTotalMins);
-            
-            updateActivePrayerTracking(); 
+            let now = new Date(); let nowTotalMins = (now.getHours() * 60) + now.getMinutes();
+            updateStaticDisplays(nowTotalMins); updatePrayerTableTimes(nowTotalMins); updateActivePrayerTracking(); 
+        }
+
+        // ہر آدھے گھنٹے بعد موسم اپڈیٹ کرنے کا فنکشن
+        async function fetchWeather() {
+            try {
+                const weatherRes = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${window.globalLat}&longitude=${window.globalLon}&current_weather=true`); 
+                const weatherData = await weatherRes.json(); 
+                document.getElementById('tempDisplay').innerText = Math.round(weatherData.current_weather.temperature) + '°C'; 
+            } catch(e) {}
         }
 
         async function fetchDailyTimes() {
+            document.getElementById('locationNameDisplay').innerText = "DETECTING..."; 
+            let loc = await detectLocation(); 
+            window.globalLat = loc.lat; window.globalLon = loc.lon; window.globalCity = loc.city;
+            document.getElementById('locationNameDisplay').innerText = window.globalCity.toUpperCase();
+            
+            fetchWeather(); // فوراً موسم چیک کریں
+
+            let selectedFiqh = currentConfig.general.fiqh; let tsToday = Math.floor(Date.now() / 1000);
+            
             try {
-                document.getElementById('locationNameDisplay').innerText = "DETECTING LOCATION...";
-                let loc = await detectLocation();
-                
-                document.getElementById('locationNameDisplay').innerText = loc.city.toUpperCase();
-
-                try {
-                    const weatherRes = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${loc.lat}&longitude=${loc.lon}&current_weather=true`);
-                    const weatherData = await weatherRes.json();
-                    document.getElementById('tempDisplay').innerText = Math.round(weatherData.current_weather.temperature) + '°C';
-                } catch(e) { document.getElementById('tempDisplay').innerText = "N/A"; }
-
-                let selectedFiqh = currentConfig.general.fiqh;
-                let tsToday = Math.floor(Date.now() / 1000);
-                const urlToday = `https://api.aladhan.com/v1/timings/${tsToday}?latitude=${loc.lat}&longitude=${loc.lon}&method=1&school=${selectedFiqh}`;
-                const responseToday = await fetch(urlToday);
-                window.lastApiResultToday = await responseToday.json();
-                
-                let yesterday = new Date(); yesterday.setDate(yesterday.getDate() - 1);
-                let yyyy = yesterday.getFullYear(); let mm = String(yesterday.getMonth() + 1).padStart(2, '0'); let dd = String(yesterday.getDate()).padStart(2, '0');
-                const responseYesterday = await fetch(`https://api.aladhan.com/v1/timings/${dd}-${mm}-${yyyy}?latitude=${loc.lat}&longitude=${loc.lon}&method=1&school=${selectedFiqh}`);
-                const resultYesterday = await responseYesterday.json();
-                window.hijriBeforeMaghrib = resultYesterday.data.date.hijri;
-
-                let tomorrow = new Date(); tomorrow.setDate(tomorrow.getDate() + 1);
-                let t_yyyy = tomorrow.getFullYear(); let t_mm = String(tomorrow.getMonth() + 1).padStart(2, '0'); let t_dd = String(tomorrow.getDate()).padStart(2, '0');
-                const responseTomorrow = await fetch(`https://api.aladhan.com/v1/timings/${t_dd}-${t_mm}-${t_yyyy}?latitude=${loc.lat}&longitude=${loc.lon}&method=1&school=${selectedFiqh}`);
-                window.lastApiResultTomorrow = await responseTomorrow.json();
-
+                // آن لائن لانے کی کوشش
+                const urlToday = `https://api.aladhan.com/v1/timings/${tsToday}?latitude=${loc.lat}&longitude=${loc.lon}&method=1&school=${selectedFiqh}`; const responseToday = await fetch(urlToday); window.lastApiResultToday = await responseToday.json();
+                let yesterday = new Date(); yesterday.setDate(yesterday.getDate() - 1); let yyyy = yesterday.getFullYear(); let mm = String(yesterday.getMonth() + 1).padStart(2, '0'); let dd = String(yesterday.getDate()).padStart(2, '0');
+                const responseYesterday = await fetch(`https://api.aladhan.com/v1/timings/${dd}-${mm}-${yyyy}?latitude=${loc.lat}&longitude=${loc.lon}&method=1&school=${selectedFiqh}`); const resultYesterday = await responseYesterday.json(); window.hijriBeforeMaghrib = resultYesterday.data.date.hijri;
+                let tomorrow = new Date(); tomorrow.setDate(tomorrow.getDate() + 1); let t_yyyy = tomorrow.getFullYear(); let t_mm = String(tomorrow.getMonth() + 1).padStart(2, '0'); let t_dd = String(tomorrow.getDate()).padStart(2, '0');
+                const responseTomorrow = await fetch(`https://api.aladhan.com/v1/timings/${t_dd}-${t_mm}-${t_yyyy}?latitude=${loc.lat}&longitude=${loc.lon}&method=1&school=${selectedFiqh}`); window.lastApiResultTomorrow = await responseTomorrow.json();
                 processApiData(window.lastApiResultToday, window.lastApiResultTomorrow);
-            } catch (error) {
-                console.log('Error:', error); 
-                document.getElementById('locationNameDisplay').innerText = "NETWORK ERROR";
+            } catch (error) { 
+                // اگر انٹرنیٹ بند ہے تو آف لائن دائمی تقویم (Offline Engine) خود آن ہو جائے گا
+                let today = new Date(); let tomorrow = new Date(); tomorrow.setDate(today.getDate() + 1); let yesterday = new Date(); yesterday.setDate(today.getDate() - 1);
+                window.lastApiResultToday = { data: generateOfflineData(today, loc.lat, loc.lon) };
+                window.lastApiResultTomorrow = { data: generateOfflineData(tomorrow, loc.lat, loc.lon) };
+                window.hijriBeforeMaghrib = generateOfflineData(yesterday, loc.lat, loc.lon).date.hijri;
+                processApiData(window.lastApiResultToday, window.lastApiResultTomorrow);
             }
         }
 
-        // UNIFIED GAP-LESS STATE ENGINE FOR COUNTDOWN & HEADER
+        // ہر 30 منٹ (1800000 ملی سیکنڈ) بعد موسم اپڈیٹ کریں
+        setInterval(fetchWeather, 1800000);
+
         function getCurrentWaqtState(nowTotalMins, p, tmrwData) {
             if (nowTotalMins >= p[0].startMins && nowTotalMins < p[0].endMins) return { index: 0, nextStart: p[0].endMins }; 
             if (nowTotalMins >= p[0].endMins && nowTotalMins < p[1].startMins) return { index: -1, nextStart: p[1].startMins }; 
@@ -1131,205 +818,84 @@
 
         function updateActivePrayerTracking() {
             if (!window.todayData) return;
-            let now = new Date();
-            let nowTotalMins = (now.getHours() * 60) + now.getMinutes();
-            let p = window.todayData.calc.s; 
-
-            let activeIndex = 0;
-            let isTomorrow = false;
-            
-            // 1. Center Clock Logic (Advances 5 mins after Jamaat)
-            if (nowTotalMins < p[0].expireMins) { activeIndex = 0; }
-            else if (nowTotalMins < p[1].expireMins) { activeIndex = 1; }
-            else if (nowTotalMins < p[2].expireMins) { activeIndex = 2; }
-            else if (nowTotalMins < p[3].expireMins) { activeIndex = 3; }
-            else if (nowTotalMins < p[4].expireMins) { activeIndex = 4; }
-            else { activeIndex = 0; isTomorrow = true; }
-
-            if (window.lastIsTomorrow !== isTomorrow) {
-                updateStaticDisplays(isTomorrow);
-                window.lastIsTomorrow = isTomorrow;
-            }
-
-            let dataToUse = isTomorrow ? window.tomorrowData : window.todayData;
+            let now = new Date(); let nowTotalMins = (now.getHours() * 60) + now.getMinutes(); let p = window.todayData.calc.s; 
+            let activeIndex = 0; let isTomorrow = false;
+            if (nowTotalMins < p[0].expireMins) { activeIndex = 0; } else if (nowTotalMins < p[1].expireMins) { activeIndex = 1; } else if (nowTotalMins < p[2].expireMins) { activeIndex = 2; } else if (nowTotalMins < p[3].expireMins) { activeIndex = 3; } else if (nowTotalMins < p[4].expireMins) { activeIndex = 4; } else { activeIndex = 0; isTomorrow = true; }
+            let dataToUse = isTomorrow ? window.tomorrowData : window.todayData; if(!dataToUse) return;
             let activePrayerCenter = dataToUse.calc.s[activeIndex];
-
             document.getElementById('currentPrayerName').innerHTML = `<span>${activePrayerCenter.en}</span> <span class="nastaleeq-text" style="color: var(--c-curr-pr); margin: 0;">${activePrayerCenter.ur}</span>`;
-            document.getElementById('currentAzanTime').innerText = activePrayerCenter.azan12;
-            document.getElementById('currentJamaatTime').innerText = activePrayerCenter.jamaat12;
+            document.getElementById('currentAzanTime').innerText = activePrayerCenter.azan12; document.getElementById('currentJamaatTime').innerText = activePrayerCenter.jamaat12;
 
-            // 2. Right Panel Header & Countdown Logic (Strictly Current Waqt, NO GAPS)
-            let state = getCurrentWaqtState(nowTotalMins, p, window.tomorrowData);
-            let currentWaqtPrayer = state.index === -1 ? p[1] : p[state.index];
-            
-            let displayEndStr = currentWaqtPrayer.end;
-            if (state.index === 4 && nowTotalMins >= p[4].startMins && window.tomorrowData) {
-                displayEndStr = t12(window.tomorrowData.timings.Fajr);
-            } else if (state.index === 4 && nowTotalMins < p[0].startMins) {
-                displayEndStr = p[0].start;
-            }
+            let state = getCurrentWaqtState(nowTotalMins, p, window.tomorrowData); let currentWaqtPrayer = state.index === -1 ? p[1] : p[state.index]; let displayEndStr = currentWaqtPrayer.end;
+            if (state.index === 4 && nowTotalMins >= p[4].startMins && window.tomorrowData) { displayEndStr = t12(window.tomorrowData.timings.Fajr); } else if (state.index === 4 && nowTotalMins < p[0].startMins) { displayEndStr = p[0].start; }
+            document.getElementById('rangePrayerName').innerText = currentWaqtPrayer.en; document.getElementById('rangeStart').innerText = currentWaqtPrayer.start; document.getElementById('rangeEnd').innerText = displayEndStr;
 
-            document.getElementById('rangePrayerName').innerText = currentWaqtPrayer.en;
-            document.getElementById('rangeStart').innerText = currentWaqtPrayer.start;
-            document.getElementById('rangeEnd').innerText = displayEndStr;
-
-            // Update Countdown seamlessly
             let cBox = document.getElementById('prayerCountdownBox');
             if (state.index !== -1 && state.nextStart !== null) {
-                let diff = state.nextStart - nowTotalMins;
-                if (diff < 0) diff = 0;
-                let h = Math.floor(diff / 60); let m = diff % 60;
-                let timeStr = (h > 0 ? h + "h " : "") + m + "m";
-                
-                document.getElementById('countdownUrduName').innerText = currentWaqtPrayer.ur + " کا باقی وقت";
-                document.getElementById('countdownEngName').innerText = currentWaqtPrayer.en + " TIME LEFT";
-                document.getElementById('prayerCountdownTime').innerText = timeStr;
-                cBox.style.display = "block";
-            } else { 
-                cBox.style.display = "none"; 
-            }
+                let diff = state.nextStart - nowTotalMins; if (diff < 0) diff = 0; let h = Math.floor(diff / 60); let m = diff % 60; let timeStr = (h > 0 ? h + "h " : "") + m + "m";
+                document.getElementById('countdownUrduName').innerText = currentWaqtPrayer.ur + " کا باقی وقت"; document.getElementById('countdownEngName').innerText = currentWaqtPrayer.en + " TIME LEFT"; document.getElementById('prayerCountdownTime').innerText = timeStr; cBox.style.display = "block";
+            } else { cBox.style.display = "none"; }
 
-            // 3. Notify Row Logic
-            let notifyRow = document.getElementById('jamaatNotifyRow');
-            let inAzanJamaatWindow = false; let minsLeft = 0; let notifyPrayer = null;
-            
-            for (let i = 0; i < dataToUse.calc.s.length; i++) {
-                let pr = dataToUse.calc.s[i];
-                if (pr.azanMins <= nowTotalMins && nowTotalMins < pr.jamaatMins) {
-                    inAzanJamaatWindow = true; minsLeft = pr.jamaatMins - nowTotalMins; notifyPrayer = pr; break;
-                }
-            }
-            if (inAzanJamaatWindow && minsLeft > 0 && notifyPrayer) {
-                notifyRow.style.display = 'flex';
-                document.getElementById('jamaatCountdown').innerText = minsLeft === 1 ? 'Jamaat in 1 min' : `Jamaat in ${minsLeft} min`;
-            } else { notifyRow.style.display = 'none'; }
+            let notifyRow = document.getElementById('jamaatNotifyRow'); let inAzanJamaatWindow = false; let minsLeft = 0; let notifyPrayer = null;
+            for (let i = 0; i < dataToUse.calc.s.length; i++) { let pr = dataToUse.calc.s[i]; if (pr.azanMins <= nowTotalMins && nowTotalMins < pr.jamaatMins) { inAzanJamaatWindow = true; minsLeft = pr.jamaatMins - nowTotalMins; notifyPrayer = pr; break; } }
+            if (inAzanJamaatWindow && minsLeft > 0 && notifyPrayer) { notifyRow.style.display = 'flex'; document.getElementById('jamaatCountdown').innerText = minsLeft === 1 ? 'Jamaat in 1 min' : `Jamaat in ${minsLeft} min`; } else { notifyRow.style.display = 'none'; }
 
-            // 4. Tomorrow Box Logic
             if (window.tomorrowData) {
-                let tmrwPrayer = window.tomorrowData.calc.s[activeIndex];
-                document.getElementById('tmrwPrayerNameEn').innerText = tmrwPrayer.en;
-                document.getElementById('tmrwPrayerNameUr').innerText = tmrwPrayer.ur;
-                document.getElementById('tmrwPrayerTime').innerText = tmrwPrayer.jamaat12;
-                if (tmrwPrayer.jamaat12 !== activePrayerCenter.jamaat12 || tmrwPrayer.en !== activePrayerCenter.en) {
-                    let alertMsg = `<span class="col-pr-en" style="font-family: 'Share Tech Mono', monospace;">TOMORROW ${tmrwPrayer.en} JAMAAT: ${tmrwPrayer.jamaat12}</span> &nbsp;&nbsp; | &nbsp;&nbsp; <span class="nastaleeq-text" style="color: var(--c-pr-en);">آئندہ کل ${tmrwPrayer.ur} کی جماعت ${tmrwPrayer.jamaat12} پر ہوگی</span>`;
-                    document.getElementById('scrollText').innerHTML = alertMsg;
-                } else { document.getElementById('scrollText').innerHTML = defaultScrollText; }
+                let tmrwPrayer = window.tomorrowData.calc.s[activeIndex]; document.getElementById('tmrwPrayerNameEn').innerText = tmrwPrayer.en; document.getElementById('tmrwPrayerNameUr').innerText = tmrwPrayer.ur; document.getElementById('tmrwPrayerTime').innerText = tmrwPrayer.jamaat12;
+                if (tmrwPrayer.jamaat12 !== activePrayerCenter.jamaat12 || tmrwPrayer.en !== activePrayerCenter.en) { let alertMsg = `<span class="col-pr-en" style="font-family: 'Share Tech Mono', monospace;">TOMORROW ${tmrwPrayer.en} JAMAAT: ${tmrwPrayer.jamaat12}</span> &nbsp;&nbsp; | &nbsp;&nbsp; <span class="nastaleeq-text" style="color: var(--c-pr-en);">آئندہ کل ${tmrwPrayer.ur} کی جماعت ${tmrwPrayer.jamaat12} پر ہوگی</span>`; document.getElementById('scrollText').innerHTML = alertMsg; } else { document.getElementById('scrollText').innerHTML = defaultScrollText; }
             }
         }
 
         function checkAndBeep(nowTotalMins, finalHijri) {
-            let current12 = formatMinsTo12(nowTotalMins);
-            if (lastBeepTime === current12) return; 
-
-            let shouldBeep = false;
-            let dataToUse = window.todayData; 
-            
-            if (dataToUse && dataToUse.calc.s.length) {
-                dataToUse.calc.s.forEach(p => {
-                    if (p.azanMins === nowTotalMins || p.jamaatMins === nowTotalMins) shouldBeep = true;
-                });
-            }
-            if (window.sunriseMins === nowTotalMins) shouldBeep = true;
-            if (window.sunriseMins + currentConfig.general.chashtOffset === nowTotalMins) shouldBeep = true;
-            
-            let isEidDay = false;
-            if (finalHijri) {
-                let m = parseInt(finalHijri.month.number);
-                let d = parseInt(finalHijri.day);
-                if ((m === 10 && d === 1) || (m === 12 && d === 10)) {
-                    isEidDay = true;
-                }
-            }
-
-            if (isEidDay) {
-                let [eH, eM] = currentConfig.general.eidTime.split(':');
-                let eidMins = parseInt(eH)*60 + parseInt(eM);
-                if (eidMins === nowTotalMins) shouldBeep = true;
-            }
-
-            if (shouldBeep) {
-                playBeep();
-                lastBeepTime = current12;
-            }
+            let current12 = formatMinsTo12(nowTotalMins); if (lastBeepTime === current12) return; let shouldBeep = false; let dataToUse = window.todayData; 
+            if (dataToUse && dataToUse.calc.s.length) { dataToUse.calc.s.forEach(p => { if (p.azanMins === nowTotalMins || p.jamaatMins === nowTotalMins) shouldBeep = true; }); }
+            if (window.sunriseMins === nowTotalMins) shouldBeep = true; if (window.sunriseMins + parseInt(currentConfig.general.chashtOffset || 15) === nowTotalMins) shouldBeep = true;
+            let isEidDay = false; if (finalHijri) { let m = parseInt(finalHijri.month.number); let d = parseInt(finalHijri.day); if ((m === 10 && d === 1) || (m === 12 && d === 10)) { isEidDay = true; } }
+            if (isEidDay) { let [eH, eM] = currentConfig.general.eidTime.split(':'); let eidMins = parseInt(eH)*60 + parseInt(eM); if (eidMins === nowTotalMins) shouldBeep = true; }
+            if (shouldBeep) { playBeep(); lastBeepTime = current12; }
         }
 
         function updateLiveClock() {
             try {
-                const now = new Date();
-                let todayStr = now.toDateString();
-                if (window.currentGregorianDateStr !== "" && window.currentGregorianDateStr !== todayStr) {
-                    window.currentGregorianDateStr = todayStr; fetchDailyTimes(); 
-                } else if (window.currentGregorianDateStr === "") { window.currentGregorianDateStr = todayStr; }
-
-                let hours = now.getHours(); let minutes = now.getMinutes(); let seconds = now.getSeconds();
-                let nowTotalMins = (hours * 60) + minutes;
-
-                const daysEn = ["SUNDAY", "MONDAY", "TUESDAY", "WEDNESDAY", "THURSDAY", "FRIDAY", "SATURDAY"];
-                const daysUr = ["اتوار", "پیر", "منگل", "بدھ", "جمعرات", "جمعہ", "ہفتہ"];
-                document.getElementById('dayName').innerHTML = daysEn[now.getDay()] + " | <span style=\"font-family: 'Amiri', serif; font-size: 1.4em;\">" + daysUr[now.getDay()] + "</span>";
-                
-                let displayHours = hours % 12 || 12; 
-                document.getElementById('hoursMins').innerText = displayHours + ':' + (minutes < 10 ? '0' + minutes : minutes);
-                document.getElementById('seconds').innerText = seconds < 10 ? '0' + seconds : seconds;
-
-                let finalHijri = null;
-                if (window.hijriBeforeMaghrib && window.hijriAfterMaghrib && window.maghribMins > 0) {
-                    let activeHijri = (nowTotalMins >= window.maghribMins) ? window.hijriAfterMaghrib : window.hijriBeforeMaghrib;
-                    finalHijri = getAdjustedHijri(activeHijri, parseInt(currentConfig.general.hijriOffset || 0));
-                    document.getElementById('hijriDate').innerText = finalHijri.day + '-' + String(finalHijri.month.number).padStart(2, '0') + '-' + finalHijri.year + ' ' + finalHijri.month.ar;
-                }
-
-                let isEidDay = false;
-                if (finalHijri) {
-                    let m = parseInt(finalHijri.month.number);
-                    let d = parseInt(finalHijri.day);
-                    if ((m === 10 && d === 1) || (m === 12 && d === 10)) {
-                        isEidDay = true;
-                    }
-                }
-                document.getElementById('eidJamaat').innerText = isEidDay ? currentConfig.general.eidTime : "--:--";
-                
+                const now = new Date(); let todayStr = now.toDateString();
+                if (window.currentGregorianDateStr !== "" && window.currentGregorianDateStr !== todayStr) { window.currentGregorianDateStr = todayStr; fetchDailyTimes(); } else if (window.currentGregorianDateStr === "") { window.currentGregorianDateStr = todayStr; }
+                let hours = now.getHours(); let minutes = now.getMinutes(); let seconds = now.getSeconds(); let nowTotalMins = (hours * 60) + minutes;
+                const daysEn = ["SUNDAY", "MONDAY", "TUESDAY", "WEDNESDAY", "THURSDAY", "FRIDAY", "SATURDAY"]; const daysUr = ["اتوار", "پیر", "منگل", "بدھ", "جمعرات", "جمعہ", "ہفتہ"]; document.getElementById('dayName').innerHTML = daysEn[now.getDay()] + " | <span style=\"font-family: 'Amiri', serif; font-size: 1.4em;\">" + daysUr[now.getDay()] + "</span>";
+                let displayHours = hours % 12 || 12; document.getElementById('hoursMins').innerText = displayHours + ':' + (minutes < 10 ? '0' + minutes : minutes); document.getElementById('seconds').innerText = seconds < 10 ? '0' + seconds : seconds;
+                let finalHijri = null; if (window.hijriBeforeMaghrib && window.hijriAfterMaghrib && window.maghribMins > 0) { let activeHijri = (nowTotalMins >= window.maghribMins) ? window.hijriAfterMaghrib : window.hijriBeforeMaghrib; finalHijri = getAdjustedHijri(activeHijri, parseInt(currentConfig.general.hijriOffset || 0)); document.getElementById('hijriDate').innerText = finalHijri.day + '-' + String(finalHijri.month.number).padStart(2, '0') + '-' + finalHijri.year + ' ' + finalHijri.month.ar; }
+                let isEidDay = false; if (finalHijri) { let m = parseInt(finalHijri.month.number); let d = parseInt(finalHijri.day); if ((m === 10 && d === 1) || (m === 12 && d === 10)) { isEidDay = true; } } document.getElementById('eidJamaat').innerText = isEidDay ? currentConfig.general.eidTime : "--:--";
                 checkAndBeep(nowTotalMins, finalHijri);
+                let isMakrooh = false; let alertUrdu = ""; let alertEng = ""; let chashtMins = window.sunriseMins + parseInt(currentConfig.general.chashtOffset || 15);
+                if (window.sunriseMins && nowTotalMins >= window.sunriseMins && nowTotalMins < chashtMins) { isMakrooh = true; alertUrdu = "مکروہ وقت شروع ہو گیا ہے"; alertEng = "MAKROOH TIME STARTED"; } else if (window.zawalMins && nowTotalMins >= (window.zawalMins - 5) && nowTotalMins < window.zawalMins) { isMakrooh = true; alertUrdu = "زوال کا وقت شروع ہو گیا ہے"; alertEng = "ZAWAL TIME STARTED"; }
+                let alertDivLeft = document.getElementById('makroohAlertMsgLeft'); let leftBottomBox = document.getElementById('leftBottomBox');
+                if (isMakrooh) { document.getElementById('makroohUrdu').innerText = alertUrdu; document.getElementById('makroohEng').innerText = alertEng; alertDivLeft.style.display = "flex"; leftBottomBox.style.marginTop = "0"; } else { alertDivLeft.style.display = "none"; leftBottomBox.style.marginTop = "auto"; }
 
-                let isMakrooh = false; 
-                let alertUrdu = ""; 
-                let alertEng = ""; 
-                let chashtMins = window.sunriseMins + currentConfig.general.chashtOffset;
-                
-                if (window.sunriseMins && nowTotalMins >= window.sunriseMins && nowTotalMins < chashtMins) {
-                    isMakrooh = true; 
-                    alertUrdu = "مکروہ وقت شروع ہو گیا ہے"; 
-                    alertEng = "MAKROOH TIME STARTED";
-                } else if (window.zawalMins && nowTotalMins >= (window.zawalMins - 5) && nowTotalMins < window.zawalMins) {
-                    isMakrooh = true; 
-                    alertUrdu = "زوال کا وقت شروع ہو گیا ہے"; 
-                    alertEng = "ZAWAL TIME STARTED";
-                }
+                updateStaticDisplays(nowTotalMins); updatePrayerTableTimes(nowTotalMins); updateActivePrayerTracking();
 
-                let alertDivLeft = document.getElementById('makroohAlertMsgLeft');
-                let leftBottomBox = document.getElementById('leftBottomBox');
-                
-                if (isMakrooh) { 
-                    document.getElementById('makroohUrdu').innerText = alertUrdu;
-                    document.getElementById('makroohEng').innerText = alertEng;
-                    alertDivLeft.style.display = "flex"; 
-                    leftBottomBox.style.marginTop = "0"; 
-                } else { 
-                    alertDivLeft.style.display = "none"; 
-                    leftBottomBox.style.marginTop = "auto";
-                }
+                try {
+                    if (window.AndroidWidget) {
+                        let widgetData = {
+                            fA: document.getElementById('fajrAzan').innerText, fJ: document.getElementById('fajrJamaat').innerText,
+                            dA: document.getElementById('zuharAzan').innerText, dJ: document.getElementById('zuharJamaat').innerText,
+                            aA: document.getElementById('asrAzan').innerText, aJ: document.getElementById('asrJamaat').innerText,
+                            mA: document.getElementById('magribAzan').innerText, mJ: document.getElementById('magribJamaat').innerText,
+                            iA: document.getElementById('ishaAzan').innerText, iJ: document.getElementById('ishaJamaat').innerText,
+                            jA: document.getElementById('jumuahAzan').innerText, jJ: document.getElementById('jumuahJamaat').innerText,
+                            currName: document.getElementById('currentPrayerName').innerText.replace(/\n/g, ' '),
+                            dateG: document.getElementById('gregorianDate').innerText, dateH: document.getElementById('hijriDate').innerText,
+                            currAzan: document.getElementById('currentAzanTime').innerText,
+                            currJamaat: document.getElementById('currentJamaatTime').innerText,
+                            temp: document.getElementById('tempDisplay').innerText,
+                            loc: document.getElementById('locationNameDisplay').innerText
+                        };
+                        window.AndroidWidget.saveData(JSON.stringify(widgetData));
+                    }
+                } catch(e) {}
 
-                updatePrayerTableTimes(nowTotalMins);
-                updateActivePrayerTracking();
-            } catch (e) { console.log(e); }
+            } catch (e) {}
         }
 
-        window.onload = function() {
-            initSettingsForm();
-            fetchDailyTimes(); 
-            setInterval(updateLiveClock, 1000);
-            requestWakeLock();
-        };
+        window.onload = function() { initSettingsForm(); fetchDailyTimes(); setInterval(updateLiveClock, 1000); requestWakeLock(); };
     </script>
 </body>
 </html>
