@@ -2,7 +2,7 @@
 <html lang="ur" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>ڈیجیٹل مسجد ڈسپلے بورڈ (Professional TV Layout)</title>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Share+Tech+Mono&family=Amiri:wght@700&display=swap" rel="stylesheet">
     
@@ -48,7 +48,12 @@
         .active-times-box { font-family: 'Orbitron', sans-serif; font-size: min(6vw, 9vh); display: flex; justify-content: center; align-items: center; gap: 4vw; } .time-group { display: flex; flex-direction: column; align-items: center; gap: 2px; } .time-label-small { font-size: min(1.5vw, 2.2vh); color: rgba(255,255,255,0.7); letter-spacing: 2px; font-family: 'Share Tech Mono', monospace;}
         .bottom-info { display: flex; flex-direction: column; justify-content: flex-end; align-items: center; gap: 1vh; width: 100%; } .jamaat-notify-row { display: flex; align-items: center; justify-content: center; gap: 0.8vw; } .jamaat-icon { font-size: min(2vw, 3vh); opacity: 0.95; } .jamaat-countdown { font-family: 'Orbitron', monospace; font-size: min(1.8vw, 2.6vh); font-weight: 700; letter-spacing: 1px; } .location-temp-row { display: flex; justify-content: space-between; align-items: center; width: 100%; padding: 0 5%; font-size: min(1.5vw, 2.2vh); color: rgba(255,255,255,0.6); }
         .prayer-header { display: flex; justify-content: space-between; align-items: center; padding: 1vh 1vw; border: none; border-bottom: 1px solid #1a1a1a; margin-bottom: 0.5vh;} .prayer-header-side { display: flex; flex-direction: column; align-items: center; color: rgba(255,255,255,0.7); gap: 2px;} .prayer-header-side span:first-child { font-size: min(1vw, 1.5vh); letter-spacing: 1px;} .prayer-header-side span:last-child { font-size: min(2vw, 3vh); font-family: 'Orbitron', sans-serif;} .prayer-header h2 { margin: 0; font-size: min(2.5vw, 4vh); letter-spacing: 2px; }
-        .prayer-table { width: 100%; border-collapse: collapse; table-layout: fixed; } .prayer-table th { font-size: min(1.2vw, 1.8vh); padding: 1vh 0; border-bottom: 1px solid #1a1a1a; letter-spacing: 1px; color: rgba(255,255,255,0.6); font-weight: normal;} .prayer-table td { padding: 1vh 0; vertical-align: middle; white-space: nowrap; }
+        
+        /* -- YAHAN CSS CHANGE KI GAYI HAI -- */
+        .prayer-table { width: 100%; border-collapse: collapse; table-layout: fixed; } 
+        .prayer-table th { font-size: min(1.2vw, 1.8vh); padding: 0.5vh 0; border-bottom: 1px solid #1a1a1a; letter-spacing: 1px; color: rgba(255,255,255,0.6); font-weight: normal;} 
+        .prayer-table td { padding: 0.5vh 0; vertical-align: middle; white-space: nowrap; }
+        
         .prayer-table th:nth-child(1), .prayer-table td:nth-child(1) { text-align: left; width: 18%; } .prayer-table th:nth-child(2), .prayer-table td:nth-child(2) { text-align: center; width: 32%; } .prayer-table th:nth-child(3), .prayer-table td:nth-child(3) { text-align: center; width: 32%; } .prayer-table th:nth-child(4), .prayer-table td:nth-child(4) { text-align: right; width: 18%; }
         .prayer-table .shared-time { font-weight: 500; font-size: min(1.9vw, 2.8vh); letter-spacing: 0px; }
         #fajrAzan { color: var(--c-azan-fajr) !important; } #fajrJamaat { color: var(--c-jamaat-fajr) !important; }
@@ -57,7 +62,11 @@
         #magribAzan { color: var(--c-azan-maghrib) !important; } #magribJamaat { color: var(--c-jamaat-maghrib) !important; }
         #ishaAzan { color: var(--c-azan-isha) !important; } #ishaJamaat { color: var(--c-jamaat-isha) !important; }
         #jumuahAzan { color: var(--c-azan-jumuah) !important; } #jumuahJamaat { color: var(--c-jamaat-jumuah) !important; }
-        .tomorrow-box { text-align: center; display: flex; flex-direction: column; align-items: center; gap: 0.5vh; border: none; border-top: 1px solid #1a1a1a; padding-top: 1.5vh; }
+        
+        /* -- YAHAN CSS CHANGE KI GAYI HAI -- */
+        .tomorrow-box { text-align: center; display: flex; flex-direction: column; align-items: center; gap: 0.5vh; border: none; border-top: 1px solid #1a1a1a; padding-top: 1vh; margin-top: 0.5vh;}
+        #prayerCountdownBox { padding-top: 1vh; }
+
         .footer-wrapper { width: 100%; margin-top: 1.5vh; flex-shrink: 0; margin-bottom: 0.5vh;} .footer-scroll { background: var(--c-panel); width: 100%; padding: 0.8vh 1.5vw; border: 1px solid #1a1a1a; border-radius: 6px; overflow: hidden; white-space: nowrap; position: relative; }
         .scroll-text { display: inline-block; font-size: min(2vw, 3.2vh); font-weight: 700; letter-spacing: 1px; animation: moveLeft 25s linear infinite; } @keyframes moveLeft { 0% { transform: translateX(100%); } 100% { transform: translateX(-100%); } } .static-scroll { animation: none !important; display: block !important; text-align: center; width: 100%; transform: none !important; white-space: normal !important; overflow: hidden;}
         @keyframes pulsePulse { 0% { opacity: 1; } 50% { opacity: 0.4; } 100% { opacity: 1; } }
@@ -253,7 +262,7 @@
                 </table>
             </div>
 
-            <div id="prayerCountdownBox" style="display: none; text-align: center; padding-top: 1.5vh; border-top: 1px solid #1a1a1a; margin-top: auto;">
+            <div id="prayerCountdownBox" style="display: none; text-align: center; border-top: 1px solid #1a1a1a; margin-top: auto;">
                 <div style="font-size: min(1.5vw, 2.2vh); display: flex; justify-content: center; align-items: center; gap: 0.5vw; flex-wrap: wrap;">
                     <span class="nastaleeq-text" id="countdownUrduName" style="color: var(--c-pr-ur);">-- کا باقی وقت</span>
                     <span style="color: #666;">/</span>
@@ -264,7 +273,7 @@
                 </div>
             </div>
 
-            <div class="panel-box tomorrow-box" style="margin-top: 1vh;">
+            <div class="panel-box tomorrow-box">
                 <div class="color-tomorrow" style="font-size: min(1.3vw, 2vh); font-weight: bold;">TOMORROW'S <span id="tmrwPrayerNameEn">--</span> | کل <span id="tmrwPrayerNameUr" class="nastaleeq-text">--</span></div>
                 <div class="color-tomorrow" style="font-family: 'Orbitron', sans-serif; font-size: min(3.5vw, 5vh); letter-spacing: 2px;" id="tmrwPrayerTime">--:--</div>
             </div>
