@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>ڈیجیٹل مسجد ڈسپلے بورڈ (Professional TV Layout)</title>
+    <title>ڈیجیٹل مسجد ڈسپلے بورڈ (Mobile Version)</title>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Share+Tech+Mono&family=Amiri:wght@700&display=swap" rel="stylesheet">
     
     <style>
@@ -37,7 +37,7 @@
         .col-jamaat { color: var(--c-jamaat); text-shadow: none; font-variant-numeric: tabular-nums; } .col-scroll { color: var(--c-scroll); text-shadow: none; }
         .color-tomorrow { color: var(--c-tomorrow) !important; }
         .col-left, .col-center, .col-right { background-color: var(--c-panel); border: 1px solid #1a1a1a; border-radius: 8px; display: flex; flex-direction: column; overflow: hidden; }
-        .col-left, .col-right { padding: 1vh 1.5vw; justify-content: space-between; gap: 0.5vh; } .col-center { padding: 2vh 2vw; justify-content: space-between; align-items: center; }
+        .col-left, .col-right { padding: 1.5vh 1.5vw; justify-content: space-between; gap: 1vh; } .col-center { padding: 2vh 2vw; justify-content: space-between; align-items: center; }
         .panel-box { background-color: transparent; border: 1px solid #1a1a1a; border-radius: 6px; padding: 1vh 1vw; width: 100%; }
         .shared-en-name { font-size: min(1.8vw, 2.5vh); letter-spacing: 1px; font-weight: 700; } .shared-time { font-size: min(2.2vw, 3.2vh); letter-spacing: 1px; font-weight: 700; font-family: 'Orbitron', sans-serif;}
         .shared-ur-name { font-size: var(--ur-size); }
@@ -51,11 +51,12 @@
         .active-times-box { font-family: 'Orbitron', sans-serif; font-size: min(6vw, 9vh); display: flex; justify-content: center; align-items: center; gap: 4vw; } .time-group { display: flex; flex-direction: column; align-items: center; gap: 2px; } .time-label-small { font-size: min(1.5vw, 2.2vh); letter-spacing: 2px; font-family: 'Share Tech Mono', monospace;}
         .bottom-info { display: flex; flex-direction: column; justify-content: flex-end; align-items: center; gap: 1vh; width: 100%; } .jamaat-notify-row { display: flex; align-items: center; justify-content: center; gap: 0.8vw; } .jamaat-icon { font-size: min(2vw, 3vh); opacity: 0.95; } .jamaat-countdown { font-family: 'Orbitron', monospace; font-size: min(1.8vw, 2.6vh); font-weight: 700; letter-spacing: 1px; } .location-temp-row { display: flex; justify-content: space-between; align-items: center; width: 100%; padding: 0 5%; font-size: min(1.5vw, 2.2vh); color: rgba(255,255,255,0.6); }
         
-        .prayer-header { display: flex; justify-content: space-between; align-items: center; padding: 0.5vh 1vw; border: none; border-bottom: 1px solid #1a1a1a; margin-bottom: 0;} .prayer-header-side { display: flex; flex-direction: column; align-items: center; gap: 2px;} .prayer-header-side span:first-child { font-size: min(1vw, 1.5vh); letter-spacing: 1px;} .prayer-header-side span:last-child { font-size: min(2vw, 3vh); font-family: 'Orbitron', sans-serif;} .prayer-header h2 { margin: 0; font-size: min(2.5vw, 4vh); letter-spacing: 2px; }
+        /* پرفیکٹ موبائل اسپیسنگ - رائٹ پینل */
+        .prayer-header { display: flex; justify-content: space-between; align-items: center; padding: 1vh 1vw; border: none; border-bottom: 1px solid #1a1a1a; margin-bottom: 0.5vh;} .prayer-header-side { display: flex; flex-direction: column; align-items: center; gap: 2px;} .prayer-header-side span:first-child { font-size: min(1vw, 1.5vh); letter-spacing: 1px;} .prayer-header-side span:last-child { font-size: min(2vw, 3vh); font-family: 'Orbitron', sans-serif;} .prayer-header h2 { margin: 0; font-size: min(2.5vw, 4vh); letter-spacing: 2px; }
         
         .prayer-table { width: 100%; border-collapse: collapse; table-layout: fixed; margin-bottom: 0;} 
-        .prayer-table th { font-size: min(1.2vw, 1.8vh); padding: 0.3vh 0; border-bottom: 1px solid #1a1a1a; letter-spacing: 1px; font-weight: normal;} 
-        .prayer-table td { padding: 0.3vh 0; vertical-align: middle; white-space: nowrap; }
+        .prayer-table th { font-size: min(1.2vw, 1.8vh); padding: 0.5vh 0; border-bottom: 1px solid #1a1a1a; letter-spacing: 1px; font-weight: normal;} 
+        .prayer-table td { padding: 0.5vh 0; vertical-align: middle; white-space: nowrap; }
         
         .prayer-table th:nth-child(1), .prayer-table td:nth-child(1) { text-align: left; width: 18%; } .prayer-table th:nth-child(2), .prayer-table td:nth-child(2) { text-align: center; width: 32%; } .prayer-table th:nth-child(3), .prayer-table td:nth-child(3) { text-align: center; width: 32%; } .prayer-table th:nth-child(4), .prayer-table td:nth-child(4) { text-align: right; width: 18%; }
         .prayer-table .shared-time { font-weight: 500; font-size: min(1.9vw, 2.8vh); letter-spacing: 0px; }
@@ -66,10 +67,10 @@
         #ishaAzan { color: var(--c-azan-isha) !important; } #ishaJamaat { color: var(--c-jamaat-isha) !important; }
         #jumuahAzan { color: var(--c-azan-jumuah) !important; } #jumuahJamaat { color: var(--c-jamaat-jumuah) !important; }
         
-        .tomorrow-box { text-align: center; display: flex; flex-direction: column; align-items: center; gap: 0.5vh; border: none; border-top: 1px solid #1a1a1a; padding-top: 0.5vh; margin-top: 0.5vh;}
-        #prayerCountdownBox { padding-top: 0.5vh; margin-top: 0.5vh;}
+        #prayerCountdownBox { border-top: 1px solid #1a1a1a; margin-top: 1vh; padding-top: 1vh; display: none; text-align: center; }
+        .tomorrow-box { border-top: 1px solid #1a1a1a; margin-top: 1vh; padding-top: 1vh; text-align: center; display: flex; flex-direction: column; align-items: center; gap: 0.5vh; }
 
-        .footer-wrapper { width: 100%; margin-top: 1vh; flex-shrink: 0; margin-bottom: 0.5vh;} .footer-scroll { background: var(--c-panel); width: 100%; padding: 0.8vh 1.5vw; border: 1px solid #1a1a1a; border-radius: 6px; overflow: hidden; white-space: nowrap; position: relative; }
+        .footer-wrapper { width: 100%; margin-top: 1.5vh; flex-shrink: 0; margin-bottom: 0.5vh;} .footer-scroll { background: var(--c-panel); width: 100%; padding: 0.8vh 1.5vw; border: 1px solid #1a1a1a; border-radius: 6px; overflow: hidden; white-space: nowrap; position: relative; }
         .scroll-text { display: inline-block; font-size: min(2vw, 3.2vh); font-weight: 700; letter-spacing: 1px; animation: moveLeft 25s linear infinite; } @keyframes moveLeft { 0% { transform: translateX(100%); } 100% { transform: translateX(-100%); } } .static-scroll { animation: none !important; display: block !important; text-align: center; width: 100%; transform: none !important; white-space: normal !important; overflow: hidden;}
         @keyframes pulsePulse { 0% { opacity: 1; } 50% { opacity: 0.4; } 100% { opacity: 1; } }
         .top-buttons { position: fixed; top: 10px; right: 5px; display: flex; gap: 10px; z-index: 9999; } .settings-btn { background: transparent; color: #555; border: none; cursor: pointer; font-size: min(2vw, 24px); opacity: 0.4; transition: 0.3s; padding: 5px; border-radius: 5px;} .settings-btn:hover, .settings-btn:focus { opacity: 1; color: var(--c-headers); text-shadow: none; }
@@ -92,6 +93,7 @@
         body:not([data-mode="all"]) .col-left, body:not([data-mode="all"]) .col-center, body:not([data-mode="all"]) .col-right { background: transparent; border: none; height: 100%; width: 100%; padding: 5%; }
         @media (orientation: landscape) { body:not([data-mode="all"]) .led-board { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%) rotate(var(--rot)); width: 100vh; height: 100vw; padding: 4vh; } }
         @media (orientation: portrait) { body:not([data-mode="all"]) .led-board { width: 100%; height: 100vh; padding: 4vw; } }
+
     </style>
     <script>
         function PrayTimes(method){var defParams={karachi:{fajr:18,isha:18},mwl:{fajr:18,isha:17},isna:{fajr:15,isha:15},egypt:{fajr:19.5,isha:17.5},makkah:{fajr:18.5,isha:"90 min"},tehran:{fajr:17.7,isha:14,maghrib:4.5,midnight:"Jafari"},jafari:{fajr:16,isha:14,maghrib:4,midnight:"Jafari"}},calcMethod="karachi",setting={juristic:"Standard",highLats:"NightMiddle",adjustHighLats:!0,timeFormat:"24h",offset:{}},timeNames={fajr:"Fajr",sunrise:"Sunrise",dhuhr:"Dhuhr",asr:"Asr",sunset:"Sunset",maghrib:"Maghrib",isha:"Isha",midnight:"Midnight"},methods=defParams;this.setMethod=function(m){methods[m]&&(calcMethod=m,setting=Object.assign(setting,methods[m]))};this.adjust=function(p){for(var i in p)setting[i]=p[i]};this.getTimes=function(date,coords,timezone,dst){var lat=coords[0],lng=coords[1],elv=coords[2]?coords[2]:0,tz=timezone+(dst?1:0),d=computeDay(date),times=computeTimes(d,lat,lng,elv,tz);return adjustTimes(times,lat,elv,tz)};var computeDay=function(d){var y=d.getFullYear(),m=d.getMonth()+1,day=d.getDate();m<=2&&(y-=1,m+=12);var a=Math.floor(y/100),b=2-a+Math.floor(a/4);return Math.floor(365.25*(y+4716))+Math.floor(30.6001*(m+1))+day+b-1524.5},computeTimes=function(d,lat,lng,elv,tz){var jDate=d-lng/360,eqT=equationOfTime(jDate),decl=sunDeclination(jDate),midDay=12-eqT,times={dhuhr:midDay,fajr:midDay-timeDiff(setting.fajr,decl,lat)/15,sunrise:midDay-timeDiff(0.833+0.0347*Math.sqrt(elv),decl,lat)/15,asr:midDay+asrTime(setting.juristic,decl,lat)/15,sunset:midDay+timeDiff(0.833+0.0347*Math.sqrt(elv),decl,lat)/15,maghrib:midDay+timeDiff(setting.maghrib?setting.maghrib:0.833,decl,lat)/15,isha:midDay+timeDiff(setting.isha?setting.isha:18,decl,lat)/15};return times},adjustTimes=function(times,lat,elv,tz){var res={};for(var i in times)res[i]=formatTime(times[i]+tz);return res},formatTime=function(t){if(isNaN(t))return"--:--";var h=Math.floor(t),m=Math.floor(60*(t-h));return(h<10?"0":"")+h+":"+(m<10?"0":"")+m},equationOfTime=function(d){var u=fixAngle(280.46061837+360.98564736629*d);return 2.2918*Math.sin(deg2rad(2*u))-4.815*Math.sin(deg2rad(u))},sunDeclination=function(d){var u=fixAngle(280.46061837+360.98564736629*d),v=u+1.914666471*Math.sin(deg2rad(u))+0.019994643*Math.sin(deg2rad(2*u));return rad2deg(Math.asin(0.39782*Math.sin(deg2rad(v))))},timeDiff=function(angle,decl,lat){var calc=-Math.sin(deg2rad(angle))-Math.sin(deg2rad(decl))*Math.sin(deg2rad(lat));calc/=Math.cos(deg2rad(decl))*Math.cos(deg2rad(lat));return rad2deg(Math.acos(calc))},asrTime=function(factor,decl,lat){var calc=Math.sin(Math.atan(1/(factor=="Hanafi"?2:1+Math.tan(Math.abs(deg2rad(lat)-deg2rad(decl))))));return rad2deg(Math.acos((calc-Math.sin(deg2rad(decl))*Math.sin(deg2rad(lat)))/(Math.cos(deg2rad(decl))*Math.cos(deg2rad(lat)))))},deg2rad=function(d){return d*Math.PI/180},rad2deg=function(r){return r*180/Math.PI},fixAngle=function(a){return a-360*Math.floor(a/360)};this.setMethod(calcMethod);}
@@ -264,7 +266,7 @@
                 </table>
             </div>
 
-            <div id="prayerCountdownBox" style="display: none; text-align: center; border-top: 1px solid #1a1a1a; margin-top: auto;">
+            <div id="prayerCountdownBox">
                 <div style="font-size: min(1.5vw, 2.2vh); display: flex; justify-content: center; align-items: center; gap: 0.5vw; flex-wrap: wrap;">
                     <span class="nastaleeq-text" id="countdownUrduName" style="color: var(--c-pr-ur);">-- کا باقی وقت</span>
                     <span style="color: #666;">/</span>
@@ -558,7 +560,7 @@
             }
         };
 
-        let currentConfig = JSON.parse(localStorage.getItem("masjidConfig_v16"));
+        let currentConfig = JSON.parse(localStorage.getItem("masjidConfig_mobile"));
         if (!currentConfig) { currentConfig = JSON.parse(JSON.stringify(defaultConfig)); }
         currentConfig.general = { ...defaultConfig.general, ...(currentConfig.general || {}) };
         currentConfig.location = { ...defaultConfig.location, ...(currentConfig.location || {}) };
@@ -620,7 +622,6 @@
             document.getElementById("c_azan_fajr").value = ac.azanFajr || ac.azan; document.getElementById("c_jamaat_fajr").value = ac.jamaatFajr || ac.jamaat; document.getElementById("c_azan_dhuhr").value = ac.azanDhuhr || ac.azan; document.getElementById("c_jamaat_dhuhr").value = ac.jamaatDhuhr || ac.jamaat; document.getElementById("c_azan_asr").value = ac.azanAsr || ac.azan; document.getElementById("c_jamaat_asr").value = ac.jamaatAsr || ac.jamaat; document.getElementById("c_azan_maghrib").value = ac.azanMaghrib || ac.azan; document.getElementById("c_jamaat_maghrib").value = ac.jamaatMaghrib || ac.jamaat; document.getElementById("c_azan_isha").value = ac.azanIsha || ac.azan; document.getElementById("c_jamaat_isha").value = ac.jamaatIsha || ac.jamaat; document.getElementById("c_azan_jumuah").value = ac.azanJumuah || ac.azanDhuhr || ac.azan; document.getElementById("c_jamaat_jumuah").value = ac.jamaatJumuah || ac.jamaatDhuhr || ac.jamaat;
             document.getElementById("c_date_g").value = ac.dateG; document.getElementById("c_date_h").value = ac.dateH; document.getElementById("c_curr_pr").value = ac.currPr; document.getElementById("c_scroll").value = ac.scroll; document.getElementById("c_calligraphy").value = ac.calligraphy || "#22ff44"; 
             
-            // تمام نئے اور پرانے خانے
             document.getElementById("c_sahr_name").value = ac.sahrName || "#ff5555"; document.getElementById("c_sahr_time").value = ac.sahrTime || ac.sahrName || "#ff5555"; document.getElementById("c_iftar_name").value = ac.iftarName || "#ff5555"; document.getElementById("c_iftar_time").value = ac.iftarTime || ac.iftarName || "#ff5555"; 
             document.getElementById("c_tzg_name").value = ac.tzgName || "#ffdd00"; document.getElementById("c_tzg_time").value = ac.tzgTime || ac.tzgName || "#ffdd00"; document.getElementById("c_ec_name").value = ac.ecName || "#00ddff"; document.getElementById("c_ec_time").value = ac.ecTime || ac.ecName || "#00ddff"; document.getElementById("c_tomorrow").value = ac.tomorrow || "#ffdd00"; 
             
@@ -692,7 +693,7 @@
                 sahrTop: document.getElementById("c_sahr_top").value, iftarTop: document.getElementById("c_iftar_top").value, rangeName: document.getElementById("c_range_name").value, rangeTimes: document.getElementById("c_range_times").value, lblAzan: document.getElementById("c_lbl_azan").value, lblJamaat: document.getElementById("c_lbl_jamaat").value
             };
 
-            localStorage.setItem("masjidConfig_v16", JSON.stringify(currentConfig));
+            localStorage.setItem("masjidConfig_mobile", JSON.stringify(currentConfig));
             applyColorsToBoard(); closeSettings(); fetchDailyTimes(); 
         }
 
