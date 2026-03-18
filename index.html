@@ -51,7 +51,6 @@
         .active-times-box { font-family: 'Orbitron', sans-serif; font-size: min(6vw, 9vh); display: flex; justify-content: center; align-items: center; gap: 4vw; } .time-group { display: flex; flex-direction: column; align-items: center; gap: 2px; } .time-label-small { font-size: min(1.5vw, 2.2vh); letter-spacing: 2px; font-family: 'Share Tech Mono', monospace;}
         .bottom-info { display: flex; flex-direction: column; justify-content: flex-end; align-items: center; gap: 1vh; width: 100%; } .jamaat-notify-row { display: flex; align-items: center; justify-content: center; gap: 0.8vw; } .jamaat-icon { font-size: min(2vw, 3vh); opacity: 0.95; } .jamaat-countdown { font-family: 'Orbitron', monospace; font-size: min(1.8vw, 2.6vh); font-weight: 700; letter-spacing: 1px; } .location-temp-row { display: flex; justify-content: space-between; align-items: center; width: 100%; padding: 0 5%; font-size: min(1.5vw, 2.2vh); color: rgba(255,255,255,0.6); }
         
-        /* پرفیکٹ موبائل اسپیسنگ - رائٹ پینل */
         .prayer-header { display: flex; justify-content: space-between; align-items: center; padding: 1vh 1vw; border: none; border-bottom: 1px solid #1a1a1a; margin-bottom: 0.5vh;} .prayer-header-side { display: flex; flex-direction: column; align-items: center; gap: 2px;} .prayer-header-side span:first-child { font-size: min(1vw, 1.5vh); letter-spacing: 1px;} .prayer-header-side span:last-child { font-size: min(2vw, 3vh); font-family: 'Orbitron', sans-serif;} .prayer-header h2 { margin: 0; font-size: min(2.5vw, 4vh); letter-spacing: 2px; }
         
         .prayer-table { width: 100%; border-collapse: collapse; table-layout: fixed; margin-bottom: 0;} 
@@ -73,7 +72,7 @@
         .footer-wrapper { width: 100%; margin-top: 1.5vh; flex-shrink: 0; margin-bottom: 0.5vh;} .footer-scroll { background: var(--c-panel); width: 100%; padding: 0.8vh 1.5vw; border: 1px solid #1a1a1a; border-radius: 6px; overflow: hidden; white-space: nowrap; position: relative; }
         .scroll-text { display: inline-block; font-size: min(2vw, 3.2vh); font-weight: 700; letter-spacing: 1px; animation: moveLeft 25s linear infinite; } @keyframes moveLeft { 0% { transform: translateX(100%); } 100% { transform: translateX(-100%); } } .static-scroll { animation: none !important; display: block !important; text-align: center; width: 100%; transform: none !important; white-space: normal !important; overflow: hidden;}
         @keyframes pulsePulse { 0% { opacity: 1; } 50% { opacity: 0.4; } 100% { opacity: 1; } }
-        .top-buttons { position: fixed; top: 10px; right: 5px; display: flex; gap: 10px; z-index: 9999; } .settings-btn { background: transparent; color: #555; border: none; cursor: pointer; font-size: min(2vw, 24px); opacity: 0.4; transition: 0.3s; padding: 5px; border-radius: 5px;} .settings-btn:hover, .settings-btn:focus { opacity: 1; color: var(--c-headers); text-shadow: none; }
+        .top-buttons { position: fixed; top: 10px; right: 5px; display: flex; gap: 10px; z-index: 9999; } .settings-btn { background: transparent; color: #555; border: none; cursor: pointer; font-size: min(2vw, 24px); opacity: 1; transition: 0.3s; padding: 5px; border-radius: 5px;} .settings-btn:hover, .settings-btn:focus { opacity: 1; color: var(--c-headers); text-shadow: none; }
         
         .modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.9); justify-content: center; align-items: center; }
         .modal-content { background-color: #111; border: 1px solid var(--c-headers); border-radius: 8px; width: 95%; max-width: 900px; max-height: 90vh; overflow-y: auto; padding: 25px; color: white; direction: rtl; }
@@ -150,6 +149,11 @@
             </div>
 
             <div class="panel-box" id="leftBottomBox" style="margin-top: auto;">
+                <div class="time-row color-eid-chasht">
+                    <div class="time-label shared-en-name" style="color: var(--c-ec-name);"><span>ISHRAQ</span></div>
+                    <div class="shared-time" id="ishraqTime" style="color: var(--c-ec-time);">--:--</div>
+                    <div class="ur-label nastaleeq-text shared-ur-name" style="color: var(--c-ec-name);">اشراق</div>
+                </div>
                 <div class="time-row color-eid-chasht">
                     <div class="time-label shared-en-name" style="color: var(--c-ec-name);"><span>CHASHT</span></div>
                     <div class="shared-time" id="chashtTime" style="color: var(--c-ec-time);">--:--</div>
@@ -266,7 +270,7 @@
                 </table>
             </div>
 
-            <div id="prayerCountdownBox">
+            <div id="prayerCountdownBox" style="border-top: 1px solid #1a1a1a; margin-top: 1vh; padding-top: 1vh; display: none; text-align: center;">
                 <div style="font-size: min(1.5vw, 2.2vh); display: flex; justify-content: center; align-items: center; gap: 0.5vw; flex-wrap: wrap;">
                     <span class="nastaleeq-text" id="countdownUrduName" style="color: var(--c-pr-ur);">-- کا باقی وقت</span>
                     <span style="color: #666;">/</span>
@@ -277,7 +281,7 @@
                 </div>
             </div>
 
-            <div class="panel-box tomorrow-box">
+            <div class="panel-box tomorrow-box" style="border-top: 1px solid #1a1a1a; margin-top: 1vh; padding-top: 1vh; text-align: center; display: flex; flex-direction: column; align-items: center; gap: 0.5vh;">
                 <div class="color-tomorrow" style="font-size: min(1.3vw, 2vh); font-weight: bold;">TOMORROW'S <span id="tmrwPrayerNameEn">--</span> | کل <span id="tmrwPrayerNameUr" class="nastaleeq-text">--</span></div>
                 <div class="color-tomorrow" style="font-family: 'Orbitron', sans-serif; font-size: min(3.5vw, 5vh); letter-spacing: 2px;" id="tmrwPrayerTime">--:--</div>
             </div>
@@ -382,8 +386,8 @@
                         <td data-label="عید کی نماز کا وقت"><select tabindex="0" id="configEid"></select></td>
                     </tr>
                     <tr>
-                        <td data-label="چاشت کا وقت">
-                            <select tabindex="0" id="configChasht">
+                        <td data-label="اشراق کا وقت (مکروہ دورانیہ)">
+                            <select tabindex="0" id="configIshraq">
                                 <option value="15">15 منٹ بعد</option>
                                 <option value="20">20 منٹ بعد</option>
                             </select>
@@ -410,7 +414,7 @@
                                 <th>موڈ<br><small>(Auto / Fixed)</small></th>
                                 <th>آٹو: اذان سیٹنگ<br><small>(کمی زیادتی / راؤنڈ)</small></th>
                                 <th>آٹو: جماعت سیٹنگ<br><small>(فاصلہ / راؤنڈ)</small></th>
-                                <th>فکس: وقت کی سیٹنگ<br><small>(جماعت کا وقت / اذان پہلے)</small></th>
+                                <th>فکس / طلوع سے قبل<br><small>(وقت / فاصلہ)</small></th>
                             </tr>
                         </thead>
                         <tbody id="timingsTableBody">
@@ -538,11 +542,12 @@
 
         const defaultScrollText = "<span class='led-text'>Please keep your mobile phones turned off</span> &nbsp;&nbsp; | &nbsp;&nbsp; براہِ کرم اپنے موبائل فون بند رکھیں";
 
+        // 🔴 فجر کے نئے ڈیفالٹ آپشنز (fajrJamaatBeforeSunrise, fajrAzanBeforeJamaat)
         const defaultConfig = {
-            general: { fiqh: "1", eidTime: "07:00", chashtOffset: 15, hijriOffset: "0", displayMode: "all", rotation: "90deg", scrollMode: "scroll", urduFontSize: "14" },
+            general: { fiqh: "1", eidTime: "07:00", ishraqOffset: 15, hijriOffset: "0", displayMode: "all", rotation: "90deg", scrollMode: "scroll", urduFontSize: "14" },
             location: { mode: "auto", lat: "", lon: "", city: "" },
             timings: {
-                fajr:   { mode: "auto", fixedTime: "05:30", fixedAzanGap: 20, offset: 0, aRound: 5, jGap: 20, jRound: 5, name: "فجر" },
+                fajr:   { mode: "auto", fajrJamaatBeforeSunrise: 30, fajrAzanBeforeJamaat: 20, offset: 0, aRound: 5, jGap: 20, jRound: 5, name: "فجر" },
                 dhuhr:  { mode: "auto", fixedTime: "13:30", fixedAzanGap: 15, offset: 0, aRound: 5, jGap: 20, jRound: 5, name: "ظہر" },
                 asr:    { mode: "auto", fixedTime: "17:00", fixedAzanGap: 15, offset: 0, aRound: 5, jGap: 20, jRound: 5, name: "عصر" },
                 maghrib:{ mode: "auto", fixedTime: "18:30", fixedAzanGap: 5, offset: 1, aRound: 1, jGap: 5,  jRound: 1, name: "مغرب" }, 
@@ -566,6 +571,10 @@
         currentConfig.location = { ...defaultConfig.location, ...(currentConfig.location || {}) };
         currentConfig.timings = { ...defaultConfig.timings, ...(currentConfig.timings || {}) };
         currentConfig.advColors = { ...defaultConfig.advColors, ...(currentConfig.advColors || {}) };
+        
+        if (currentConfig.general.chashtOffset && !currentConfig.general.ishraqOffset) {
+            currentConfig.general.ishraqOffset = currentConfig.general.chashtOffset;
+        }
 
         function updateUrduSize(val) { document.getElementById('urduSizeVal').innerText = val + 'px'; document.documentElement.style.setProperty('--ur-size', val + 'px'); }
 
@@ -595,24 +604,45 @@
             document.getElementById("configDisplayMode").value = currentConfig.general.displayMode || "all"; document.body.setAttribute('data-mode', currentConfig.general.displayMode || "all");
             document.getElementById("configRotation").value = currentConfig.general.rotation || "90deg"; document.documentElement.style.setProperty('--rot', currentConfig.general.rotation || "90deg");
             document.getElementById("configLocMode").value = currentConfig.location.mode || "auto"; document.getElementById("configLat").value = currentConfig.location.lat || ""; document.getElementById("configLon").value = currentConfig.location.lon || ""; toggleLocationMode();
-            document.getElementById("configFiqh").value = currentConfig.general.fiqh; document.getElementById("configEid").value = currentConfig.general.eidTime; document.getElementById("configChasht").value = currentConfig.general.chashtOffset; document.getElementById("configHijriOffset").value = currentConfig.general.hijriOffset || "0";
+            document.getElementById("configFiqh").value = currentConfig.general.fiqh; document.getElementById("configEid").value = currentConfig.general.eidTime; 
+            document.getElementById("configIshraq").value = currentConfig.general.ishraqOffset || "15"; 
+            document.getElementById("configHijriOffset").value = currentConfig.general.hijriOffset || "0";
             let scrollMode = document.getElementById("configScrollMode").value; document.getElementById("configScrollMode").value = currentConfig.general.scrollMode || "scroll"; let scrollEl = document.getElementById("scrollText"); if(currentConfig.general.scrollMode === "static") { scrollEl.classList.add("static-scroll"); } else { scrollEl.classList.remove("static-scroll"); }
 
             const tbody = document.getElementById("timingsTableBody"); tbody.innerHTML = "";
             Object.keys(currentConfig.timings).forEach(key => {
                 const conf = currentConfig.timings[key]; let cMode = conf.mode || "auto";
-                let modeOpts = `<option value="auto">آٹو</option><option value="fixed">فکسڈ</option>`;
+                
+                // 🔴 فجر کے لیے "فکسڈ" کی جگہ "طلوع سے قبل" کا آپشن
+                let modeOpts = "";
+                if (key === 'fajr') {
+                    modeOpts = `<option value="auto">آٹو</option><option value="fixed">طلوع سے قبل</option>`;
+                } else {
+                    modeOpts = `<option value="auto">آٹو</option><option value="fixed">فکسڈ</option>`;
+                }
+                
                 let offsetOpts = `<option value="-3">-3 منٹ</option><option value="-2">-2 منٹ</option><option value="-1">-1 منٹ</option><option value="0">عین وقت پر</option><option value="1">+1 منٹ</option><option value="2">+2 منٹ</option><option value="3">+3 منٹ</option>`;
                 let roundOpts = `<option value="1">راؤنڈ نہیں</option><option value="5">اگلے 5 منٹ</option><option value="10">اگلے 10 منٹ</option><option value="15">اگلے 15 منٹ</option>`;
                 let gapOpts = ""; for(let i=1; i<=60; i++) { gapOpts += `<option value="${i}">${i} منٹ پہلے</option>`; }
                 let jGapOpts = ""; for(let i=1; i<=60; i++) { jGapOpts += `<option value="${i}">${i} منٹ بعد</option>`; }
+                
+                let fixedColHtml = "";
+                if (key === 'fajr') {
+                    // 🔴 فجر کے لیے طلوع سے منٹ مائنس کرنے والے ڈراپ ڈاؤن
+                    let fjOpts = [20, 25, 30, 35].map(v => `<option value="${v}">${v} منٹ قبل</option>`).join("");
+                    let faOpts = [15, 20].map(v => `<option value="${v}">${v} منٹ قبل</option>`).join("");
+                    fixedColHtml = `<td data-label="طلوع سے پہلے"><div style="font-size:11px; margin-bottom:2px; color:#aaa;">جماعت (طلوع سے):</div><select tabindex="0" id="cfg_fajr_jBefore" class="fixed-input-fajr" style="margin-bottom:5px;">${fjOpts.replace(`value="${conf.fajrJamaatBeforeSunrise || 30}"`, `value="${conf.fajrJamaatBeforeSunrise || 30}" selected`)}</select><div style="font-size:11px; margin-bottom:2px; color:#aaa;">اذان (جماعت سے):</div><select tabindex="0" id="cfg_fajr_aBefore" class="fixed-input-fajr">${faOpts.replace(`value="${conf.fajrAzanBeforeJamaat || 20}"`, `value="${conf.fajrAzanBeforeJamaat || 20}" selected`)}</select></td>`;
+                } else {
+                    fixedColHtml = `<td data-label="فکس وقت"><input tabindex="0" type="time" id="cfg_${key}_fixedTime" class="fixed-input-${key}" value="${conf.fixedTime || '13:30'}" style="margin-bottom:5px;"><select tabindex="0" id="cfg_${key}_fixedAzanGap" class="fixed-input-${key}">${gapOpts.replace(`value="${conf.fixedAzanGap || 15}"`, `value="${conf.fixedAzanGap || 15}" selected`)}</select></td>`;
+                }
+
                 let tr = document.createElement("tr");
                 tr.innerHTML = `
                     <td data-label="نماز" class="col-pr-en nastaleeq-text" style="font-size:16px;">${conf.name}</td>
                     <td data-label="موڈ"><select tabindex="0" id="cfg_${key}_mode" onchange="toggleMode('${key}')">${modeOpts.replace(`value="${cMode}"`, `value="${cMode}" selected`)}</select></td>
-                    <td data-label="آٹو: اذان سیٹنگ"><select tabindex="0" id="cfg_${key}_offset" class="auto-input-${key}" style="margin-bottom:5px;">${offsetOpts.replace(`value="${conf.offset}"`, `value="${conf.offset}" selected`)}</select><select tabindex="0" id="cfg_${key}_aRound" class="auto-input-${key}">${roundOpts.replace(`value="${conf.aRound}"`, `value="${conf.aRound}" selected`)}</select></td>
-                    <td data-label="آٹو: جماعت سیٹنگ"><select tabindex="0" id="cfg_${key}_jGap" class="auto-input-${key}" style="margin-bottom:5px;">${jGapOpts.replace(`value="${conf.jGap}"`, `value="${conf.jGap}" selected`)}</select><select tabindex="0" id="cfg_${key}_jRound" class="auto-input-${key}">${roundOpts.replace(`value="${conf.jRound}"`, `value="${conf.jRound}" selected`)}</select></td>
-                    <td data-label="فکس: وقت کی سیٹنگ"><input tabindex="0" type="time" id="cfg_${key}_fixedTime" class="fixed-input-${key}" value="${conf.fixedTime || '13:30'}" style="margin-bottom:5px;"><select tabindex="0" id="cfg_${key}_fixedAzanGap" class="fixed-input-${key}">${gapOpts.replace(`value="${conf.fixedAzanGap || 15}"`, `value="${conf.fixedAzanGap || 15}" selected`)}</select></td>
+                    <td data-label="آٹو: اذان"><select tabindex="0" id="cfg_${key}_offset" class="auto-input-${key}" style="margin-bottom:5px;">${offsetOpts.replace(`value="${conf.offset}"`, `value="${conf.offset}" selected`)}</select><select tabindex="0" id="cfg_${key}_aRound" class="auto-input-${key}">${roundOpts.replace(`value="${conf.aRound}"`, `value="${conf.aRound}" selected`)}</select></td>
+                    <td data-label="آٹو: جماعت"><select tabindex="0" id="cfg_${key}_jGap" class="auto-input-${key}" style="margin-bottom:5px;">${jGapOpts.replace(`value="${conf.jGap}"`, `value="${conf.jGap}" selected`)}</select><select tabindex="0" id="cfg_${key}_jRound" class="auto-input-${key}">${roundOpts.replace(`value="${conf.jRound}"`, `value="${conf.jRound}" selected`)}</select></td>
+                    ${fixedColHtml}
                 `;
                 tbody.appendChild(tr); setTimeout(() => toggleMode(key), 0);
             });
@@ -664,7 +694,7 @@
             document.documentElement.style.setProperty('--rot', currentConfig.general.rotation);
             currentConfig.general.fiqh = document.getElementById("configFiqh").value;
             currentConfig.general.eidTime = document.getElementById("configEid").value;
-            currentConfig.general.chashtOffset = parseInt(document.getElementById("configChasht").value);
+            currentConfig.general.ishraqOffset = parseInt(document.getElementById("configIshraq").value);
             currentConfig.general.hijriOffset = document.getElementById("configHijriOffset").value;
             let scrollMode = document.getElementById("configScrollMode").value;
             currentConfig.general.scrollMode = scrollMode; let scrollEl = document.getElementById("scrollText");
@@ -681,8 +711,15 @@
                 currentConfig.timings[key].aRound = parseInt(document.getElementById(`cfg_${key}_aRound`).value);
                 currentConfig.timings[key].jGap = parseInt(document.getElementById(`cfg_${key}_jGap`).value);
                 currentConfig.timings[key].jRound = parseInt(document.getElementById(`cfg_${key}_jRound`).value);
-                currentConfig.timings[key].fixedTime = document.getElementById(`cfg_${key}_fixedTime`).value;
-                currentConfig.timings[key].fixedAzanGap = parseInt(document.getElementById(`cfg_${key}_fixedAzanGap`).value);
+                
+                // 🔴 فجر کی نئی سیٹنگز کو محفوظ کرنا
+                if (key === 'fajr') {
+                    currentConfig.timings.fajr.fajrJamaatBeforeSunrise = parseInt(document.getElementById('cfg_fajr_jBefore').value);
+                    currentConfig.timings.fajr.fajrAzanBeforeJamaat = parseInt(document.getElementById('cfg_fajr_aBefore').value);
+                } else {
+                    currentConfig.timings[key].fixedTime = document.getElementById(`cfg_${key}_fixedTime`).value;
+                    currentConfig.timings[key].fixedAzanGap = parseInt(document.getElementById(`cfg_${key}_fixedAzanGap`).value);
+                }
             });
 
             currentConfig.advColors = {
@@ -706,14 +743,41 @@
         function t12(time24) { let [h, m] = time24.split(':'); h = parseInt(h); return (h % 12 || 12) + ':' + m; }
         function applyAdvanceRounding(mins, advanceVal) { advanceVal = parseInt(advanceVal); if (isNaN(advanceVal) || advanceVal <= 1) return mins; let remainder = mins % 5; let baseRounded = (remainder === 0) ? mins : mins + (5 - remainder); if (advanceVal === 5) return baseRounded; if (advanceVal === 10) return baseRounded + 5; if (advanceVal === 15) return baseRounded + 10; return baseRounded; }
         
-        function applyConfig(rawTimeMins, configKey) {
+        // 🔴 فجر کے لیے طلوع (Sunrise) کے لحاظ سے حساب کتاب
+        function applyConfig(rawTimeMins, configKey, referenceMins = null) {
             let cfg = currentConfig.timings[configKey];
-            if (cfg.mode === "fixed") { let [fH, fM] = (cfg.fixedTime || "13:30").split(':'); let jMins = (parseInt(fH) * 60) + parseInt(fM); let aMins = jMins - (cfg.fixedAzanGap || 15); return { azanMins: aMins, jamaatMins: jMins }; }
-            else { let azan = applyAdvanceRounding(rawTimeMins + cfg.offset, cfg.aRound); let jamaat = applyAdvanceRounding(azan + cfg.jGap, cfg.jRound); return { azanMins: azan, jamaatMins: jamaat }; }
+            
+            // اگر فجر کی سیٹنگ "طلوع سے قبل" پر ہے
+            if (configKey === 'fajr' && cfg.mode === 'fixed') {
+                let baseJamaat = referenceMins - (cfg.fajrJamaatBeforeSunrise || 30);
+                let roundedJamaat = Math.round(baseJamaat / 5) * 5; // راؤنڈ اپ (مثلاً 5:42 کو 5:40 یا 5:45 کر دے گا)
+                let azanMins = roundedJamaat - (cfg.fajrAzanBeforeJamaat || 20);
+                return { azanMins: azanMins, jamaatMins: roundedJamaat };
+            }
+            
+            // باقی نمازوں کے لیے نارمل فکسڈ یا آٹو لاجک
+            if (cfg.mode === "fixed") { 
+                let [fH, fM] = (cfg.fixedTime || "13:30").split(':'); 
+                let jMins = (parseInt(fH) * 60) + parseInt(fM); 
+                let aMins = jMins - (cfg.fixedAzanGap || 15); 
+                return { azanMins: aMins, jamaatMins: jMins }; 
+            }
+            else { 
+                let azan = applyAdvanceRounding(rawTimeMins + cfg.offset, cfg.aRound); 
+                let jamaat = applyAdvanceRounding(azan + cfg.jGap, cfg.jRound); 
+                return { azanMins: azan, jamaatMins: jamaat }; 
+            }
         }
 
         function calculateSchedule(times, isFriday) {
-            let fTime = applyConfig(timeToMins(times.Fajr), 'fajr'); let zTime = applyConfig(timeToMins(times.Dhuhr), 'dhuhr'); let aTime = applyConfig(timeToMins(times.Asr), 'asr'); let mTime = applyConfig(timeToMins(times.Sunset), 'maghrib'); let iTime = applyConfig(timeToMins(times.Isha), 'isha'); let jTime = applyConfig(timeToMins(times.Dhuhr), 'jumuah'); 
+            // 🔴 فجر کے فنکشن میں Sunrise کا وقت پاس کیا گیا ہے
+            let fTime = applyConfig(timeToMins(times.Fajr), 'fajr', timeToMins(times.Sunrise)); 
+            let zTime = applyConfig(timeToMins(times.Dhuhr), 'dhuhr'); 
+            let aTime = applyConfig(timeToMins(times.Asr), 'asr'); 
+            let mTime = applyConfig(timeToMins(times.Sunset), 'maghrib'); 
+            let iTime = applyConfig(timeToMins(times.Isha), 'isha'); 
+            let jTime = applyConfig(timeToMins(times.Dhuhr), 'jumuah'); 
+            
             let schedule = [
                 { id: "FAJR", en: "FAJR", ur: "فجر", azanMins: fTime.azanMins, jamaatMins: fTime.jamaatMins, azan12: formatMinsTo12(fTime.azanMins), jamaat12: formatMinsTo12(fTime.jamaatMins), expireMins: fTime.jamaatMins + 5, start: t12(times.Fajr), end: t12(times.Sunrise), startMins: timeToMins(times.Fajr), endMins: timeToMins(times.Sunrise) },
                 { id: "DHUHR", en: "ZUHAR", ur: "ظہر", azanMins: zTime.azanMins, jamaatMins: zTime.jamaatMins, azan12: formatMinsTo12(zTime.azanMins), jamaat12: formatMinsTo12(zTime.jamaatMins), expireMins: zTime.jamaatMins + 5, start: t12(times.Dhuhr), end: t12(times.Asr), startMins: timeToMins(times.Dhuhr), endMins: timeToMins(times.Asr) },
@@ -752,8 +816,18 @@
             if (!window.todayData || !window.tomorrowData) return;
             let isNextIslamicDay = (nowTotalMins >= window.maghribMins); let activeLeftData = isNextIslamicDay ? window.tomorrowData : window.todayData; let t = activeLeftData.timings;
             document.getElementById('sahrTime').innerText = t12(t.Fajr); document.getElementById('sahrTop').innerText = t12(t.Fajr); document.getElementById('tuluTime').innerText = t12(t.Sunrise); document.getElementById('zawalTime').innerText = t12(t.Dhuhr); document.getElementById('gurubTime').innerText = t12(t.Sunset); document.getElementById('iftarTime').innerText = t12(t.Sunset); document.getElementById('iftarTop').innerText = t12(t.Sunset);
-            let chashtOffsetVal = parseInt(currentConfig.general.chashtOffset) || 15; let chashtMins = timeToMins(t.Sunrise) + chashtOffsetVal; document.getElementById('chashtTime').innerText = formatMinsTo12(chashtMins);
-            window.sunriseMins = timeToMins(window.todayData.timings.Sunrise); window.zawalMins = timeToMins(window.todayData.timings.Dhuhr); window.chashtMins = chashtMins;
+            
+            let ishraqOffsetVal = parseInt(currentConfig.general.ishraqOffset) || 15; 
+            let ishraqMins = timeToMins(t.Sunrise) + ishraqOffsetVal; 
+            document.getElementById('ishraqTime').innerText = formatMinsTo12(ishraqMins);
+            
+            let chashtMins = timeToMins(t.Sunrise) + 90; 
+            document.getElementById('chashtTime').innerText = formatMinsTo12(chashtMins);
+            
+            window.sunriseMins = timeToMins(window.todayData.timings.Sunrise); 
+            window.zawalMins = timeToMins(window.todayData.timings.Dhuhr); 
+            window.ishraqMins = ishraqMins;
+            window.chashtMins = chashtMins;
         }
 
         function updatePrayerTableTimes(nowTotalMins) {
@@ -781,6 +855,12 @@
             
             let now = new Date(); let nowTotalMins = (now.getHours() * 60) + now.getMinutes();
             updateStaticDisplays(nowTotalMins); updatePrayerTableTimes(nowTotalMins); updateActivePrayerTracking(); 
+
+            try {
+                if (window.AndroidApp) {
+                    window.AndroidApp.saveSchedule(JSON.stringify(window.todayData.calc.s));
+                }
+            } catch(e) {}
         }
 
         async function fetchWeather() {
@@ -845,8 +925,9 @@
             let current12 = formatMinsTo12(nowTotalMins); if (lastBeepTime === current12) return; let shouldBeep = false; let dataToUse = window.todayData; 
             if (dataToUse && dataToUse.calc.s.length) { dataToUse.calc.s.forEach(p => { if (p.azanMins === nowTotalMins || p.jamaatMins === nowTotalMins) shouldBeep = true; }); }
             if (window.sunriseMins === nowTotalMins) shouldBeep = true; 
+            if (window.ishraqMins && nowTotalMins === window.ishraqMins) shouldBeep = true; 
+            if (window.chashtMins && nowTotalMins === window.chashtMins) shouldBeep = true; 
             if (window.zawalMins && nowTotalMins === (window.zawalMins - 5)) shouldBeep = true; 
-            if (window.chashtMins && nowTotalMins === window.chashtMins) shouldBeep = true;
             let isEidDay = false; if (finalHijri) { let m = parseInt(finalHijri.month.number); let d = parseInt(finalHijri.day); if ((m === 10 && d === 1) || (m === 12 && d === 10)) { isEidDay = true; } }
             if (isEidDay) { let [eH, eM] = currentConfig.general.eidTime.split(':'); let eidMins = parseInt(eH)*60 + parseInt(eM); if (eidMins === nowTotalMins) shouldBeep = true; }
             if (shouldBeep) { playBeep(); lastBeepTime = current12; }
@@ -862,8 +943,13 @@
                 let finalHijri = null; if (window.hijriBeforeMaghrib && window.hijriAfterMaghrib && window.maghribMins > 0) { let activeHijri = (nowTotalMins >= window.maghribMins) ? window.hijriAfterMaghrib : window.hijriBeforeMaghrib; finalHijri = getAdjustedHijri(activeHijri, parseInt(currentConfig.general.hijriOffset || 0)); document.getElementById('hijriDate').innerText = finalHijri.day + '-' + String(finalHijri.month.number).padStart(2, '0') + '-' + finalHijri.year + ' ' + finalHijri.month.ar; }
                 let isEidDay = false; if (finalHijri) { let m = parseInt(finalHijri.month.number); let d = parseInt(finalHijri.day); if ((m === 10 && d === 1) || (m === 12 && d === 10)) { isEidDay = true; } } document.getElementById('eidJamaat').innerText = isEidDay ? currentConfig.general.eidTime : "--:--";
                 checkAndBeep(nowTotalMins, finalHijri);
-                let isMakrooh = false; let alertUrdu = ""; let alertEng = ""; let chashtMins = window.sunriseMins + parseInt(currentConfig.general.chashtOffset || 15);
-                if (window.sunriseMins && nowTotalMins >= window.sunriseMins && nowTotalMins < chashtMins) { isMakrooh = true; alertUrdu = "مکروہ وقت شروع ہو گیا ہے"; alertEng = "MAKROOH TIME STARTED"; } else if (window.zawalMins && nowTotalMins >= (window.zawalMins - 5) && nowTotalMins < window.zawalMins) { isMakrooh = true; alertUrdu = "زوال کا وقت شروع ہو گیا ہے"; alertEng = "ZAWAL TIME STARTED"; }
+                
+                let isMakrooh = false; let alertUrdu = ""; let alertEng = "";
+                if (window.sunriseMins && window.ishraqMins && nowTotalMins >= window.sunriseMins && nowTotalMins < window.ishraqMins) { 
+                    isMakrooh = true; alertUrdu = "مکروہ وقت شروع ہو گیا ہے"; alertEng = "MAKROOH TIME STARTED"; 
+                } else if (window.zawalMins && nowTotalMins >= (window.zawalMins - 5) && nowTotalMins < window.zawalMins) { 
+                    isMakrooh = true; alertUrdu = "زوال کا وقت شروع ہو گیا ہے"; alertEng = "ZAWAL TIME STARTED"; 
+                }
                 let alertDivLeft = document.getElementById('makroohAlertMsgLeft'); let leftBottomBox = document.getElementById('leftBottomBox');
                 if (isMakrooh) { document.getElementById('makroohUrdu').innerText = alertUrdu; document.getElementById('makroohEng').innerText = alertEng; alertDivLeft.style.display = "flex"; leftBottomBox.style.marginTop = "0"; } else { alertDivLeft.style.display = "none"; leftBottomBox.style.marginTop = "auto"; }
 
