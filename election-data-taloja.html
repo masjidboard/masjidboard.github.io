@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Electoral Roll Helper</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #1a73e8;
+            --bg-color: #f0f2f5;
+            --card-bg: #ffffff;
+            --text-main: #202124;
+            --text-muted: #5f6368;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: var(--bg-color);
+            margin: 0;
+            padding: 0;
+            color: var(--text-main);
+        }
+
+        header {
+            background: var(--primary-color);
+            color: white;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        h1 { 
+            margin: 0; 
+            font-size: 24px; 
+            font-weight: 500;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 0 15px;
+        }
+
+        .search-container {
+            background: var(--card-bg);
+            padding: 15px;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            margin-bottom: 20px;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 15px;
+            font-size: 16px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            outline: none;
+            box-sizing: border-box;
+            transition: 0.3s;
+            font-family: 'Roboto', sans-serif;
+        }
+
+        .search-input:focus { border-color: var(--primary-color); }
+
+        .result-card {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 15px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            border-left: 5px solid var(--primary-color);
+            transition: transform 0.2s;
+        }
+
+        .result-card:hover { transform: translateY(-2px); box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+
+        .voter-name {
+            font-size: 20px;
+            font-weight: bold;
+            color: var(--primary-color);
+            margin-bottom: 5px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .father-name {
+            font-size: 14px;
+            color: var(--text-muted);
+            margin-bottom: 15px;
+        }
+
+        .rsc-badge { background: #e8f0fe; color: #1967d2; padding: 4px 10px; border-radius: 20px; font-size: 14px; }
+        .details-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-top: 15px; background: #f8f9fa; padding: 15px; border-radius: 8px; }
+        .detail-item { font-size: 15px; }
+        .detail-label { color: var(--text-muted); font-size: 12px; display: block; margin-bottom: 3px; text-transform: uppercase; }
+        .detail-value { font-weight: bold; color: var(--text-main); }
+        .station-info { margin-top: 15px; padding-top: 15px; border-top: 1px dashed #e0e0e0; font-size: 14px; color: var(--text-muted); }
+        .no-result { text-align: center; padding: 40px; color: var(--text-muted); font-size: 18px; }
+        
+        .limit-notice {
+            text-align: center;
+            background: #fff3cd;
+            color: #856404;
+            padding: 10px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        @media (max-width: 600px) {
+            .details-grid { grid-template-columns: 1fr 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Electoral Roll Helper</h1>
+    </header>
+
+    <div class="container">
+        <div class="search-container">
+            <input type="text" id="searchInput" class="search-input" placeholder="Search by Name, Father's Name, RSC..." onkeyup="debounceSearch()">
+        </div>
+
+        <div id="resultsContainer">
+            <div class="no-result">Loading data, please wait...</div>
+        </div>
+    </div>
+
+    <script>
+        let electoralData = []; 
+        let searchTimeout; // ٹائمر کے لیے ویری ایبل
+
+        // آپ کی شیٹ کا لنک
+        const sheetURL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQX3BKTOpLtpzbsBxH9nUm9iQgKKTXs6aMdKRK-hmq0yD76bBD0ypqk15smaLCDdmrUHYwvxcOW6YqU/pub?output=csv";
+
+        async function loadDataFromGoogleSheet() {
+            const resultsDiv = document.getElementById('resultsContainer');
+            
+            try {
+                const response = await fetch(sheetURL);
+                const csvText = await response.text();
+                
+                const rows = csvText.split('\n');
+                electoralData = []; 
+                
+                for(let i = 1; i < rows.length; i++) {
+                    if(rows[i].trim() === '') continue;
+                    
+                    const cols = rows[i].split(','); 
+                    
+                    if(cols.length >= 7) {
+                        electoralData.push({
+                            serialNo: cols[0] ? cols[0].trim() : "",
+                            name: cols[1] ? cols[1].trim() : "",
+                            fatherName: cols[2] ? cols[2].trim() : "",
+                            rsc: cols[3] ? cols[3].trim() : "",
+                            fileNo: cols[4] ? cols[4].trim() : "",
+                            station: cols[5] ? cols[5].trim() : "",
+                            year: cols[6] ? cols[6].trim() : ""
+                        });
+                    }
+                }
+                resultsDiv.innerHTML = '<div class="no-result" style="color: green;">✅ Data loaded successfully! You can search now.</div>';
+            } catch (error) {
+                resultsDiv.innerHTML = '<div class="no-result" style="color:red;">❌ Failed to load data. Please check the connection.</div>';
+            }
+        }
+
+        // یہ فنکشن ہر بٹن دبانے پر فوراً سرچ نہیں کرے گا بلکہ تھوڑا انتظار کرے گا
+        function debounceSearch() {
+            clearTimeout(searchTimeout);
+            searchTimeout = setTimeout(performSearch, 300); // 300 ملی سیکنڈ کا انتظار
+        }
+
+        function performSearch() {
+            const query = document.getElementById('searchInput').value.toLowerCase().trim();
+            const resultsDiv = document.getElementById('resultsContainer');
+            
+            if(query.length === 0) {
+                resultsDiv.innerHTML = '<div class="no-result">Please type something in the search box...</div>';
+                return;
+            }
+
+            // سرچ کو الفاظ (Words) میں توڑنا
+            const searchWords = query.split(/\s+/);
+
+            const filteredData = electoralData.filter(item => {
+                // نام، والد کا نام، RSC اور سیریل نمبر کو ایک ساتھ ملانا
+                const fullRecord = `${item.name} ${item.fatherName} ${item.rsc} ${item.serialNo} ${item.fileNo}`.toLowerCase();
+                
+                // چیک کرنا کہ سرچ کیے گئے تمام الفاظ اس ریکارڈ میں موجود ہیں یا نہیں (ترتیب چاہے کوئی بھی ہو)
+                return searchWords.every(word => fullRecord.includes(word));
+            });
+
+            if(filteredData.length === 0) {
+                resultsDiv.innerHTML = '<div class="no-result">No records found!</div>';
+                return;
+            }
+
+            // سپیڈ تیز کرنے کے لیے زیادہ سے زیادہ 50 رزلٹ دکھانا
+            const maxResults = 50;
+            const totalFound = filteredData.length;
+            const dataToShow = filteredData.slice(0, maxResults);
+
+            let htmlContent = '';
+            
+            // اگر رزلٹ 50 سے زیادہ ہیں تو یہ میسج دکھائے گا
+            if(totalFound > maxResults) {
+                htmlContent += `
+                    <div class="limit-notice">
+                        Found <strong>${totalFound}</strong> records. Showing top <strong>${maxResults}</strong>. Type more words to narrow down.
+                    </div>
+                `;
+            }
+
+            dataToShow.forEach(item => {
+                htmlContent += `
+                    <div class="result-card">
+                        <div class="voter-name">
+                            ${item.name}
+                            <span class="rsc-badge">${item.rsc}</span>
+                        </div>
+                        <div class="father-name">
+                            <strong>Father's Name:</strong> ${item.fatherName}
+                        </div>
+                        <div class="details-grid">
+                            <div class="detail-item"><span class="detail-label">Serial No</span><span class="detail-value">${item.serialNo}</span></div>
+                            <div class="detail-item"><span class="detail-label">File No</span><span class="detail-value">${item.fileNo}</span></div>
+                            <div class="detail-item"><span class="detail-label">Year</span><span class="detail-value">${item.year}</span></div>
+                        </div>
+                        <div class="station-info"><strong>Polling Station:</strong> ${item.station}</div>
+                    </div>
+                `;
+            });
+
+            resultsDiv.innerHTML = htmlContent;
+        }
+
+        window.onload = loadDataFromGoogleSheet;
+    </script>
+</body>
+</html>
