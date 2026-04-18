@@ -1,0 +1,10 @@
+Privacy Policy for Tohfatul Bari App
+This privacy policy applies to the "Tohfatul Bari" app (hereby referred to as "Application") for mobile devices that was created by Masjid Board.
+Information Collection and Use
+The Application does not collect, store, or share any personal information, user data, or device data. It is primarily an offline book reader application.
+Internet Access
+The Application only requires internet permission solely for the purpose of downloading the original PDF file of the book for the first time. No user data is transmitted to our servers or any third-party servers.
+Changes to This Privacy Policy
+We may update our Privacy Policy from time to time. Thus, you are advised to review this page periodically for any changes.
+Contact Us
+If you have any questions or suggestions about our Privacy Policy, do not hesitate to contact us.
