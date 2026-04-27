@@ -38,19 +38,19 @@
         .tab-content { display: none; }
         .tab-content.active { display: block; }
 
-        /* 📝 کتاب اور ہیڈنگز کا ڈیزائن */
+        /* 📝 کتاب کا ڈیزائن */
         .urdu-text { font-size: var(--urdu-font-size); line-height: 1.8; margin-bottom: 15px; }
         .arabic-text { font-size: var(--arabic-font-size); line-height: 2.0; font-weight: bold; color: var(--primary-color); }
         .book-heading { font-size: calc(var(--urdu-font-size) + 8px); color: var(--primary-color); font-weight: bold; text-align: center; margin-bottom: 10px; }
-        
-        /* ✅ H2 اور H3 کے لیے نیا ڈیزائن */
+
+        /* ✅ H2 اور H3 کے لیے نیا ڈیزائن شامل کیا گیا */
         .book-heading-h2 { font-size: calc(var(--urdu-font-size) + 4px); color: #D32F2F; font-weight: bold; margin-top: 15px; margin-bottom: 5px; }
         .book-heading-h3 { font-size: calc(var(--urdu-font-size) + 2px); color: #1976D2; font-weight: bold; margin-top: 10px; margin-bottom: 5px; }
-        
-        /* 🔴 سرچ کیا ہوا لفظ ہائی لائٹ کرنے کے لیے */
-        .highlight { background-color: #FFF59D; color: #D32F2F; font-weight: bold; padding: 0 4px; border-radius: 4px; border: 1px solid #D32F2F;}
 
-        /* 🎛️ کتاب کے کنٹرولز */
+        /* 🔴 سرچ کیا ہوا لفظ ہائی لائٹ کرنے کے لیے شامل کیا گیا */
+        .highlight { background-color: #FFF59D; color: #D32F2F; font-weight: bold; padding: 0 4px; border-radius: 4px; border: 1px solid #D32F2F; }
+
+        /* 🎛️ کتاب کے کنٹرولز (Next, Prev, Bookmark) */
         .book-controls { display: flex; justify-content: space-between; align-items: center; background: var(--nav-bg); padding: 10px; border-radius: 10px; margin-bottom: 20px; box-shadow: 0 2px 5px rgba(0,0,0,0.1);}
         .book-controls button { background: var(--primary-color); color: var(--bg-color); border: none; padding: 8px 15px; border-radius: 5px; font-family: 'Jameel Noori'; font-size: 18px; cursor: pointer; }
         .page-info { font-weight: bold; color: var(--text-primary); font-size: 18px; }
@@ -60,7 +60,7 @@
         .search-box input { flex: 1; padding: 10px; border: 1px solid var(--text-secondary); border-radius: 8px; font-family: 'Jameel Noori'; font-size: 18px; background: var(--bg-color); color: var(--text-primary);}
         .search-box button { background: var(--primary-color); color: var(--bg-color); border: none; padding: 10px 20px; border-radius: 8px; font-family: 'Jameel Noori'; font-size: 18px; cursor: pointer; }
 
-        /* کارڈز */
+        /* کارڈز (سیٹنگز اور محفوظات) */
         .card { background-color: var(--card-bg); padding: 15px; border-radius: 10px; border: 1px solid var(--text-secondary); margin-bottom: 15px; display: flex; justify-content: space-between; align-items: center; cursor: pointer;}
         .font-controls button { background-color: var(--nav-bg); color: var(--text-primary); border: 1px solid var(--text-secondary); border-radius: 5px; width: 40px; height: 40px; font-size: 22px; cursor: pointer; }
         .font-controls span { margin: 0 15px; font-size: 22px; font-family: sans-serif; }
@@ -91,7 +91,9 @@
             <div class="author-name">شیخ الحدیث مولانا محمد ابراہیم بن علی خطیب حفظہ اللہ</div>
             <span class="author-madrasa">جامعہ حسینیہ عربیہ، شریوردھن</span>
         </div>
+        
         <button class="btn-start" id="startBtn" onclick="enterApp()">کتاب لوڈ ہو رہی ہے...</button>
+
         <div class="dev-section">
             <span class="dev-label">تیار کردہ</span>
             <div class="developer-name">مفتی اظہر بن محمد امین پٹیل</div>
@@ -175,7 +177,7 @@
         let bookData = [];
         let currentIndex = 0;
         let bookmarks = JSON.parse(localStorage.getItem('tb_bookmarks')) || [];
-        let currentSearchQuery = ""; // ✅ سرچ کیے گئے لفظ کو یاد رکھنے کے لیے
+        let currentSearchQuery = ""; // ✅ سرچ کے لفظ کو یاد رکھنے کے لیے
 
         fetch('book_data.json') 
             .then(response => response.json())
@@ -208,7 +210,7 @@
             document.getElementById('app-header').innerText = titles[tabId];
         }
 
-        // ✅ H2 اور H3 کو ڈیزائن دینے کے لیے کوڈ اپڈیٹ کیا گیا
+        // ✅ H2 اور H3 کے لیے شامل کیا گیا
         function formatContent(text) {
             let formatted = text.replace(/<ar>/g, '<span class="arabic-text">');
             formatted = formatted.replace(/<\/ar>/g, '</span>');
@@ -222,7 +224,7 @@
             return formatted;
         }
 
-        // ✅ پیج دکھاتے وقت سرچ کیا ہوا لفظ ہائی لائٹ کرنا
+        // ✅ ہائی لائٹ کرنے کا نظام شامل کیا گیا
         function renderPageByIndex(index) {
             if (index >= 0 && index < bookData.length) {
                 currentIndex = index;
@@ -230,9 +232,8 @@
                 
                 let pageHTML = formatContent(page.content);
                 
-                // 🔴 ہائی لائٹ کرنے کا جادو
+                // 🔴 لفظ کو ہائی لائٹ کریں
                 if (currentSearchQuery !== "") {
-                    // یہ کوڈ اس لفظ کو ڈھونڈ کر اسے سرخ رنگ کا ڈبہ پہنا دے گا
                     const regex = new RegExp(`(${currentSearchQuery})`, 'g');
                     pageHTML = pageHTML.replace(regex, '<span class="highlight">$1</span>');
                 }
@@ -246,17 +247,17 @@
         function nextPage() { renderPageByIndex(currentIndex + 1); }
         function prevPage() { renderPageByIndex(currentIndex - 1); }
 
-        // ✅ سرچ کرنے کا فنکشن اپڈیٹ کیا گیا
+        // ✅ سرچ کو اپڈیٹ کیا گیا
         function searchBook() {
             const query = document.getElementById('searchInput').value.trim();
             const resBox = document.getElementById('searchResults');
             resBox.innerHTML = '';
             
-            currentSearchQuery = query; // لفظ کو محفوظ کر لیا
+            currentSearchQuery = query; // سرچ کیے گئے لفظ کو محفوظ کر لیا
 
             if (!query) {
-                renderPageByIndex(currentIndex); // اگر سرچ بار خالی ہو تو ہائی لائٹ ہٹا دو
-                return;
+                renderPageByIndex(currentIndex); // اگر سرچ بار خالی ہے تو ہائی لائٹ ختم کر دے گا
+                return; 
             }
 
             const results = bookData.filter(p => p.content.includes(query) || (p.chapter_h1 && p.chapter_h1.includes(query)));
@@ -272,7 +273,7 @@
             });
         }
 
-        // اگر یوزر سرچ باکس خالی کرے تو ہائی لائٹ بھی غائب ہو جائے
+        // ✅ اگر یوزر سرچ باکس کو کاٹ کر خالی کر دے، تو ہائی لائٹ بھی ہٹ جائے گا
         document.getElementById('searchInput').addEventListener('input', function(e) {
             if(e.target.value.trim() === "") {
                 currentSearchQuery = "";
