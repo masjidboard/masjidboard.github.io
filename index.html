@@ -2,357 +2,1144 @@
 <html lang="ur" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>تحفۃ الباری</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+    <title>تُحْفَةُ الْبَارِي</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Nastaliq+Urdu:wght@400;600;700&family=Amiri:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
     <style>
-        /* 🎨 بنیادی تھیم اور رنگ */
+        /* ===== CSS VARIABLES ===== */
         :root {
-            --bg-color: #FDF8ED; --text-primary: #3D2B0F; --text-secondary: #8B6A3A;
-            --card-bg: #FFFFFF; --nav-bg: #F0E6D2; --primary-color: #8B4513;
-            --urdu-font-size: 22px; --arabic-font-size: 26px;
-        }
-        [data-theme="dark"] {
-            --bg-color: #121A2F; --text-primary: #C8DFF0; --text-secondary: #5A84A8;
-            --card-bg: #1B2640; --nav-bg: #0D1424; --primary-color: #C9B070;
-        }
-        @font-face { font-family: 'Jameel Noori'; src: local('Jameel Noori Nastaleeq'), local('Urdu Typesetting'); }
-        body { margin: 0; padding: 0; background-color: var(--bg-color); color: var(--text-primary); font-family: 'Jameel Noori', Arial, sans-serif; transition: background-color 0.3s, color 0.3s; display: flex; flex-direction: column; height: 100vh; overflow: hidden; }
+            --primary:       #0D2137;
+            --primary-dark:  #0A1628;
+            --primary-light: #1A3A5C;
+            --accent:        #E8D5A3;
+            --accent2:       #C9B070;
+            --nav-inactive:  #5A84A8;
 
-        /* 🚀 سپلیش اسکرین */
-        #splash-screen { position: fixed; top: 0; left: 0; width: 100%; height: 100vh; background-color: var(--bg-color); display: flex; flex-direction: column; justify-content: space-between; align-items: center; z-index: 9999; transition: opacity 0.5s; text-align: center; padding: 5vh 20px; box-sizing: border-box; overflow: hidden; }
-        .header-section { display: flex; flex-direction: column; align-items: center; gap: 1vh; }
-        .book-title { font-size: clamp(40px, 8vw, 90px); font-weight: bold; color: var(--primary-color); line-height: 1.1; }
-        .book-subtitle { font-size: clamp(22px, 4vw, 45px); color: var(--text-primary); }
-        .author-section { display: flex; flex-direction: column; align-items: center; gap: 1vh; width: 100%; }
-        .label-text { font-size: clamp(16px, 3vw, 24px); color: var(--text-secondary); }
-        .author-name { font-size: clamp(22px, 5vw, 50px); color: var(--primary-color); font-weight: bold; line-height: 1.3;}
-        .author-madrasa { font-size: clamp(16px, 3.5vw, 32px); color: var(--text-primary); font-weight: bold; }
-        .btn-start { background-color: var(--primary-color); color: var(--bg-color); border: none; padding: 2vh 8vw; font-size: clamp(20px, 3.5vw, 30px); font-family: 'Jameel Noori'; border-radius: 12px; cursor: pointer; box-shadow: 0 4px 8px rgba(0,0,0,0.2); transition: transform 0.2s; }
-        .dev-section { display: flex; flex-direction: column; align-items: center; gap: 0.5vh; width: 100%; }
-        .developer-name { font-size: clamp(22px, 5vw, 50px); color: var(--primary-color); font-weight: bold; line-height: 1.3;}
+            --bg:            #0F1E2E;
+            --card-bg:       #0A1C2E;
+            --drawer-bg:     #0A1628;
+            --border:        #1A3A5C;
+            --arabic-color:  #E8D5A3;
+            --chapter-color: #E8D5A3;
+            --urdu-color:    #C8DFF0;
+            --sub-color:     #5A84A8;
+            --toc-ch:        #C8DFF0;
+            --toc-vol:       #5A84A8;
+            --action-bar:    #0D2137;
+            --btn-border:    #2A5070;
+            --btn-color:     #8AB4D4;
 
-        /* 📱 مین ایپ کنٹینر */
-        #main-app { display: none; flex-direction: column; height: 100%; }
-        header { background-color: var(--nav-bg); padding: 15px; text-align: center; font-size: clamp(20px, 4vw, 28px); font-weight: bold; color: var(--primary-color); box-shadow: 0 2px 5px rgba(0,0,0,0.1); display: flex; justify-content: space-between; align-items: center; }
-        .content-area { flex: 1; padding: 20px; overflow-y: auto; position: relative;}
+            --urdu-size: 20px;
+            --arabic-size: 26px;
+        }
+        [data-theme="day"] {
+            --bg:            #F5EDD8;
+            --card-bg:       #FFF8E7;
+            --drawer-bg:     #EDE0C4;
+            --border:        #C9B48A;
+            --arabic-color:  #1A0F00;
+            --chapter-color: #8B4513;
+            --urdu-color:    #2A1A08;
+            --sub-color:     #8B6A3A;
+            --toc-ch:        #3D2B0F;
+            --toc-vol:       #8B6A3A;
+            --action-bar:    #EDE0C4;
+            --btn-border:    #C9B48A;
+            --btn-color:     #7A5A2A;
+        }
+
+        /* ===== FONTS ===== */
+        @font-face {
+            font-family: 'JameelNoori';
+            src: url('https://masjidboard.github.io/fonts/JameelNooriNastaleeq.ttf') format('truetype');
+            font-weight: normal;
+        }
+        @font-face {
+            font-family: 'AlQalam';
+            src: url('https://masjidboard.github.io/fonts/Al-Qalam-Quran.ttf') format('truetype');
+            font-weight: normal;
+        }
+
+        /* ===== RESET & BASE ===== */
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        html, body { height: 100%; width: 100%; overflow: hidden; }
+        body {
+            font-family: 'Noto Nastaliq Urdu', 'JameelNoori', serif;
+            background: var(--bg);
+            color: var(--urdu-color);
+            transition: background 0.4s, color 0.4s;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* ===== SPLASH SCREEN ===== */
+        #splash {
+            position: fixed; inset: 0; z-index: 9999;
+            display: flex; flex-direction: column;
+            justify-content: space-between; align-items: center;
+            padding: 0;
+            overflow: hidden;
+            background: var(--primary-dark);
+            transition: opacity 0.6s ease;
+        }
+        .splash-top-band {
+            width: 100%;
+            background: linear-gradient(135deg, #0A1628 0%, #1A3A5C 100%);
+            padding: 5vh 24px 3vh;
+            display: flex; flex-direction: column; align-items: center;
+            gap: 6px;
+            border-bottom: 2px solid var(--accent2);
+        }
+        .splash-bismillah {
+            font-family: 'Amiri', 'AlQalam', serif;
+            font-size: clamp(22px, 5vw, 38px);
+            color: var(--accent);
+            letter-spacing: 2px;
+            text-shadow: 0 0 20px rgba(232,213,163,0.4);
+        }
+        .splash-book-title {
+            font-family: 'Amiri', 'AlQalam', serif;
+            font-size: clamp(42px, 9vw, 96px);
+            font-weight: 700;
+            color: var(--accent);
+            line-height: 1.1;
+            text-align: center;
+            text-shadow: 0 4px 24px rgba(232,213,163,0.3);
+        }
+        .splash-book-sub {
+            font-family: 'Amiri', serif;
+            font-size: clamp(18px, 3.5vw, 28px);
+            color: #8AB4D4;
+            letter-spacing: 1px;
+        }
+        .splash-divider {
+            width: 60%; height: 1px;
+            background: linear-gradient(90deg, transparent, var(--accent2), transparent);
+            margin: 4px 0;
+        }
+
+        .splash-middle {
+            flex: 1;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            gap: 10px;
+            padding: 16px 24px;
+            text-align: center;
+        }
+        .splash-label {
+            font-size: clamp(14px, 2.5vw, 18px);
+            color: var(--nav-inactive);
+        }
+        .splash-author {
+            font-family: 'Noto Nastaliq Urdu', 'JameelNoori', serif;
+            font-size: clamp(18px, 4vw, 26px);
+            font-weight: 700;
+            color: var(--accent);
+            line-height: 1.6;
+        }
+        .splash-madrasa {
+            font-size: clamp(14px, 3vw, 20px);
+            color: #C8DFF0;
+            font-weight: 600;
+        }
+        .splash-ornament {
+            font-size: 28px;
+            color: var(--accent2);
+            line-height: 1;
+        }
+
+        .splash-bottom {
+            width: 100%;
+            background: linear-gradient(180deg, transparent, rgba(10,22,40,0.95));
+            padding: 20px 24px 30px;
+            display: flex; flex-direction: column; align-items: center;
+            gap: 10px;
+        }
+        .splash-dev-label {
+            font-size: clamp(13px, 2vw, 15px);
+            color: var(--nav-inactive);
+        }
+        .splash-dev-name {
+            font-size: clamp(16px, 3.5vw, 22px);
+            color: var(--accent);
+            font-weight: 700;
+        }
+        .splash-dev-place {
+            font-size: clamp(13px, 2.5vw, 16px);
+            color: #8AB4D4;
+        }
+        .btn-start {
+            margin-top: 4px;
+            background: linear-gradient(135deg, var(--accent2), #E8D5A3);
+            color: var(--primary-dark);
+            border: none;
+            padding: clamp(12px,2.5vh,18px) clamp(30px,8vw,60px);
+            font-family: 'Noto Nastaliq Urdu', 'JameelNoori', serif;
+            font-size: clamp(18px, 3.5vw, 24px);
+            font-weight: 700;
+            border-radius: 14px;
+            cursor: pointer;
+            box-shadow: 0 6px 24px rgba(201,176,112,0.35);
+            transition: transform 0.2s, box-shadow 0.2s;
+            position: relative; overflow: hidden;
+        }
+        .btn-start::before {
+            content: '';
+            position: absolute; inset: 0;
+            background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.25) 50%, transparent 100%);
+            transform: translateX(-100%);
+            transition: transform 0.6s;
+        }
+        .btn-start:hover::before { transform: translateX(100%); }
+        .btn-start:hover { transform: translateY(-2px); box-shadow: 0 10px 32px rgba(201,176,112,0.45); }
+        .btn-start:active { transform: scale(0.97); }
+
+        /* ===== MAIN APP ===== */
+        #app { display: none; flex-direction: column; height: 100%; }
+
+        /* STATUS BAR */
+        .sbar {
+            background: var(--primary-dark);
+            height: 22px;
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 0 12px;
+            font-size: 11px;
+            color: var(--accent);
+            font-family: sans-serif;
+            flex-shrink: 0;
+        }
+
+        /* TOOLBAR */
+        .toolbar {
+            background: var(--primary);
+            padding: 10px 14px;
+            display: flex; justify-content: space-between; align-items: center;
+            border-bottom: 1px solid var(--primary-light);
+            flex-shrink: 0;
+        }
+        .toolbar-title {
+            font-family: 'Noto Nastaliq Urdu', 'JameelNoori', serif;
+            font-size: clamp(18px, 4vw, 24px);
+            font-weight: 700;
+            color: var(--accent);
+        }
+        .toolbar-btns { display: flex; gap: 8px; }
+        .tb-btn {
+            background: var(--primary-light);
+            border: 1px solid var(--btn-border);
+            color: var(--accent);
+            padding: 6px 12px;
+            border-radius: 8px;
+            font-family: 'Noto Nastaliq Urdu', serif;
+            font-size: 13px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .tb-btn:hover { background: var(--primary-light); opacity: 0.85; }
+
+        /* CONTENT */
+        .content-area { flex: 1; overflow-y: auto; padding: 16px; position: relative; }
         .tab-content { display: none; }
         .tab-content.active { display: block; }
 
-        /* 📝 کتاب کا ڈیزائن */
-        .urdu-text { font-size: var(--urdu-font-size); line-height: 1.8; margin-bottom: 15px; }
-        .arabic-text { font-size: var(--arabic-font-size); line-height: 2.0; font-weight: bold; color: var(--primary-color); }
-        .book-heading { font-size: calc(var(--urdu-font-size) + 8px); color: var(--primary-color); font-weight: bold; text-align: center; margin-bottom: 10px; }
+        /* BOOK CARD */
+        .book-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 16px;
+        }
+        .page-badge {
+            display: inline-block;
+            background: var(--primary);
+            color: var(--accent);
+            font-size: 12px;
+            padding: 3px 10px;
+            border-radius: 20px;
+            margin-bottom: 10px;
+            border: 1px solid var(--primary-light);
+        }
 
-        /* ✅ H2 اور H3 کے لیے نیا ڈیزائن شامل کیا گیا */
-        .book-heading-h2 { font-size: calc(var(--urdu-font-size) + 4px); color: #D32F2F; font-weight: bold; margin-top: 15px; margin-bottom: 5px; }
-        .book-heading-h3 { font-size: calc(var(--urdu-font-size) + 2px); color: #1976D2; font-weight: bold; margin-top: 10px; margin-bottom: 5px; }
+        /* BOOK CONTROLS */
+        .book-controls {
+            display: flex; justify-content: space-between; align-items: center;
+            background: var(--action-bar);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 10px 14px;
+            margin-bottom: 14px;
+            gap: 8px;
+        }
+        .ctrl-btn {
+            background: var(--primary);
+            color: var(--accent);
+            border: 1px solid var(--btn-border);
+            padding: 8px 14px;
+            border-radius: 8px;
+            font-family: 'Noto Nastaliq Urdu', serif;
+            font-size: 14px;
+            cursor: pointer;
+            white-space: nowrap;
+            transition: opacity 0.2s;
+        }
+        .ctrl-btn:hover { opacity: 0.8; }
+        .bm-btn {
+            background: var(--primary-light);
+            color: var(--accent);
+            border: 1px solid var(--btn-border);
+            padding: 8px 14px;
+            border-radius: 8px;
+            font-family: 'Noto Nastaliq Urdu', serif;
+            font-size: 14px;
+            cursor: pointer;
+        }
+        .page-info { color: var(--accent); font-size: 14px; font-weight: 600; text-align: center; flex: 1; }
 
-        /* 🔴 سرچ کیا ہوا لفظ ہائی لائٹ کرنے کے لیے شامل کیا گیا */
-        .highlight { background-color: #FFF59D; color: #D32F2F; font-weight: bold; padding: 0 4px; border-radius: 4px; border: 1px solid #D32F2F; }
+        /* TYPOGRAPHY */
+        .urdu-text {
+            font-family: 'Noto Nastaliq Urdu', 'JameelNoori', serif;
+            font-size: var(--urdu-size);
+            line-height: 2.2;
+            color: var(--urdu-color);
+            direction: rtl;
+            text-align: justify;
+        }
+        .arabic-text {
+            font-family: 'Amiri', 'AlQalam', serif;
+            font-size: var(--arabic-size);
+            line-height: 2.4;
+            color: var(--arabic-color);
+            font-weight: 700;
+            direction: rtl;
+        }
+        .book-heading {
+            font-family: 'Amiri', 'AlQalam', serif;
+            font-size: calc(var(--urdu-size) + 6px);
+            color: var(--chapter-color);
+            font-weight: 700;
+            text-align: center;
+            margin: 14px 0 8px;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 8px;
+        }
+        .book-heading-h2 {
+            font-size: calc(var(--urdu-size) + 2px);
+            color: #D4A24C;
+            font-weight: 700;
+            margin: 10px 0 4px;
+        }
+        .book-heading-h3 {
+            font-size: var(--urdu-size);
+            color: #8AB4D4;
+            font-weight: 600;
+            margin: 8px 0 4px;
+        }
+        .highlight {
+            background: rgba(232,213,163,0.25);
+            color: #E87D5A;
+            font-weight: 700;
+            padding: 0 4px;
+            border-radius: 4px;
+            border-bottom: 2px solid #E87D5A;
+        }
 
-        /* 🎛️ کتاب کے کنٹرولز (Next, Prev, Bookmark) */
-        .book-controls { display: flex; justify-content: space-between; align-items: center; background: var(--nav-bg); padding: 10px; border-radius: 10px; margin-bottom: 20px; box-shadow: 0 2px 5px rgba(0,0,0,0.1);}
-        .book-controls button { background: var(--primary-color); color: var(--bg-color); border: none; padding: 8px 15px; border-radius: 5px; font-family: 'Jameel Noori'; font-size: 18px; cursor: pointer; }
-        .page-info { font-weight: bold; color: var(--text-primary); font-size: 18px; }
-        
-        /* 🔍 سرچ اور ان پٹ کا ڈیزائن */
-        .search-box { display: flex; gap: 10px; margin-bottom: 20px; }
-        .search-box input { flex: 1; padding: 10px; border: 1px solid var(--text-secondary); border-radius: 8px; font-family: 'Jameel Noori'; font-size: 18px; background: var(--bg-color); color: var(--text-primary);}
-        .search-box button { background: var(--primary-color); color: var(--bg-color); border: none; padding: 10px 20px; border-radius: 8px; font-family: 'Jameel Noori'; font-size: 18px; cursor: pointer; }
+        /* SEARCH */
+        .search-row {
+            display: flex; gap: 8px; margin-bottom: 12px;
+        }
+        .search-input {
+            flex: 1; padding: 10px 14px;
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            background: var(--card-bg);
+            color: var(--urdu-color);
+            font-family: 'Noto Nastaliq Urdu', serif;
+            font-size: 16px;
+            outline: none;
+            direction: rtl;
+        }
+        .search-input:focus { border-color: var(--accent2); }
+        .search-btn {
+            background: var(--primary);
+            color: var(--accent);
+            border: 1px solid var(--btn-border);
+            padding: 10px 16px;
+            border-radius: 10px;
+            font-family: 'Noto Nastaliq Urdu', serif;
+            font-size: 15px;
+            cursor: pointer;
+            white-space: nowrap;
+        }
+        .search-modes {
+            display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 12px;
+        }
+        .mode-btn {
+            background: var(--card-bg);
+            color: var(--sub-color);
+            border: 1px solid var(--border);
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-family: 'Noto Nastaliq Urdu', serif;
+            font-size: 13px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .mode-btn.active {
+            background: var(--primary);
+            color: var(--accent);
+            border-color: var(--accent2);
+        }
+        .result-count {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            color: var(--sub-color);
+            padding: 8px 14px;
+            border-radius: 8px;
+            font-size: 13px;
+            margin-bottom: 12px;
+            display: none;
+        }
 
-        /* کارڈز (سیٹنگز اور محفوظات) */
-        .card { background-color: var(--card-bg); padding: 15px; border-radius: 10px; border: 1px solid var(--text-secondary); margin-bottom: 15px; display: flex; justify-content: space-between; align-items: center; cursor: pointer;}
-        .font-controls button { background-color: var(--nav-bg); color: var(--text-primary); border: 1px solid var(--text-secondary); border-radius: 5px; width: 40px; height: 40px; font-size: 22px; cursor: pointer; }
-        .font-controls span { margin: 0 15px; font-size: 22px; font-family: sans-serif; }
+        /* CARDS */
+        .list-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 12px 14px;
+            margin-bottom: 10px;
+            cursor: pointer;
+            transition: border-color 0.2s, background 0.2s;
+        }
+        .list-card:hover { border-color: var(--accent2); }
+        .list-card-title { color: var(--chapter-color); font-weight: 700; font-size: 15px; margin-bottom: 4px; }
+        .list-card-sub { color: var(--sub-color); font-size: 13px; }
+        .list-card-btns { display: flex; gap: 8px; margin-top: 8px; flex-wrap: wrap; }
+        .lc-btn {
+            background: var(--primary);
+            color: var(--btn-color);
+            border: 1px solid var(--btn-border);
+            padding: 5px 10px;
+            border-radius: 6px;
+            font-family: 'Noto Nastaliq Urdu', serif;
+            font-size: 12px;
+            cursor: pointer;
+        }
 
-        /* نیویگیشن بار */
-        .bottom-nav { background-color: var(--nav-bg); display: flex; justify-content: space-around; padding: 12px 0; box-shadow: 0 -2px 5px rgba(0,0,0,0.1); flex-wrap: nowrap; }
-        .nav-item { text-align: center; color: var(--text-secondary); cursor: pointer; font-size: clamp(16px, 3vw, 22px); flex: 1; }
-        .nav-item.active { color: var(--primary-color); font-weight: bold; }
-        .pdf-btn { background-color: #D32F2F; color: white; border: none; padding: 10px 20px; border-radius: 8px; cursor: pointer; font-family: 'Jameel Noori'; font-size: clamp(14px, 2vw, 18px); }
-        .switch { position: relative; display: inline-block; width: 55px; height: 28px; }
+        /* SETTINGS */
+        .setting-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 14px 16px;
+            margin-bottom: 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .setting-label { color: var(--urdu-color); font-size: 16px; }
+        .font-ctrl { display: flex; align-items: center; gap: 10px; }
+        .font-ctrl button {
+            background: var(--primary);
+            color: var(--accent);
+            border: 1px solid var(--btn-border);
+            width: 36px; height: 36px;
+            border-radius: 8px;
+            font-size: 20px;
+            cursor: pointer;
+            line-height: 1;
+        }
+        .font-ctrl span { color: var(--accent); font-size: 16px; font-family: sans-serif; min-width: 28px; text-align: center; }
+
+        /* SWITCH */
+        .switch { position: relative; width: 52px; height: 28px; }
         .switch input { opacity: 0; width: 0; height: 0; }
-        .slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #ccc; transition: .4s; border-radius: 34px; }
-        .slider:before { position: absolute; content: ""; height: 20px; width: 20px; left: 4px; bottom: 4px; background-color: white; transition: .4s; border-radius: 50%; }
-        input:checked + .slider { background-color: #4CAF50; }
-        input:checked + .slider:before { transform: translateX(27px); }
+        .slider {
+            position: absolute; cursor: pointer; inset: 0;
+            background: var(--primary-light);
+            border: 1px solid var(--btn-border);
+            border-radius: 34px;
+            transition: 0.3s;
+        }
+        .slider::before {
+            position: absolute; content: "🌙";
+            height: 20px; width: 20px; left: 4px; bottom: 3px;
+            background: var(--primary-dark);
+            border-radius: 50%;
+            transition: 0.3s;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 11px;
+        }
+        input:checked + .slider { background: #C9B48A; }
+        input:checked + .slider::before { transform: translateX(24px); content: "☀️"; }
+
+        /* BOTTOM NAV */
+        .bottom-nav {
+            background: var(--primary);
+            display: flex;
+            border-top: 1px solid var(--primary-light);
+            flex-shrink: 0;
+        }
+        .nav-item {
+            flex: 1; text-align: center;
+            padding: 10px 4px 8px;
+            color: var(--nav-inactive);
+            cursor: pointer;
+            font-size: clamp(13px, 2.8vw, 17px);
+            font-family: 'Noto Nastaliq Urdu', serif;
+            border-top: 2px solid transparent;
+            transition: all 0.2s;
+        }
+        .nav-item.active { color: var(--accent); border-top-color: var(--accent2); }
+        .nav-icon { font-size: 18px; display: block; margin-bottom: 2px; }
+
+        /* TOC DRAWER */
+        .drawer-overlay {
+            display: none; position: absolute; inset: 0; background: rgba(0,0,0,0.5); z-index: 100;
+        }
+        .drawer {
+            display: none; position: absolute; top: 0; right: 0; width: 82%; max-width: 320px;
+            height: 100%; background: var(--drawer-bg);
+            border-left: 1px solid var(--primary-light);
+            z-index: 101; flex-direction: column;
+            animation: slideIn 0.25s ease;
+        }
+        .drawer.open { display: flex; }
+        @keyframes slideIn { from { transform: translateX(100%); } to { transform: translateX(0); } }
+        .drawer-header {
+            background: var(--primary);
+            padding: 14px 16px;
+            display: flex; justify-content: space-between; align-items: center;
+            border-bottom: 1px solid var(--primary-light);
+        }
+        .drawer-title { color: var(--accent); font-weight: 700; font-size: 17px; }
+        .drawer-close { background: none; border: none; color: var(--accent); font-size: 22px; cursor: pointer; }
+        .drawer-body { flex: 1; overflow-y: auto; padding: 8px; }
+        .toc-item {
+            padding: 10px 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            border-bottom: 1px solid rgba(26,58,92,0.4);
+            transition: background 0.15s;
+        }
+        .toc-item:hover { background: rgba(232,213,163,0.08); }
+        .toc-title { color: var(--toc-ch); font-size: 15px; font-weight: 600; }
+        .toc-sub { color: var(--toc-vol); font-size: 12px; margin-top: 2px; }
+        .toc-item.h2 { padding-right: 24px; }
+        .toc-item.h2 .toc-title { color: var(--sub-color); font-size: 14px; font-weight: 400; }
+        .toc-item.h3 { padding-right: 38px; }
+        .toc-item.h3 .toc-title { color: var(--nav-inactive); font-size: 13px; }
+
+        /* JUMP DIALOG */
+        .dialog-overlay {
+            display: none; position: absolute; inset: 0;
+            background: rgba(0,0,0,0.6); z-index: 200;
+            align-items: center; justify-content: center;
+        }
+        .dialog-overlay.open { display: flex; }
+        .dialog-box {
+            background: var(--drawer-bg);
+            border: 1px solid var(--primary-light);
+            border-radius: 16px;
+            padding: 20px;
+            width: 90%; max-width: 340px;
+        }
+        .dialog-title { color: var(--accent); font-size: 17px; font-weight: 700; margin-bottom: 14px; text-align: center; }
+        .dialog-row { display: flex; gap: 8px; margin-bottom: 12px; }
+        .dialog-input {
+            flex: 1; padding: 10px; border: 1px solid var(--border);
+            border-radius: 8px; background: var(--card-bg);
+            color: var(--urdu-color); font-family: sans-serif; font-size: 16px;
+            text-align: center;
+        }
+        .dialog-btn {
+            width: 100%;
+            background: linear-gradient(135deg, var(--accent2), var(--accent));
+            color: var(--primary-dark);
+            border: none; padding: 12px;
+            border-radius: 10px;
+            font-family: 'Noto Nastaliq Urdu', serif;
+            font-size: 16px; font-weight: 700;
+            cursor: pointer;
+        }
+
+        /* BOOKMARKS TAB */
+        .bm-empty { text-align: center; color: var(--sub-color); padding: 40px 20px; font-size: 15px; }
+        .bm-card {
+            background: var(--card-bg); border: 1px solid var(--border);
+            border-radius: 10px; padding: 12px 14px; margin-bottom: 10px;
+            display: flex; align-items: center; gap: 10px;
+        }
+        .bm-info { flex: 1; cursor: pointer; }
+        .bm-title { color: var(--chapter-color); font-weight: 700; font-size: 15px; }
+        .bm-vol { color: var(--sub-color); font-size: 12px; margin-top: 3px; }
+        .bm-del {
+            background: rgba(211,47,47,0.15);
+            color: #E87D7D;
+            border: 1px solid rgba(211,47,47,0.3);
+            padding: 6px 10px; border-radius: 8px;
+            font-family: 'Noto Nastaliq Urdu', serif;
+            font-size: 13px; cursor: pointer; white-space: nowrap;
+        }
+
+        /* PDF VIEWER */
+        #pdfFrame {
+            width: 100%; height: 100%; border: none;
+            display: none;
+        }
+        .pdf-bar {
+            display: none;
+            background: var(--primary); padding: 8px 14px;
+            align-items: center; gap: 10px; border-bottom: 1px solid var(--border);
+            flex-shrink: 0;
+        }
+        .pdf-bar.visible { display: flex; }
+        .pdf-back-btn {
+            background: var(--primary-light); color: var(--accent);
+            border: 1px solid var(--btn-border);
+            padding: 6px 12px; border-radius: 8px;
+            font-family: 'Noto Nastaliq Urdu', serif; font-size: 14px; cursor: pointer;
+        }
+        .pdf-label { color: var(--accent); font-size: 14px; flex: 1; text-align: center; }
+
+        /* RESPONSIVE */
+        @media (min-width: 600px) {
+            .content-area { padding: 20px max(20px, calc((100vw - 600px)/2)); }
+            .drawer { max-width: 380px; }
+            .splash-middle { flex-direction: row; flex-wrap: wrap; justify-content: center; max-width: 700px; }
+        }
+
+        /* LOADING OVERLAY */
+        .loading-overlay {
+            display: none; position: absolute; inset: 0;
+            background: rgba(10,22,40,0.8); z-index: 50;
+            align-items: center; justify-content: center;
+            flex-direction: column; gap: 14px;
+        }
+        .loading-overlay.show { display: flex; }
+        .spinner {
+            width: 48px; height: 48px;
+            border: 3px solid var(--primary-light);
+            border-top-color: var(--accent);
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+        .loading-text { color: var(--accent); font-size: 14px; }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar { width: 4px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: var(--primary-light); border-radius: 4px; }
     </style>
 </head>
 <body>
 
-    <div id="splash-screen">
-        <div class="header-section">
-            <div class="book-title">تُحْفَةُ الْبَارِي</div>
-            <div class="book-subtitle">فِي الْفِقْهِ الشَّافِعِي</div>
-        </div>
-        <div class="author-section">
-            <span class="label-text">مسائل و دلائل کا مستند مجموعہ</span>
-            <span class="label-text" style="margin-top: 1vh;">مؤلف</span>
-            <div class="author-name">شیخ الحدیث مولانا محمد ابراہیم بن علی خطیب حفظہ اللہ</div>
-            <span class="author-madrasa">جامعہ حسینیہ عربیہ، شریوردھن</span>
-        </div>
-        
-        <button class="btn-start" id="startBtn" onclick="enterApp()">کتاب لوڈ ہو رہی ہے...</button>
+<!-- ========== SPLASH SCREEN ========== -->
+<div id="splash">
+    <div class="splash-top-band">
+        <div class="splash-bismillah">بِسْمِ اللهِ الرَّحْمٰنِ الرَّحِيْمِ</div>
+        <div class="splash-book-title">تُحْفَةُ الْبَارِي</div>
+        <div class="splash-book-sub">فِي الْفِقْهِ الشَّافِعِي</div>
+        <div class="splash-divider"></div>
+    </div>
 
-        <div class="dev-section">
-            <span class="dev-label">تیار کردہ</span>
-            <div class="developer-name">مفتی اظہر بن محمد امین پٹیل</div>
-            <span class="dev-madrasa">مدرس دار العلوم اسلامیہ عربیہ تلوجہ</span>
+    <div class="splash-middle">
+        <div class="splash-ornament">❧</div>
+        <div style="display:flex;flex-direction:column;align-items:center;gap:6px;">
+            <div class="splash-label">مسائل و دلائل کا مستند مجموعہ</div>
+            <div class="splash-label" style="margin-top:4px;">مؤلف</div>
+            <div class="splash-author">شیخ الحدیث مولانا محمد ابراہیم بن علی خطیب حفظہ اللہ</div>
+            <div class="splash-madrasa">جامعہ حسینیہ عربیہ، شریوردھن</div>
+        </div>
+        <div class="splash-ornament">❧</div>
+    </div>
+
+    <div class="splash-bottom">
+        <div class="splash-dev-label">تیار کردہ</div>
+        <div class="splash-dev-name">مفتی اظہر بن محمد امین پٹیل</div>
+        <div class="splash-dev-place">مدرس دار العلوم اسلامیہ عربیہ تلوجہ</div>
+        <button class="btn-start" id="startBtn" onclick="enterApp()">کتاب لوڈ ہو رہی ہے...</button>
+    </div>
+</div>
+
+<!-- ========== MAIN APP ========== -->
+<div id="app">
+
+    <!-- Status Bar -->
+    <div class="sbar">
+        <span id="clock">٩:٤١</span>
+        <span>تحفۃ الباری</span>
+        <span>📶 🔋</span>
+    </div>
+
+    <!-- PDF Bar (shown when PDF visible) -->
+    <div class="pdf-bar" id="pdfBar">
+        <button class="pdf-back-btn" onclick="closePdf()">⬅ واپس</button>
+        <div class="pdf-label">اصل کتاب PDF</div>
+    </div>
+
+    <!-- Toolbar -->
+    <div class="toolbar" id="mainToolbar">
+        <div class="toolbar-btns">
+            <button class="tb-btn" onclick="toggleDrawer()">☰ فہرست</button>
+            <button class="tb-btn" onclick="showJumpDialog()">↗ جمپ</button>
+        </div>
+        <div class="toolbar-title">تحفۃ الباری</div>
+        <div class="toolbar-btns">
+            <button class="tb-btn" onclick="openPdf()">PDF 📄</button>
         </div>
     </div>
 
-    <div id="main-app">
-        <header>
-            <span id="app-header">تحفۃ الباری</span>
-            <button class="pdf-btn" onclick="openPdf()">اصل PDF دیکھیں</button>
-        </header>
+    <!-- Main Content Wrapper -->
+    <div style="flex:1;overflow:hidden;position:relative;display:flex;flex-direction:column;">
 
-        <div class="content-area">
+        <!-- TOC Drawer Overlay -->
+        <div class="drawer-overlay" id="drawerOverlay" onclick="closeDrawer()"></div>
+
+        <!-- TOC Drawer -->
+        <div class="drawer" id="tocDrawer">
+            <div class="drawer-header">
+                <button class="drawer-close" onclick="closeDrawer()">✕</button>
+                <div class="drawer-title">فہرست مضامین</div>
+            </div>
+            <div class="drawer-body" id="tocBody">
+                <div class="bm-empty">ڈیٹا لوڈ ہو رہا ہے...</div>
+            </div>
+        </div>
+
+        <!-- Jump Dialog -->
+        <div class="dialog-overlay" id="jumpDialog">
+            <div class="dialog-box">
+                <div class="dialog-title">صفحے پر جائیں</div>
+                <div class="dialog-row">
+                    <input class="dialog-input" type="number" id="jumpVol" placeholder="جلد" min="1" max="3">
+                    <input class="dialog-input" type="number" id="jumpPage" placeholder="صفحہ نمبر" min="1">
+                </div>
+                <button class="dialog-btn" onclick="doJump()">جائیں ←</button>
+                <div style="text-align:center;margin-top:10px;">
+                    <button onclick="closeJumpDialog()" style="background:none;border:none;color:var(--sub-color);cursor:pointer;font-family:'Noto Nastaliq Urdu',serif;font-size:14px;">بند کریں</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Loading Overlay -->
+        <div class="loading-overlay" id="loadingOverlay">
+            <div class="spinner"></div>
+            <div class="loading-text">لوڈ ہو رہا ہے...</div>
+        </div>
+
+        <!-- PDF iframe -->
+        <iframe id="pdfFrame"></iframe>
+
+        <!-- Scrollable Content -->
+        <div class="content-area" id="contentArea">
+
+            <!-- BOOK TAB -->
             <div id="tab-book" class="tab-content active">
                 <div class="book-controls">
-                    <button onclick="nextPage()">اگلا صفحہ ⬅</button>
-                    <span class="page-info" id="page-indicator">جلد: 1 | صفحہ: 1</span>
-                    <button onclick="prevPage()">➡ پچھلا صفحہ</button>
+                    <button class="ctrl-btn" onclick="nextPage()">⬅ اگلا</button>
+                    <button class="bm-btn" onclick="saveBookmark()">🔖</button>
+                    <div class="page-info" id="pageInfo">جلد: — | صفحہ: —</div>
+                    <button class="ctrl-btn" onclick="prevPage()">پچھلا ➡</button>
                 </div>
-                <div style="text-align: center; margin-bottom: 15px;">
-                    <button onclick="saveBookmark()" style="background:var(--card-bg); color:var(--text-primary); border:1px solid var(--text-secondary); padding:5px 15px; border-radius:5px; font-family:'Jameel Noori'; cursor:pointer;">🔖 اس صفحے کو محفوظ کریں</button>
+                <div class="book-card">
+                    <div class="page-badge" id="pageBadge">صفحہ —</div>
+                    <div class="urdu-text" id="bookContent">
+                        <div style="text-align:center;color:var(--sub-color);padding:40px 0;">کتاب لوڈ ہو رہی ہے...</div>
+                    </div>
                 </div>
-                
-                <div id="book-content-area" class="urdu-text"></div>
             </div>
 
+            <!-- SEARCH TAB -->
             <div id="tab-search" class="tab-content">
-                <div class="search-box">
-                    <input type="text" id="searchInput" placeholder="کوئی لفظ تلاش کریں...">
-                    <button onclick="searchBook()">تلاش</button>
+                <div class="search-row">
+                    <input class="search-input" type="text" id="searchInput" placeholder="کوئی لفظ تلاش کریں..." oninput="onSearchInput(this.value)">
+                    <button class="search-btn" onclick="doSearch()">تلاش</button>
                 </div>
-                <div class="search-box">
-                    <input type="number" id="jumpVol" placeholder="جلد نمبر">
-                    <input type="number" id="jumpPage" placeholder="صفحہ نمبر">
-                    <button onclick="jumpToPageBtn()">صفحے پر جائیں</button>
+                <div class="search-modes">
+                    <button class="mode-btn active" id="modeExact" onclick="setMode('exact')">عین مطابق</button>
+                    <button class="mode-btn" id="modeAll" onclick="setMode('all')">تمام الفاظ</button>
+                    <button class="mode-btn" id="modeAny" onclick="setMode('any')">کوئی لفظ</button>
                 </div>
-                <div id="searchResults" style="margin-top: 20px;"></div>
+                <div class="result-count" id="resultCount"></div>
+                <div id="searchResults"></div>
             </div>
 
+            <!-- BOOKMARKS TAB -->
             <div id="tab-bookmarks" class="tab-content">
-                <div id="bookmarksList"></div>
+                <div id="bookmarksList"><div class="bm-empty">کوئی مقام محفوظ نہیں ہے۔</div></div>
             </div>
 
+            <!-- SETTINGS TAB -->
             <div id="tab-settings" class="tab-content">
-                <div class="card" style="cursor: default;">
-                    <span>رات کا موڈ (Dark Mode)</span>
+                <div class="setting-card">
+                    <span class="setting-label">☀️ ڈے موڈ</span>
                     <label class="switch">
-                        <input type="checkbox" id="darkModeToggle">
+                        <input type="checkbox" id="themeToggle" onchange="toggleTheme(this.checked)">
                         <span class="slider"></span>
                     </label>
                 </div>
-                <div class="card" style="cursor: default;">
-                    <span>اردو فونٹ سائز</span>
-                    <div class="font-controls">
-                        <button onclick="changeFontSize('urdu', 2)">+</button>
-                        <span id="urduSizeDisplay">22</span>
-                        <button onclick="changeFontSize('urdu', -2)">−</button>
+                <div class="setting-card">
+                    <span class="setting-label">اردو فونٹ سائز</span>
+                    <div class="font-ctrl">
+                        <button onclick="changeFont('urdu',2)">+</button>
+                        <span id="urduSz">20</span>
+                        <button onclick="changeFont('urdu',-2)">−</button>
                     </div>
                 </div>
-                <div class="card" style="cursor: default;">
-                    <span>عربی فونٹ سائز</span>
-                    <div class="font-controls">
-                        <button onclick="changeFontSize('arabic', 2)">+</button>
-                        <span id="arabicSizeDisplay">26</span>
-                        <button onclick="changeFontSize('arabic', -2)">−</button>
+                <div class="setting-card">
+                    <span class="setting-label">عربی فونٹ سائز</span>
+                    <div class="font-ctrl">
+                        <button onclick="changeFont('arabic',2)">+</button>
+                        <span id="arabicSz">26</span>
+                        <button onclick="changeFont('arabic',-2)">−</button>
                     </div>
+                </div>
+                <div class="setting-card" style="flex-direction:column;align-items:flex-end;gap:6px;">
+                    <span class="setting-label">PDF کتاب آن لائن دیکھیں</span>
+                    <button class="search-btn" onclick="openPdf()">PDF کھولیں 📄</button>
                 </div>
             </div>
         </div>
-
-        <div class="bottom-nav">
-            <div class="nav-item active" onclick="switchTab('book', this)">کتاب</div>
-            <div class="nav-item" onclick="switchTab('search', this)">تلاش</div>
-            <div class="nav-item" onclick="switchTab('bookmarks', this)">محفوظ</div>
-            <div class="nav-item" onclick="switchTab('settings', this)">ترتیبات</div>
-        </div>
     </div>
 
-    <script>
-        let bookData = [];
-        let currentIndex = 0;
-        let bookmarks = JSON.parse(localStorage.getItem('tb_bookmarks')) || [];
-        let currentSearchQuery = ""; // ✅ سرچ کے لفظ کو یاد رکھنے کے لیے
+    <!-- Bottom Nav -->
+    <div class="bottom-nav">
+        <div class="nav-item active" id="navBook" onclick="switchTab('book',this)">
+            <span class="nav-icon">📖</span>کتاب
+        </div>
+        <div class="nav-item" id="navSearch" onclick="switchTab('search',this)">
+            <span class="nav-icon">🔍</span>تلاش
+        </div>
+        <div class="nav-item" id="navBm" onclick="switchTab('bookmarks',this)">
+            <span class="nav-icon">🔖</span>محفوظ
+        </div>
+        <div class="nav-item" id="navSettings" onclick="switchTab('settings',this)">
+            <span class="nav-icon">⚙️</span>ترتیبات
+        </div>
+    </div>
+</div>
 
-        fetch('book_data.json') 
-            .then(response => response.json())
-            .then(data => {
-                bookData = data;
-                document.getElementById('startBtn').innerText = "کتاب شروع کریں";
-                renderPageByIndex(0); 
-                renderBookmarks();
-            })
-            .catch(error => {
-                document.getElementById('startBtn').innerText = "ڈیٹا لوڈ نہیں ہو سکا!";
-                console.error("Error loading JSON:", error);
-            });
+<script>
+// ===== STATE =====
+let bookData = [];
+let currentIndex = 0;
+let bookmarks = JSON.parse(localStorage.getItem('tb_bm_v2') || '[]');
+let currentQuery = '';
+let searchMode = 'exact';
+let urduSize = parseInt(localStorage.getItem('tb_urdu_sz')) || 20;
+let arabicSize = parseInt(localStorage.getItem('tb_arabic_sz')) || 26;
+let currentTheme = localStorage.getItem('tb_theme') || 'night';
 
-        function enterApp() {
-            if(bookData.length === 0) { alert('کتاب ابھی لوڈ ہو رہی ہے یا فائل نہیں ملی!'); return; }
-            document.getElementById('splash-screen').style.opacity = '0';
-            setTimeout(() => {
-                document.getElementById('splash-screen').style.display = 'none';
-                document.getElementById('main-app').style.display = 'flex';
-            }, 500);
+// ===== INIT =====
+applyTheme();
+applyFonts();
+updateClock();
+setInterval(updateClock, 30000);
+
+// Load book data
+const dataUrl = 'book_data.json';
+showLoading(true);
+
+fetch(dataUrl)
+    .then(r => r.json())
+    .then(data => {
+        bookData = data;
+        showLoading(false);
+        document.getElementById('startBtn').textContent = 'کتاب شروع کریں ←';
+        renderPage(0);
+        renderBookmarks();
+        buildToc();
+    })
+    .catch(err => {
+        showLoading(false);
+        document.getElementById('startBtn').textContent = 'ڈیٹا لوڈ نہیں ہوا!';
+        console.error(err);
+        // Demo mode — show sample content
+        demoMode();
+    });
+
+function demoMode() {
+    bookData = [
+        {
+            volume: "1", page_number: 1, chapter_h1: "بسم اللہ الرحمن الرحیم",
+            content: "[H1]بسم اللہ الرحمن الرحیم[/H1]\n\nیہ کتاب تحفۃ الباری فی الفقہ الشافعی ہے۔ اس کتاب میں شافعی فقہ کے تمام مسائل مدلل اور مفصل طریقے سے بیان کیے گئے ہیں۔\n\n<ar>الحمد لله رب العالمين والصلاة والسلام على أشرف الأنبياء والمرسلين</ar>\n\nتمام تعریفیں اللہ تعالیٰ کے لیے ہیں جو سارے جہانوں کا رب ہے، اور درود و سلام ہو تمام انبیاء اور رسولوں میں سب سے افضل پر۔"
+        },
+        {
+            volume: "1", page_number: 2, chapter_h1: "کتاب الطہارۃ",
+            content: "[H1]کتاب الطہارۃ[/H1]\n\n[H2]باب الماء وأقسامه[/H2]\n\nطہارت اسلامی عبادات کی بنیاد ہے۔ پانی کی اقسام اور ان کے احکام درج ذیل ہیں:\n\n<ar>الماء الطهور هو الذي تصح به الطهارة</ar>\n\nطہور پانی وہ ہے جس سے طہارت صحیح ہوتی ہے۔ یہ پانی اپنی اصل حالت پر باقی ہو اور کوئی نجاست اس میں نہ ملی ہو۔"
         }
+    ];
+    document.getElementById('startBtn').textContent = 'نمونہ دیکھیں (ڈیمو موڈ) ←';
+    renderPage(0);
+    renderBookmarks();
+    buildToc();
+}
 
-        function switchTab(tabId, element) {
-            document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
-            document.getElementById('tab-' + tabId).classList.add('active');
-            document.querySelectorAll('.nav-item').forEach(nav => nav.classList.remove('active'));
-            if(element) element.classList.add('active');
-            const titles = { 'book': 'تحفۃ الباری', 'search': 'تلاش / جمپ', 'bookmarks': 'محفوظ کردہ مقامات', 'settings': 'سیٹنگ پینل' };
-            document.getElementById('app-header').innerText = titles[tabId];
+// ===== SPLASH =====
+function enterApp() {
+    if (bookData.length === 0) return;
+    const splash = document.getElementById('splash');
+    splash.style.opacity = '0';
+    setTimeout(() => {
+        splash.style.display = 'none';
+        document.getElementById('app').style.display = 'flex';
+    }, 600);
+}
+
+// ===== CLOCK =====
+function updateClock() {
+    const now = new Date();
+    const h = now.getHours().toString().padStart(2,'0');
+    const m = now.getMinutes().toString().padStart(2,'0');
+    document.getElementById('clock').textContent = `${h}:${m}`;
+}
+
+// ===== TABS =====
+function switchTab(tab, el) {
+    document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+    document.getElementById('tab-' + tab).classList.add('active');
+    if (el) el.classList.add('active');
+    document.getElementById('contentArea').scrollTop = 0;
+    closePdfInternal();
+}
+
+// ===== PAGE RENDER =====
+function formatContent(text) {
+    let html = text;
+    html = html.replace(/\[H1\]([\s\S]*?)\[\/H1\]/g, '<div class="book-heading">$1</div>');
+    html = html.replace(/\[H2\]([\s\S]*?)\[\/H2\]/g, '<div class="book-heading-h2">$1</div>');
+    html = html.replace(/\[H3\]([\s\S]*?)\[\/H3\]/g, '<div class="book-heading-h3">$1</div>');
+    html = html.replace(/<ar>([\s\S]*?)<\/ar>/g, '<div class="arabic-text">$1</div>');
+    html = html.replace(/\n/g, '<br>');
+    return html;
+}
+
+function highlightQuery(html, query) {
+    if (!query || query.length < 2) return html;
+    const escaped = query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    return html.replace(new RegExp(`(${escaped})`, 'gi'), '<span class="highlight">$1</span>');
+}
+
+function renderPage(index) {
+    if (index < 0 || index >= bookData.length) return;
+    currentIndex = index;
+    const page = bookData[index];
+    let html = formatContent(page.content || '');
+    if (currentQuery) html = highlightQuery(html, currentQuery);
+
+    document.getElementById('bookContent').innerHTML = html;
+    document.getElementById('pageInfo').textContent = `جلد: ${page.volume} | صفحہ: ${page.page_number}`;
+    document.getElementById('pageBadge').textContent = `جلد ${page.volume} — صفحہ ${page.page_number}`;
+    document.getElementById('contentArea').scrollTop = 0;
+}
+
+function nextPage() { renderPage(currentIndex + 1); }
+function prevPage() { renderPage(currentIndex - 1); }
+
+// ===== SEARCH =====
+function setMode(mode) {
+    searchMode = mode;
+    document.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('active'));
+    document.getElementById('mode' + mode.charAt(0).toUpperCase() + mode.slice(1)).classList.add('active');
+}
+
+function onSearchInput(val) {
+    if (!val.trim()) {
+        currentQuery = '';
+        document.getElementById('resultCount').style.display = 'none';
+        document.getElementById('searchResults').innerHTML = '';
+        renderPage(currentIndex);
+    }
+}
+
+function doSearch() {
+    const query = document.getElementById('searchInput').value.trim();
+    if (!query || bookData.length === 0) return;
+    currentQuery = query;
+
+    const results = bookData.filter(p => {
+        const txt = (p.content || '').toLowerCase();
+        const q = query.toLowerCase();
+        if (searchMode === 'exact') return txt.includes(q);
+        const words = q.split(' ').filter(Boolean);
+        if (searchMode === 'all') return words.every(w => txt.includes(w));
+        return words.some(w => txt.includes(w));
+    });
+
+    const rc = document.getElementById('resultCount');
+    rc.style.display = 'block';
+    rc.textContent = `${results.length} نتائج ملے`;
+
+    const box = document.getElementById('searchResults');
+    if (results.length === 0) { box.innerHTML = '<div class="bm-empty">کچھ نہیں ملا۔</div>'; return; }
+
+    box.innerHTML = results.slice(0, 80).map(res => {
+        const idx = bookData.indexOf(res);
+        const snippet = (res.content || '').replace(/<[^>]*>/g,'').replace(/\[[^\]]*\]/g,'').substring(0,100) + '...';
+        return `<div class="list-card" onclick="jumpTo(${idx})">
+            <div class="list-card-title">${res.chapter_h1 || 'متن'}</div>
+            <div style="color:var(--urdu-color);font-size:13px;margin:4px 0;line-height:1.8;">${snippet}</div>
+            <div class="list-card-sub">جلد: ${res.volume} | صفحہ: ${res.page_number}</div>
+        </div>`;
+    }).join('');
+}
+
+// ===== JUMP =====
+function jumpTo(idx) {
+    renderPage(idx);
+    switchTab('book', document.getElementById('navBook'));
+}
+
+function showJumpDialog() { document.getElementById('jumpDialog').classList.add('open'); }
+function closeJumpDialog() { document.getElementById('jumpDialog').classList.remove('open'); }
+function doJump() {
+    const vol = document.getElementById('jumpVol').value;
+    const page = parseInt(document.getElementById('jumpPage').value);
+    const idx = bookData.findIndex(p => p.volume == vol && p.page_number == page);
+    if (idx !== -1) { jumpTo(idx); closeJumpDialog(); }
+    else alert('یہ صفحہ نہیں ملا!');
+}
+
+// ===== BOOKMARKS =====
+function saveBookmark() {
+    if (!bookData.length) return;
+    const page = bookData[currentIndex];
+    const exists = bookmarks.find(b => b.vol == page.volume && b.page == page.page_number);
+    if (exists) { alert('یہ صفحہ پہلے سے محفوظ ہے! 🔖'); return; }
+    bookmarks.push({ vol: page.volume, page: page.page_number, title: page.chapter_h1 || 'محفوظ صفحہ', idx: currentIndex });
+    localStorage.setItem('tb_bm_v2', JSON.stringify(bookmarks));
+    alert('محفوظ کر لیا گیا! 🔖');
+    renderBookmarks();
+}
+
+function deleteBookmark(i) {
+    bookmarks.splice(i, 1);
+    localStorage.setItem('tb_bm_v2', JSON.stringify(bookmarks));
+    renderBookmarks();
+}
+
+function renderBookmarks() {
+    const box = document.getElementById('bookmarksList');
+    if (!bookmarks.length) { box.innerHTML = '<div class="bm-empty">کوئی مقام محفوظ نہیں ہے۔</div>'; return; }
+    box.innerHTML = bookmarks.map((bm,i) => `
+        <div class="bm-card">
+            <button class="bm-del" onclick="deleteBookmark(${i})">حذف</button>
+            <div class="bm-info" onclick="jumpTo(${bm.idx})">
+                <div class="bm-title">${bm.title}</div>
+                <div class="bm-vol">جلد: ${bm.vol} | صفحہ: ${bm.page}</div>
+            </div>
+        </div>`).join('');
+}
+
+// ===== TOC =====
+function buildToc() {
+    const h1Regex = /\[H1\]([\s\S]*?)\[\/H1\]/g;
+    const h2Regex = /\[H2\]([\s\S]*?)\[\/H2\]/g;
+    const items = [];
+    bookData.forEach((page, idx) => {
+        let m;
+        const content = page.content || '';
+        h1Regex.lastIndex = 0;
+        while ((m = h1Regex.exec(content)) !== null) {
+            items.push({ title: m[1].trim(), level: 1, sub: `جلد: ${page.volume} | صفحہ: ${page.page_number}`, idx });
         }
-
-        // ✅ H2 اور H3 کے لیے شامل کیا گیا
-        function formatContent(text) {
-            let formatted = text.replace(/<ar>/g, '<span class="arabic-text">');
-            formatted = formatted.replace(/<\/ar>/g, '</span>');
-            formatted = formatted.replace(/\[H1\]/g, '<div class="book-heading">');
-            formatted = formatted.replace(/\[\/H1\]/g, '</div>');
-            formatted = formatted.replace(/\[H2\]/g, '<div class="book-heading-h2">');
-            formatted = formatted.replace(/\[\/H2\]/g, '</div>');
-            formatted = formatted.replace(/\[H3\]/g, '<div class="book-heading-h3">');
-            formatted = formatted.replace(/\[\/H3\]/g, '</div>');
-            formatted = formatted.replace(/\n/g, '<br>'); 
-            return formatted;
+        h2Regex.lastIndex = 0;
+        while ((m = h2Regex.exec(content)) !== null) {
+            items.push({ title: m[1].trim(), level: 2, sub: `جلد: ${page.volume} | صفحہ: ${page.page_number}`, idx });
         }
+    });
 
-        // ✅ ہائی لائٹ کرنے کا نظام شامل کیا گیا
-        function renderPageByIndex(index) {
-            if (index >= 0 && index < bookData.length) {
-                currentIndex = index;
-                const page = bookData[index];
-                
-                let pageHTML = formatContent(page.content);
-                
-                // 🔴 لفظ کو ہائی لائٹ کریں
-                if (currentSearchQuery !== "") {
-                    const regex = new RegExp(`(${currentSearchQuery})`, 'g');
-                    pageHTML = pageHTML.replace(regex, '<span class="highlight">$1</span>');
-                }
+    const tocBody = document.getElementById('tocBody');
+    if (!items.length) { tocBody.innerHTML = '<div class="bm-empty">فہرست خالی ہے</div>'; return; }
+    tocBody.innerHTML = items.map(it => `
+        <div class="toc-item h${it.level}" onclick="tocJump(${it.idx})">
+            <div class="toc-title">${it.title}</div>
+            <div class="toc-sub">${it.sub}</div>
+        </div>`).join('');
+}
 
-                document.getElementById('book-content-area').innerHTML = pageHTML;
-                document.getElementById('page-indicator').innerText = `جلد: ${page.volume} | صفحہ: ${page.page_number}`;
-                document.querySelector('.content-area').scrollTop = 0;
-            }
-        }
+function tocJump(idx) { jumpTo(idx); closeDrawer(); }
 
-        function nextPage() { renderPageByIndex(currentIndex + 1); }
-        function prevPage() { renderPageByIndex(currentIndex - 1); }
+function toggleDrawer() {
+    const d = document.getElementById('tocDrawer');
+    const o = document.getElementById('drawerOverlay');
+    d.classList.toggle('open');
+    o.style.display = d.classList.contains('open') ? 'block' : 'none';
+}
+function closeDrawer() {
+    document.getElementById('tocDrawer').classList.remove('open');
+    document.getElementById('drawerOverlay').style.display = 'none';
+}
 
-        // ✅ سرچ کو اپڈیٹ کیا گیا
-        function searchBook() {
-            const query = document.getElementById('searchInput').value.trim();
-            const resBox = document.getElementById('searchResults');
-            resBox.innerHTML = '';
-            
-            currentSearchQuery = query; // سرچ کیے گئے لفظ کو محفوظ کر لیا
+// ===== PDF =====
+function openPdf() {
+    const pdfUrl = 'https://masjidboard.github.io/Tohfat%20ul%20Bari%20Complete.pdf';
+    const frame = document.getElementById('pdfFrame');
+    const bar = document.getElementById('pdfBar');
+    const toolbar = document.getElementById('mainToolbar');
+    frame.src = pdfUrl;
+    frame.style.display = 'block';
+    bar.classList.add('visible');
+    toolbar.style.display = 'none';
+    document.getElementById('contentArea').style.display = 'none';
+    document.querySelector('.bottom-nav').style.display = 'none';
+}
+function closePdf() { closePdfInternal(); }
+function closePdfInternal() {
+    const frame = document.getElementById('pdfFrame');
+    if (frame.style.display === 'none') return;
+    frame.style.display = 'none';
+    frame.src = '';
+    document.getElementById('pdfBar').classList.remove('visible');
+    document.getElementById('mainToolbar').style.display = '';
+    document.getElementById('contentArea').style.display = '';
+    document.querySelector('.bottom-nav').style.display = 'flex';
+}
 
-            if (!query) {
-                renderPageByIndex(currentIndex); // اگر سرچ بار خالی ہے تو ہائی لائٹ ختم کر دے گا
-                return; 
-            }
+// ===== THEME =====
+function toggleTheme(isDay) {
+    currentTheme = isDay ? 'day' : 'night';
+    localStorage.setItem('tb_theme', currentTheme);
+    applyTheme();
+}
+function applyTheme() {
+    if (currentTheme === 'day') {
+        document.body.setAttribute('data-theme','day');
+        const tog = document.getElementById('themeToggle');
+        if (tog) tog.checked = true;
+    } else {
+        document.body.removeAttribute('data-theme');
+    }
+}
 
-            const results = bookData.filter(p => p.content.includes(query) || (p.chapter_h1 && p.chapter_h1.includes(query)));
-            if (results.length === 0) { resBox.innerHTML = '<p style="text-align:center;">کچھ نہیں ملا۔</p>'; return; }
+// ===== FONTS =====
+function changeFont(type, step) {
+    if (type === 'urdu') {
+        urduSize = Math.min(44, Math.max(14, urduSize + step));
+        localStorage.setItem('tb_urdu_sz', urduSize);
+    } else {
+        arabicSize = Math.min(54, Math.max(18, arabicSize + step));
+        localStorage.setItem('tb_arabic_sz', arabicSize);
+    }
+    applyFonts();
+}
+function applyFonts() {
+    document.documentElement.style.setProperty('--urdu-size', urduSize + 'px');
+    document.documentElement.style.setProperty('--arabic-size', arabicSize + 'px');
+    const us = document.getElementById('urduSz');
+    const as = document.getElementById('arabicSz');
+    if (us) us.textContent = urduSize;
+    if (as) as.textContent = arabicSize;
+}
 
-            results.forEach((res, idx) => {
-                const globalIndex = bookData.indexOf(res);
-                resBox.innerHTML += `
-                    <div class="card" onclick="jumpToGlobalIndex(${globalIndex})" style="flex-direction:column; align-items:flex-end;">
-                        <span style="color:var(--primary-color); font-weight:bold;">${res.chapter_h1 || "متن کا حصہ"}</span>
-                        <span style="font-size:14px; color:var(--text-secondary);">جلد: ${res.volume} | صفحہ: ${res.page_number}</span>
-                    </div>`;
-            });
-        }
-
-        // ✅ اگر یوزر سرچ باکس کو کاٹ کر خالی کر دے، تو ہائی لائٹ بھی ہٹ جائے گا
-        document.getElementById('searchInput').addEventListener('input', function(e) {
-            if(e.target.value.trim() === "") {
-                currentSearchQuery = "";
-                renderPageByIndex(currentIndex);
-            }
-        });
-
-        function jumpToPageBtn() {
-            const vol = document.getElementById('jumpVol').value;
-            const page = document.getElementById('jumpPage').value;
-            const index = bookData.findIndex(p => p.volume == vol && p.page_number == page);
-            if(index !== -1) jumpToGlobalIndex(index);
-            else alert("یہ صفحہ نہیں ملا!");
-        }
-
-        function jumpToGlobalIndex(index) {
-            renderPageByIndex(index);
-            switchTab('book', document.querySelector('.nav-item:nth-child(1)'));
-        }
-
-        function saveBookmark() {
-            const page = bookData[currentIndex];
-            const exists = bookmarks.find(b => b.vol == page.volume && b.page == page.page_number);
-            if (exists) { alert('یہ صفحہ پہلے سے محفوظ ہے!'); } 
-            else {
-                bookmarks.push({ vol: page.volume, page: page.page_number, title: page.chapter_h1 || "محفوظ کردہ صفحہ", index: currentIndex });
-                localStorage.setItem('tb_bookmarks', JSON.stringify(bookmarks));
-                alert('صفحہ محفوظ کر لیا گیا! (محفوظات کے پینل میں دیکھیں)');
-                renderBookmarks();
-            }
-        }
-
-        function renderBookmarks() {
-            const box = document.getElementById('bookmarksList');
-            box.innerHTML = '';
-            bookmarks.forEach((bm, idx) => {
-                box.innerHTML += `
-                    <div class="card" style="display:flex; justify-content:space-between; align-items:center;">
-                        <button onclick="deleteBookmark(${idx})" style="background:#D32F2F; color:white; border:none; padding:8px 12px; border-radius:5px; font-family:'Jameel Noori'; cursor:pointer;">حذف</button>
-                        <div onclick="jumpToGlobalIndex(${bm.index})" style="flex:1; text-align:right; margin-left:15px;">
-                            <span style="color:var(--primary-color); font-weight:bold; display:block;">${bm.title}</span>
-                            <span style="font-size:14px; color:var(--text-secondary);">جلد: ${bm.vol} | صفحہ: ${bm.page}</span>
-                        </div>
-                    </div>`;
-            });
-            if(bookmarks.length === 0) box.innerHTML = '<p style="text-align:center;">کوئی مقام محفوظ نہیں ہے۔</p>';
-        }
-
-        function deleteBookmark(idx) {
-            bookmarks.splice(idx, 1);
-            localStorage.setItem('tb_bookmarks', JSON.stringify(bookmarks));
-            renderBookmarks();
-        }
-
-        let urduSize = parseInt(localStorage.getItem('urduFontSize')) || 22;
-        let arabicSize = parseInt(localStorage.getItem('arabicFontSize')) || 26;
-        function applyFonts() {
-            document.documentElement.style.setProperty('--urdu-font-size', urduSize + 'px');
-            document.documentElement.style.setProperty('--arabic-font-size', arabicSize + 'px');
-            document.getElementById('urduSizeDisplay').innerText = urduSize;
-            document.getElementById('arabicSizeDisplay').innerText = arabicSize;
-        }
-        function changeFontSize(type, step) {
-            if (type === 'urdu') { if (urduSize + step >= 14 && urduSize + step <= 45) urduSize += step; localStorage.setItem('urduFontSize', urduSize); } 
-            else { if (arabicSize + step >= 16 && arabicSize + step <= 55) arabicSize += step; localStorage.setItem('arabicFontSize', arabicSize); }
-            applyFonts();
-        }
-        applyFonts();
-
-        const darkModeToggle = document.getElementById('darkModeToggle');
-        if (localStorage.getItem('theme') === 'dark') { document.body.setAttribute('data-theme', 'dark'); darkModeToggle.checked = true; }
-        darkModeToggle.addEventListener('change', function() {
-            if (this.checked) { document.body.setAttribute('data-theme', 'dark'); localStorage.setItem('theme', 'dark'); } 
-            else { document.body.removeAttribute('data-theme'); localStorage.setItem('theme', 'light'); }
-        });
-
-        function openPdf() {
-            window.open("https://masjidboard.github.io/Tohfat%20ul%20Bari%20Complete.pdf", "_blank");
-        }
-    </script>
+// ===== LOADING =====
+function showLoading(show) {
+    const el = document.getElementById('loadingOverlay');
+    if (el) el.classList.toggle('show', show);
+}
+</script>
 </body>
 </html>
