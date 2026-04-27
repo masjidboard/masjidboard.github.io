@@ -73,7 +73,7 @@
             flex-direction: column;
         }
 
-        /* ===== SPLASH SCREEN ===== */
+        /* ===== SPLASH SCREEN ===== (vh کو dvh کر دیا گیا تاکہ سکرین نہ کٹے) */
         #splash {
             position: fixed; inset: 0; z-index: 9999;
             display: flex; flex-direction: column;
@@ -82,6 +82,7 @@
             overflow: hidden;
             background: var(--primary-dark);
             transition: opacity 0.6s ease;
+            height: 100dvh;
         }
         .splash-top-band {
             width: 100%;
@@ -126,10 +127,7 @@
             padding: 16px 24px;
             text-align: center;
         }
-        .splash-label {
-            font-size: clamp(14px, 2.5vw, 18px);
-            color: var(--nav-inactive);
-        }
+        .splash-label { font-size: clamp(14px, 2.5vw, 18px); color: var(--nav-inactive); }
         .splash-author {
             font-family: 'Noto Nastaliq Urdu', 'JameelNoori', serif;
             font-size: clamp(18px, 4vw, 26px);
@@ -137,16 +135,8 @@
             color: var(--accent);
             line-height: 1.6;
         }
-        .splash-madrasa {
-            font-size: clamp(14px, 3vw, 20px);
-            color: #C8DFF0;
-            font-weight: 600;
-        }
-        .splash-ornament {
-            font-size: 28px;
-            color: var(--accent2);
-            line-height: 1;
-        }
+        .splash-madrasa { font-size: clamp(14px, 3vw, 20px); color: #C8DFF0; font-weight: 600; }
+        .splash-ornament { font-size: 28px; color: var(--accent2); line-height: 1; }
 
         .splash-bottom {
             width: 100%;
@@ -155,19 +145,9 @@
             display: flex; flex-direction: column; align-items: center;
             gap: 10px;
         }
-        .splash-dev-label {
-            font-size: clamp(13px, 2vw, 15px);
-            color: var(--nav-inactive);
-        }
-        .splash-dev-name {
-            font-size: clamp(16px, 3.5vw, 22px);
-            color: var(--accent);
-            font-weight: 700;
-        }
-        .splash-dev-place {
-            font-size: clamp(13px, 2.5vw, 16px);
-            color: #8AB4D4;
-        }
+        .splash-dev-label { font-size: clamp(13px, 2vw, 15px); color: var(--nav-inactive); }
+        .splash-dev-name { font-size: clamp(16px, 3.5vw, 22px); color: var(--accent); font-weight: 700; }
+        .splash-dev-place { font-size: clamp(13px, 2.5vw, 16px); color: #8AB4D4; }
         .btn-start {
             margin-top: 4px;
             background: linear-gradient(135deg, var(--accent2), #E8D5A3);
@@ -184,344 +164,125 @@
             position: relative; overflow: hidden;
         }
         .btn-start::before {
-            content: '';
-            position: absolute; inset: 0;
+            content: ''; position: absolute; inset: 0;
             background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.25) 50%, transparent 100%);
-            transform: translateX(-100%);
-            transition: transform 0.6s;
+            transform: translateX(-100%); transition: transform 0.6s;
         }
         .btn-start:hover::before { transform: translateX(100%); }
         .btn-start:hover { transform: translateY(-2px); box-shadow: 0 10px 32px rgba(201,176,112,0.45); }
         .btn-start:active { transform: scale(0.97); }
 
-        /* ===== MAIN APP ===== */
-        #app { display: none; flex-direction: column; height: 100%; }
+        /* ===== MAIN APP ===== (vh کو dvh کر دیا گیا) */
+        #app { display: none; flex-direction: column; height: 100dvh; }
 
         /* STATUS BAR */
         .sbar {
-            background: var(--primary-dark);
-            height: 22px;
-            display: flex; justify-content: space-between; align-items: center;
-            padding: 0 12px;
-            font-size: 11px;
-            color: var(--accent);
-            font-family: sans-serif;
-            flex-shrink: 0;
+            background: var(--primary-dark); height: 22px; display: flex; justify-content: space-between; align-items: center;
+            padding: 0 12px; font-size: 11px; color: var(--accent); font-family: sans-serif; flex-shrink: 0;
         }
 
         /* TOOLBAR */
         .toolbar {
-            background: var(--primary);
-            padding: 10px 14px;
-            display: flex; justify-content: space-between; align-items: center;
-            border-bottom: 1px solid var(--primary-light);
-            flex-shrink: 0;
+            background: var(--primary); padding: 10px 14px; display: flex; justify-content: space-between; align-items: center;
+            border-bottom: 1px solid var(--primary-light); flex-shrink: 0;
         }
-        .toolbar-title {
-            font-family: 'Noto Nastaliq Urdu', 'JameelNoori', serif;
-            font-size: clamp(18px, 4vw, 24px);
-            font-weight: 700;
-            color: var(--accent);
-        }
+        .toolbar-title { font-family: 'Noto Nastaliq Urdu', 'JameelNoori', serif; font-size: clamp(18px, 4vw, 24px); font-weight: 700; color: var(--accent); }
         .toolbar-btns { display: flex; gap: 8px; }
         .tb-btn {
-            background: var(--primary-light);
-            border: 1px solid var(--btn-border);
-            color: var(--accent);
-            padding: 6px 12px;
-            border-radius: 8px;
-            font-family: 'Noto Nastaliq Urdu', serif;
-            font-size: 13px;
-            cursor: pointer;
-            transition: background 0.2s;
+            background: var(--primary-light); border: 1px solid var(--btn-border); color: var(--accent);
+            padding: 6px 12px; border-radius: 8px; font-family: 'Noto Nastaliq Urdu', serif; font-size: 13px;
+            cursor: pointer; transition: background 0.2s;
         }
         .tb-btn:hover { background: var(--primary-light); opacity: 0.85; }
 
         /* CONTENT */
-        .content-area { flex: 1; overflow-y: auto; padding: 16px; position: relative; }
+        .content-area { flex: 1; overflow-y: auto; padding: 16px; position: relative; scroll-behavior: smooth; }
         .tab-content { display: none; }
         .tab-content.active { display: block; }
 
-        /* BOOK CARD */
-        .book-card {
+        /* ===== NEW SCROLLABLE PAGE DESIGN ===== */
+        .book-page {
             background: var(--card-bg);
             border: 1px solid var(--border);
             border-radius: 12px;
             padding: 16px;
-            margin-bottom: 16px;
+            margin-bottom: 24px;
         }
-        .page-badge {
-            display: inline-block;
-            background: var(--primary);
-            color: var(--accent);
-            font-size: 12px;
-            padding: 3px 10px;
-            border-radius: 20px;
-            margin-bottom: 10px;
-            border: 1px solid var(--primary-light);
-        }
-
-        /* BOOK CONTROLS */
-        .book-controls {
+        .page-action-bar {
             display: flex; justify-content: space-between; align-items: center;
-            background: var(--action-bar);
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            padding: 10px 14px;
-            margin-bottom: 14px;
-            gap: 8px;
+            border-bottom: 1px dashed var(--border); padding-bottom: 10px; margin-bottom: 15px;
         }
-        .ctrl-btn {
-            background: var(--primary);
-            color: var(--accent);
-            border: 1px solid var(--btn-border);
-            padding: 8px 14px;
-            border-radius: 8px;
-            font-family: 'Noto Nastaliq Urdu', serif;
-            font-size: 14px;
-            cursor: pointer;
-            white-space: nowrap;
-            transition: opacity 0.2s;
+        .page-actions { display: flex; gap: 8px; }
+        .page-btn {
+            background: var(--primary-light); color: var(--accent); border: 1px solid var(--btn-border);
+            padding: 6px 12px; border-radius: 6px; font-family: 'Noto Nastaliq Urdu', serif; font-size: 13px; cursor: pointer; transition: background 0.2s;
         }
-        .ctrl-btn:hover { opacity: 0.8; }
-        .bm-btn {
-            background: var(--primary-light);
-            color: var(--accent);
-            border: 1px solid var(--btn-border);
-            padding: 8px 14px;
-            border-radius: 8px;
-            font-family: 'Noto Nastaliq Urdu', serif;
-            font-size: 14px;
-            cursor: pointer;
+        .page-btn:hover { background: var(--primary); }
+        .page-btn-pdf { background: #D32F2F; color: white; border: none; }
+        .page-btn-pdf:hover { background: #B71C1C; }
+        .page-info-badge {
+            background: var(--primary); color: var(--accent); padding: 4px 10px; border-radius: 20px; font-size: 13px; font-weight: bold; border: 1px solid var(--btn-border);
         }
-        .page-info { color: var(--accent); font-size: 14px; font-weight: 600; text-align: center; flex: 1; }
 
         /* TYPOGRAPHY */
-        .urdu-text {
-            font-family: 'Noto Nastaliq Urdu', 'JameelNoori', serif;
-            font-size: var(--urdu-size);
-            line-height: 2.2;
-            color: var(--urdu-color);
-            direction: rtl;
-            text-align: justify;
-        }
-        .arabic-text {
-            font-family: 'Amiri', 'AlQalam', serif;
-            font-size: var(--arabic-size);
-            line-height: 2.4;
-            color: var(--arabic-color);
-            font-weight: 700;
-            direction: rtl;
-        }
-        .book-heading {
-            font-family: 'Amiri', 'AlQalam', serif;
-            font-size: calc(var(--urdu-size) + 6px);
-            color: var(--chapter-color);
-            font-weight: 700;
-            text-align: center;
-            margin: 14px 0 8px;
-            border-bottom: 1px solid var(--border);
-            padding-bottom: 8px;
-        }
-        .book-heading-h2 {
-            font-size: calc(var(--urdu-size) + 2px);
-            color: #D4A24C;
-            font-weight: 700;
-            margin: 10px 0 4px;
-        }
-        .book-heading-h3 {
-            font-size: var(--urdu-size);
-            color: #8AB4D4;
-            font-weight: 600;
-            margin: 8px 0 4px;
-        }
-        .highlight {
-            background: rgba(232,213,163,0.25);
-            color: #E87D5A;
-            font-weight: 700;
-            padding: 0 4px;
-            border-radius: 4px;
-            border-bottom: 2px solid #E87D5A;
-        }
+        .urdu-text { font-family: 'Noto Nastaliq Urdu', 'JameelNoori', serif; font-size: var(--urdu-size); line-height: 2.2; color: var(--urdu-color); direction: rtl; text-align: justify; }
+        .arabic-text { font-family: 'Amiri', 'AlQalam', serif; font-size: var(--arabic-size); line-height: 2.4; color: var(--arabic-color); font-weight: 700; direction: rtl; }
+        .book-heading { font-family: 'Amiri', 'AlQalam', serif; font-size: calc(var(--urdu-size) + 6px); color: var(--chapter-color); font-weight: 700; text-align: center; margin: 14px 0 8px; border-bottom: 1px solid var(--border); padding-bottom: 8px; }
+        .book-heading-h2 { font-size: calc(var(--urdu-size) + 2px); color: #D4A24C; font-weight: 700; margin: 10px 0 4px; }
+        .book-heading-h3 { font-size: var(--urdu-size); color: #8AB4D4; font-weight: 600; margin: 8px 0 4px; }
+        
+        /* ہائی لائٹ کا ڈیزائن */
+        .highlight { background: rgba(232,213,163,0.25); color: #E87D5A; font-weight: 700; padding: 0 4px; border-radius: 4px; border-bottom: 2px solid #E87D5A; }
 
         /* SEARCH */
-        .search-row {
-            display: flex; gap: 8px; margin-bottom: 12px;
-        }
-        .search-input {
-            flex: 1; padding: 10px 14px;
-            border: 1px solid var(--border);
-            border-radius: 10px;
-            background: var(--card-bg);
-            color: var(--urdu-color);
-            font-family: 'Noto Nastaliq Urdu', serif;
-            font-size: 16px;
-            outline: none;
-            direction: rtl;
-        }
+        .search-row { display: flex; gap: 8px; margin-bottom: 12px; }
+        .search-input { flex: 1; padding: 10px 14px; border: 1px solid var(--border); border-radius: 10px; background: var(--card-bg); color: var(--urdu-color); font-family: 'Noto Nastaliq Urdu', serif; font-size: 16px; outline: none; direction: rtl; }
         .search-input:focus { border-color: var(--accent2); }
-        .search-btn {
-            background: var(--primary);
-            color: var(--accent);
-            border: 1px solid var(--btn-border);
-            padding: 10px 16px;
-            border-radius: 10px;
-            font-family: 'Noto Nastaliq Urdu', serif;
-            font-size: 15px;
-            cursor: pointer;
-            white-space: nowrap;
-        }
-        .search-modes {
-            display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 12px;
-        }
-        .mode-btn {
-            background: var(--card-bg);
-            color: var(--sub-color);
-            border: 1px solid var(--border);
-            padding: 5px 12px;
-            border-radius: 20px;
-            font-family: 'Noto Nastaliq Urdu', serif;
-            font-size: 13px;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-        .mode-btn.active {
-            background: var(--primary);
-            color: var(--accent);
-            border-color: var(--accent2);
-        }
-        .result-count {
-            background: var(--card-bg);
-            border: 1px solid var(--border);
-            color: var(--sub-color);
-            padding: 8px 14px;
-            border-radius: 8px;
-            font-size: 13px;
-            margin-bottom: 12px;
-            display: none;
-        }
+        .search-btn { background: var(--primary); color: var(--accent); border: 1px solid var(--btn-border); padding: 10px 16px; border-radius: 10px; font-family: 'Noto Nastaliq Urdu', serif; font-size: 15px; cursor: pointer; white-space: nowrap; }
+        .search-modes { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 12px; }
+        .mode-btn { background: var(--card-bg); color: var(--sub-color); border: 1px solid var(--border); padding: 5px 12px; border-radius: 20px; font-family: 'Noto Nastaliq Urdu', serif; font-size: 13px; cursor: pointer; transition: all 0.2s; }
+        .mode-btn.active { background: var(--primary); color: var(--accent); border-color: var(--accent2); }
+        .result-count { background: var(--card-bg); border: 1px solid var(--border); color: var(--sub-color); padding: 8px 14px; border-radius: 8px; font-size: 13px; margin-bottom: 12px; display: none; }
 
         /* CARDS */
-        .list-card {
-            background: var(--card-bg);
-            border: 1px solid var(--border);
-            border-radius: 10px;
-            padding: 12px 14px;
-            margin-bottom: 10px;
-            cursor: pointer;
-            transition: border-color 0.2s, background 0.2s;
-        }
+        .list-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 10px; padding: 12px 14px; margin-bottom: 10px; cursor: pointer; transition: border-color 0.2s, background 0.2s; }
         .list-card:hover { border-color: var(--accent2); }
         .list-card-title { color: var(--chapter-color); font-weight: 700; font-size: 15px; margin-bottom: 4px; }
         .list-card-sub { color: var(--sub-color); font-size: 13px; }
         .list-card-btns { display: flex; gap: 8px; margin-top: 8px; flex-wrap: wrap; }
-        .lc-btn {
-            background: var(--primary);
-            color: var(--btn-color);
-            border: 1px solid var(--btn-border);
-            padding: 5px 10px;
-            border-radius: 6px;
-            font-family: 'Noto Nastaliq Urdu', serif;
-            font-size: 12px;
-            cursor: pointer;
-        }
+        .lc-btn { background: var(--primary); color: var(--btn-color); border: 1px solid var(--btn-border); padding: 5px 10px; border-radius: 6px; font-family: 'Noto Nastaliq Urdu', serif; font-size: 12px; cursor: pointer; }
 
         /* SETTINGS */
-        .setting-card {
-            background: var(--card-bg);
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            padding: 14px 16px;
-            margin-bottom: 12px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
+        .setting-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 12px; padding: 14px 16px; margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center; }
         .setting-label { color: var(--urdu-color); font-size: 16px; }
         .font-ctrl { display: flex; align-items: center; gap: 10px; }
-        .font-ctrl button {
-            background: var(--primary);
-            color: var(--accent);
-            border: 1px solid var(--btn-border);
-            width: 36px; height: 36px;
-            border-radius: 8px;
-            font-size: 20px;
-            cursor: pointer;
-            line-height: 1;
-        }
+        .font-ctrl button { background: var(--primary); color: var(--accent); border: 1px solid var(--btn-border); width: 36px; height: 36px; border-radius: 8px; font-size: 20px; cursor: pointer; line-height: 1; }
         .font-ctrl span { color: var(--accent); font-size: 16px; font-family: sans-serif; min-width: 28px; text-align: center; }
 
         /* SWITCH */
         .switch { position: relative; width: 52px; height: 28px; }
         .switch input { opacity: 0; width: 0; height: 0; }
-        .slider {
-            position: absolute; cursor: pointer; inset: 0;
-            background: var(--primary-light);
-            border: 1px solid var(--btn-border);
-            border-radius: 34px;
-            transition: 0.3s;
-        }
-        .slider::before {
-            position: absolute; content: "🌙";
-            height: 20px; width: 20px; left: 4px; bottom: 3px;
-            background: var(--primary-dark);
-            border-radius: 50%;
-            transition: 0.3s;
-            display: flex; align-items: center; justify-content: center;
-            font-size: 11px;
-        }
+        .slider { position: absolute; cursor: pointer; inset: 0; background: var(--primary-light); border: 1px solid var(--btn-border); border-radius: 34px; transition: 0.3s; }
+        .slider::before { position: absolute; content: "🌙"; height: 20px; width: 20px; left: 4px; bottom: 3px; background: var(--primary-dark); border-radius: 50%; transition: 0.3s; display: flex; align-items: center; justify-content: center; font-size: 11px; }
         input:checked + .slider { background: #C9B48A; }
         input:checked + .slider::before { transform: translateX(24px); content: "☀️"; }
 
         /* BOTTOM NAV */
-        .bottom-nav {
-            background: var(--primary);
-            display: flex;
-            border-top: 1px solid var(--primary-light);
-            flex-shrink: 0;
-        }
-        .nav-item {
-            flex: 1; text-align: center;
-            padding: 10px 4px 8px;
-            color: var(--nav-inactive);
-            cursor: pointer;
-            font-size: clamp(13px, 2.8vw, 17px);
-            font-family: 'Noto Nastaliq Urdu', serif;
-            border-top: 2px solid transparent;
-            transition: all 0.2s;
-        }
+        .bottom-nav { background: var(--primary); display: flex; border-top: 1px solid var(--primary-light); flex-shrink: 0; }
+        .nav-item { flex: 1; text-align: center; padding: 10px 4px 8px; color: var(--nav-inactive); cursor: pointer; font-size: clamp(13px, 2.8vw, 17px); font-family: 'Noto Nastaliq Urdu', serif; border-top: 2px solid transparent; transition: all 0.2s; }
         .nav-item.active { color: var(--accent); border-top-color: var(--accent2); }
         .nav-icon { font-size: 18px; display: block; margin-bottom: 2px; }
 
         /* TOC DRAWER */
-        .drawer-overlay {
-            display: none; position: absolute; inset: 0; background: rgba(0,0,0,0.5); z-index: 100;
-        }
-        .drawer {
-            display: none; position: absolute; top: 0; right: 0; width: 82%; max-width: 320px;
-            height: 100%; background: var(--drawer-bg);
-            border-left: 1px solid var(--primary-light);
-            z-index: 101; flex-direction: column;
-            animation: slideIn 0.25s ease;
-        }
+        .drawer-overlay { display: none; position: absolute; inset: 0; background: rgba(0,0,0,0.5); z-index: 100; }
+        .drawer { display: none; position: absolute; top: 0; right: 0; width: 82%; max-width: 320px; height: 100%; background: var(--drawer-bg); border-left: 1px solid var(--primary-light); z-index: 101; flex-direction: column; animation: slideIn 0.25s ease; }
         .drawer.open { display: flex; }
         @keyframes slideIn { from { transform: translateX(100%); } to { transform: translateX(0); } }
-        .drawer-header {
-            background: var(--primary);
-            padding: 14px 16px;
-            display: flex; justify-content: space-between; align-items: center;
-            border-bottom: 1px solid var(--primary-light);
-        }
+        .drawer-header { background: var(--primary); padding: 14px 16px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--primary-light); }
         .drawer-title { color: var(--accent); font-weight: 700; font-size: 17px; }
         .drawer-close { background: none; border: none; color: var(--accent); font-size: 22px; cursor: pointer; }
         .drawer-body { flex: 1; overflow-y: auto; padding: 8px; }
-        .toc-item {
-            padding: 10px 12px;
-            border-radius: 8px;
-            cursor: pointer;
-            border-bottom: 1px solid rgba(26,58,92,0.4);
-            transition: background 0.15s;
-        }
+        .toc-item { padding: 10px 12px; border-radius: 8px; cursor: pointer; border-bottom: 1px solid rgba(26,58,92,0.4); transition: background 0.15s; }
         .toc-item:hover { background: rgba(232,213,163,0.08); }
         .toc-title { color: var(--toc-ch); font-size: 15px; font-weight: 600; }
         .toc-sub { color: var(--toc-vol); font-size: 12px; margin-top: 2px; }
@@ -531,99 +292,36 @@
         .toc-item.h3 .toc-title { color: var(--nav-inactive); font-size: 13px; }
 
         /* JUMP DIALOG */
-        .dialog-overlay {
-            display: none; position: absolute; inset: 0;
-            background: rgba(0,0,0,0.6); z-index: 200;
-            align-items: center; justify-content: center;
-        }
+        .dialog-overlay { display: none; position: absolute; inset: 0; background: rgba(0,0,0,0.6); z-index: 200; align-items: center; justify-content: center; }
         .dialog-overlay.open { display: flex; }
-        .dialog-box {
-            background: var(--drawer-bg);
-            border: 1px solid var(--primary-light);
-            border-radius: 16px;
-            padding: 20px;
-            width: 90%; max-width: 340px;
-        }
+        .dialog-box { background: var(--drawer-bg); border: 1px solid var(--primary-light); border-radius: 16px; padding: 20px; width: 90%; max-width: 340px; }
         .dialog-title { color: var(--accent); font-size: 17px; font-weight: 700; margin-bottom: 14px; text-align: center; }
         .dialog-row { display: flex; gap: 8px; margin-bottom: 12px; }
-        .dialog-input {
-            flex: 1; padding: 10px; border: 1px solid var(--border);
-            border-radius: 8px; background: var(--card-bg);
-            color: var(--urdu-color); font-family: sans-serif; font-size: 16px;
-            text-align: center;
-        }
-        .dialog-btn {
-            width: 100%;
-            background: linear-gradient(135deg, var(--accent2), var(--accent));
-            color: var(--primary-dark);
-            border: none; padding: 12px;
-            border-radius: 10px;
-            font-family: 'Noto Nastaliq Urdu', serif;
-            font-size: 16px; font-weight: 700;
-            cursor: pointer;
-        }
+        .dialog-input { flex: 1; padding: 10px; border: 1px solid var(--border); border-radius: 8px; background: var(--card-bg); color: var(--urdu-color); font-family: sans-serif; font-size: 16px; text-align: center; }
+        .dialog-btn { width: 100%; background: linear-gradient(135deg, var(--accent2), var(--accent)); color: var(--primary-dark); border: none; padding: 12px; border-radius: 10px; font-family: 'Noto Nastaliq Urdu', serif; font-size: 16px; font-weight: 700; cursor: pointer; }
 
         /* BOOKMARKS TAB */
         .bm-empty { text-align: center; color: var(--sub-color); padding: 40px 20px; font-size: 15px; }
-        .bm-card {
-            background: var(--card-bg); border: 1px solid var(--border);
-            border-radius: 10px; padding: 12px 14px; margin-bottom: 10px;
-            display: flex; align-items: center; gap: 10px;
-        }
+        .bm-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 10px; padding: 12px 14px; margin-bottom: 10px; display: flex; align-items: center; gap: 10px; }
         .bm-info { flex: 1; cursor: pointer; }
         .bm-title { color: var(--chapter-color); font-weight: 700; font-size: 15px; }
         .bm-vol { color: var(--sub-color); font-size: 12px; margin-top: 3px; }
-        .bm-del {
-            background: rgba(211,47,47,0.15);
-            color: #E87D7D;
-            border: 1px solid rgba(211,47,47,0.3);
-            padding: 6px 10px; border-radius: 8px;
-            font-family: 'Noto Nastaliq Urdu', serif;
-            font-size: 13px; cursor: pointer; white-space: nowrap;
-        }
+        .bm-del { background: rgba(211,47,47,0.15); color: #E87D7D; border: 1px solid rgba(211,47,47,0.3); padding: 6px 10px; border-radius: 8px; font-family: 'Noto Nastaliq Urdu', serif; font-size: 13px; cursor: pointer; white-space: nowrap; }
 
         /* PDF VIEWER */
-        #pdfFrame {
-            width: 100%; height: 100%; border: none;
-            display: none;
-        }
-        .pdf-bar {
-            display: none;
-            background: var(--primary); padding: 8px 14px;
-            align-items: center; gap: 10px; border-bottom: 1px solid var(--border);
-            flex-shrink: 0;
-        }
+        #pdfFrame { width: 100%; height: 100%; border: none; display: none; }
+        .pdf-bar { display: none; background: var(--primary); padding: 8px 14px; align-items: center; gap: 10px; border-bottom: 1px solid var(--border); flex-shrink: 0; }
         .pdf-bar.visible { display: flex; }
-        .pdf-back-btn {
-            background: var(--primary-light); color: var(--accent);
-            border: 1px solid var(--btn-border);
-            padding: 6px 12px; border-radius: 8px;
-            font-family: 'Noto Nastaliq Urdu', serif; font-size: 14px; cursor: pointer;
-        }
+        .pdf-back-btn { background: var(--primary-light); color: var(--accent); border: 1px solid var(--btn-border); padding: 6px 12px; border-radius: 8px; font-family: 'Noto Nastaliq Urdu', serif; font-size: 14px; cursor: pointer; }
         .pdf-label { color: var(--accent); font-size: 14px; flex: 1; text-align: center; }
 
         /* RESPONSIVE */
-        @media (min-width: 600px) {
-            .content-area { padding: 20px max(20px, calc((100vw - 600px)/2)); }
-            .drawer { max-width: 380px; }
-            .splash-middle { flex-direction: row; flex-wrap: wrap; justify-content: center; max-width: 700px; }
-        }
+        @media (min-width: 600px) { .content-area { padding: 20px max(20px, calc((100vw - 600px)/2)); } .drawer { max-width: 380px; } .splash-middle { flex-direction: row; flex-wrap: wrap; justify-content: center; max-width: 700px; } }
 
         /* LOADING OVERLAY */
-        .loading-overlay {
-            display: none; position: absolute; inset: 0;
-            background: rgba(10,22,40,0.8); z-index: 50;
-            align-items: center; justify-content: center;
-            flex-direction: column; gap: 14px;
-        }
+        .loading-overlay { display: none; position: absolute; inset: 0; background: rgba(10,22,40,0.8); z-index: 50; align-items: center; justify-content: center; flex-direction: column; gap: 14px; }
         .loading-overlay.show { display: flex; }
-        .spinner {
-            width: 48px; height: 48px;
-            border: 3px solid var(--primary-light);
-            border-top-color: var(--accent);
-            border-radius: 50%;
-            animation: spin 0.8s linear infinite;
-        }
+        .spinner { width: 48px; height: 48px; border: 3px solid var(--primary-light); border-top-color: var(--accent); border-radius: 50%; animation: spin 0.8s linear infinite; }
         @keyframes spin { to { transform: rotate(360deg); } }
         .loading-text { color: var(--accent); font-size: 14px; }
 
@@ -635,7 +333,6 @@
 </head>
 <body>
 
-<!-- ========== SPLASH SCREEN ========== -->
 <div id="splash">
     <div class="splash-top-band">
         <div class="splash-bismillah">بِسْمِ اللهِ الرَّحْمٰنِ الرَّحِيْمِ</div>
@@ -663,23 +360,19 @@
     </div>
 </div>
 
-<!-- ========== MAIN APP ========== -->
 <div id="app">
 
-    <!-- Status Bar -->
     <div class="sbar">
         <span id="clock">٩:٤١</span>
         <span>تحفۃ الباری</span>
         <span>📶 🔋</span>
     </div>
 
-    <!-- PDF Bar (shown when PDF visible) -->
     <div class="pdf-bar" id="pdfBar">
         <button class="pdf-back-btn" onclick="closePdf()">⬅ واپس</button>
         <div class="pdf-label">اصل کتاب PDF</div>
     </div>
 
-    <!-- Toolbar -->
     <div class="toolbar" id="mainToolbar">
         <div class="toolbar-btns">
             <button class="tb-btn" onclick="toggleDrawer()">☰ فہرست</button>
@@ -687,17 +380,14 @@
         </div>
         <div class="toolbar-title">تحفۃ الباری</div>
         <div class="toolbar-btns">
-            <button class="tb-btn" onclick="openPdf()">PDF 📄</button>
+            <button class="tb-btn" onclick="openPdfAt(1)">PDF 📄</button>
         </div>
     </div>
 
-    <!-- Main Content Wrapper -->
     <div style="flex:1;overflow:hidden;position:relative;display:flex;flex-direction:column;">
 
-        <!-- TOC Drawer Overlay -->
         <div class="drawer-overlay" id="drawerOverlay" onclick="closeDrawer()"></div>
 
-        <!-- TOC Drawer -->
         <div class="drawer" id="tocDrawer">
             <div class="drawer-header">
                 <button class="drawer-close" onclick="closeDrawer()">✕</button>
@@ -708,7 +398,6 @@
             </div>
         </div>
 
-        <!-- Jump Dialog -->
         <div class="dialog-overlay" id="jumpDialog">
             <div class="dialog-box">
                 <div class="dialog-title">صفحے پر جائیں</div>
@@ -723,35 +412,21 @@
             </div>
         </div>
 
-        <!-- Loading Overlay -->
         <div class="loading-overlay" id="loadingOverlay">
             <div class="spinner"></div>
             <div class="loading-text">لوڈ ہو رہا ہے...</div>
         </div>
 
-        <!-- PDF iframe -->
         <iframe id="pdfFrame"></iframe>
 
-        <!-- Scrollable Content -->
         <div class="content-area" id="contentArea">
 
-            <!-- BOOK TAB -->
             <div id="tab-book" class="tab-content active">
-                <div class="book-controls">
-                    <button class="ctrl-btn" onclick="nextPage()">⬅ اگلا</button>
-                    <button class="bm-btn" onclick="saveBookmark()">🔖</button>
-                    <div class="page-info" id="pageInfo">جلد: — | صفحہ: —</div>
-                    <button class="ctrl-btn" onclick="prevPage()">پچھلا ➡</button>
-                </div>
-                <div class="book-card">
-                    <div class="page-badge" id="pageBadge">صفحہ —</div>
-                    <div class="urdu-text" id="bookContent">
-                        <div style="text-align:center;color:var(--sub-color);padding:40px 0;">کتاب لوڈ ہو رہی ہے...</div>
-                    </div>
+                <div id="bookContainer">
+                    <div style="text-align:center;color:var(--sub-color);padding:40px 0;">کتاب لوڈ ہو رہی ہے...</div>
                 </div>
             </div>
 
-            <!-- SEARCH TAB -->
             <div id="tab-search" class="tab-content">
                 <div class="search-row">
                     <input class="search-input" type="text" id="searchInput" placeholder="کوئی لفظ تلاش کریں..." oninput="onSearchInput(this.value)">
@@ -766,12 +441,10 @@
                 <div id="searchResults"></div>
             </div>
 
-            <!-- BOOKMARKS TAB -->
             <div id="tab-bookmarks" class="tab-content">
                 <div id="bookmarksList"><div class="bm-empty">کوئی مقام محفوظ نہیں ہے۔</div></div>
             </div>
 
-            <!-- SETTINGS TAB -->
             <div id="tab-settings" class="tab-content">
                 <div class="setting-card">
                     <span class="setting-label">☀️ ڈے موڈ</span>
@@ -798,13 +471,12 @@
                 </div>
                 <div class="setting-card" style="flex-direction:column;align-items:flex-end;gap:6px;">
                     <span class="setting-label">PDF کتاب آن لائن دیکھیں</span>
-                    <button class="search-btn" onclick="openPdf()">PDF کھولیں 📄</button>
+                    <button class="search-btn" onclick="openPdfAt(1)">PDF کھولیں 📄</button>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Bottom Nav -->
     <div class="bottom-nav">
         <div class="nav-item active" id="navBook" onclick="switchTab('book',this)">
             <span class="nav-icon">📖</span>کتاب
@@ -824,7 +496,6 @@
 <script>
 // ===== STATE =====
 let bookData = [];
-let currentIndex = 0;
 let bookmarks = JSON.parse(localStorage.getItem('tb_bm_v2') || '[]');
 let currentQuery = '';
 let searchMode = 'exact';
@@ -848,7 +519,7 @@ fetch(dataUrl)
         bookData = data;
         showLoading(false);
         document.getElementById('startBtn').textContent = 'کتاب شروع کریں ←';
-        renderPage(0);
+        renderBook();
         renderBookmarks();
         buildToc();
     })
@@ -856,7 +527,6 @@ fetch(dataUrl)
         showLoading(false);
         document.getElementById('startBtn').textContent = 'ڈیٹا لوڈ نہیں ہوا!';
         console.error(err);
-        // Demo mode — show sample content
         demoMode();
     });
 
@@ -864,15 +534,11 @@ function demoMode() {
     bookData = [
         {
             volume: "1", page_number: 1, chapter_h1: "بسم اللہ الرحمن الرحیم",
-            content: "[H1]بسم اللہ الرحمن الرحیم[/H1]\n\nیہ کتاب تحفۃ الباری فی الفقہ الشافعی ہے۔ اس کتاب میں شافعی فقہ کے تمام مسائل مدلل اور مفصل طریقے سے بیان کیے گئے ہیں۔\n\n<ar>الحمد لله رب العالمين والصلاة والسلام على أشرف الأنبياء والمرسلين</ar>\n\nتمام تعریفیں اللہ تعالیٰ کے لیے ہیں جو سارے جہانوں کا رب ہے، اور درود و سلام ہو تمام انبیاء اور رسولوں میں سب سے افضل پر۔"
-        },
-        {
-            volume: "1", page_number: 2, chapter_h1: "کتاب الطہارۃ",
-            content: "[H1]کتاب الطہارۃ[/H1]\n\n[H2]باب الماء وأقسامه[/H2]\n\nطہارت اسلامی عبادات کی بنیاد ہے۔ پانی کی اقسام اور ان کے احکام درج ذیل ہیں:\n\n<ar>الماء الطهور هو الذي تصح به الطهارة</ar>\n\nطہور پانی وہ ہے جس سے طہارت صحیح ہوتی ہے۔ یہ پانی اپنی اصل حالت پر باقی ہو اور کوئی نجاست اس میں نہ ملی ہو۔"
+            content: "[H1]بسم اللہ الرحمن الرحیم[/H1]\n\nیہ کتاب تحفۃ الباری فی الفقہ الشافعی ہے۔\n\n<ar>الحمد لله رب العالمين والصلاة والسلام على أشرف الأنبياء والمرسلين</ar>\n\nتمام تعریفیں اللہ تعالیٰ کے لیے ہیں۔"
         }
     ];
     document.getElementById('startBtn').textContent = 'نمونہ دیکھیں (ڈیمو موڈ) ←';
-    renderPage(0);
+    renderBook();
     renderBookmarks();
     buildToc();
 }
@@ -906,10 +572,9 @@ function switchTab(tab, el) {
     closePdfInternal();
 }
 
-// ===== PAGE RENDER =====
+// ===== FORMAT & HIGHLIGHT =====
 function formatContent(text) {
-    let html = text;
-    html = html.replace(/\[H1\]([\s\S]*?)\[\/H1\]/g, '<div class="book-heading">$1</div>');
+    let html = text.replace(/\[H1\]([\s\S]*?)\[\/H1\]/g, '<div class="book-heading">$1</div>');
     html = html.replace(/\[H2\]([\s\S]*?)\[\/H2\]/g, '<div class="book-heading-h2">$1</div>');
     html = html.replace(/\[H3\]([\s\S]*?)\[\/H3\]/g, '<div class="book-heading-h3">$1</div>');
     html = html.replace(/<ar>([\s\S]*?)<\/ar>/g, '<div class="arabic-text">$1</div>');
@@ -920,24 +585,43 @@ function formatContent(text) {
 function highlightQuery(html, query) {
     if (!query || query.length < 2) return html;
     const escaped = query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-    return html.replace(new RegExp(`(${escaped})`, 'gi'), '<span class="highlight">$1</span>');
+    const regex = new RegExp(`(?![^<]+>)(${escaped})`, 'gi');
+    return html.replace(regex, '<span class="highlight">$1</span>');
 }
 
-function renderPage(index) {
-    if (index < 0 || index >= bookData.length) return;
-    currentIndex = index;
-    const page = bookData[index];
-    let html = formatContent(page.content || '');
-    if (currentQuery) html = highlightQuery(html, currentQuery);
+// ===== SCROLLABLE BOOK RENDERING =====
+function renderBook() {
+    let html = '';
+    bookData.forEach((page, idx) => {
+        let pageText = formatContent(page.content || '');
+        if (currentQuery) { pageText = highlightQuery(pageText, currentQuery); }
+        
+        let pdfPageNum = calculatePdfPage(page.volume, page.page_number);
 
-    document.getElementById('bookContent').innerHTML = html;
-    document.getElementById('pageInfo').textContent = `جلد: ${page.volume} | صفحہ: ${page.page_number}`;
-    document.getElementById('pageBadge').textContent = `جلد ${page.volume} — صفحہ ${page.page_number}`;
-    document.getElementById('contentArea').scrollTop = 0;
+        html += `
+        <div class="book-page" id="page-${idx}">
+            <div class="page-action-bar">
+                <div class="page-info-badge">جلد: ${page.volume} | صفحہ: ${page.page_number}</div>
+                <div class="page-actions">
+                    <button class="page-btn page-btn-pdf" onclick="openPdfAt(${pdfPageNum})">📄 PDF</button>
+                    <button class="page-btn" onclick="saveBookmarkIdx(${idx})">🔖 محفوظ</button>
+                </div>
+            </div>
+            <div class="urdu-text">${pageText}</div>
+        </div>`;
+    });
+    document.getElementById('bookContainer').innerHTML = html;
 }
 
-function nextPage() { renderPage(currentIndex + 1); }
-function prevPage() { renderPage(currentIndex - 1); }
+// ===== PDF MATH LOGIC =====
+function calculatePdfPage(vol, pageStr) {
+    let v = parseInt(vol);
+    let p = parseInt(pageStr);
+    if (v === 1) return (p < 20) ? p + 19 : p;
+    if (v === 2) return (p < 400) ? p + 492 : p;
+    if (v === 3) return (p < 400) ? p + 722 : p;
+    return p;
+}
 
 // ===== SEARCH =====
 function setMode(mode) {
@@ -951,7 +635,7 @@ function onSearchInput(val) {
         currentQuery = '';
         document.getElementById('resultCount').style.display = 'none';
         document.getElementById('searchResults').innerHTML = '';
-        renderPage(currentIndex);
+        renderBook();
     }
 }
 
@@ -989,8 +673,12 @@ function doSearch() {
 
 // ===== JUMP =====
 function jumpTo(idx) {
-    renderPage(idx);
     switchTab('book', document.getElementById('navBook'));
+    renderBook();
+    setTimeout(() => {
+        const pageEl = document.getElementById('page-' + idx);
+        if (pageEl) { pageEl.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+    }, 100);
 }
 
 function showJumpDialog() { document.getElementById('jumpDialog').classList.add('open'); }
@@ -1004,12 +692,12 @@ function doJump() {
 }
 
 // ===== BOOKMARKS =====
-function saveBookmark() {
+function saveBookmarkIdx(idx) {
     if (!bookData.length) return;
-    const page = bookData[currentIndex];
+    const page = bookData[idx];
     const exists = bookmarks.find(b => b.vol == page.volume && b.page == page.page_number);
     if (exists) { alert('یہ صفحہ پہلے سے محفوظ ہے! 🔖'); return; }
-    bookmarks.push({ vol: page.volume, page: page.page_number, title: page.chapter_h1 || 'محفوظ صفحہ', idx: currentIndex });
+    bookmarks.push({ vol: page.volume, page: page.page_number, title: page.chapter_h1 || 'محفوظ صفحہ', idx: idx });
     localStorage.setItem('tb_bm_v2', JSON.stringify(bookmarks));
     alert('محفوظ کر لیا گیا! 🔖');
     renderBookmarks();
@@ -1074,9 +762,9 @@ function closeDrawer() {
     document.getElementById('drawerOverlay').style.display = 'none';
 }
 
-// ===== PDF =====
-function openPdf() {
-    const pdfUrl = 'https://masjidboard.github.io/Tohfat%20ul%20Bari%20Complete.pdf';
+// ===== PDF VIEWER =====
+function openPdfAt(pageNum) {
+    const pdfUrl = `https://masjidboard.github.io/Tohfat%20ul%20Bari%20Complete.pdf#page=${pageNum}`;
     const frame = document.getElementById('pdfFrame');
     const bar = document.getElementById('pdfBar');
     const toolbar = document.getElementById('mainToolbar');
@@ -1094,8 +782,8 @@ function closePdfInternal() {
     frame.style.display = 'none';
     frame.src = '';
     document.getElementById('pdfBar').classList.remove('visible');
-    document.getElementById('mainToolbar').style.display = '';
-    document.getElementById('contentArea').style.display = '';
+    document.getElementById('mainToolbar').style.display = 'flex';
+    document.getElementById('contentArea').style.display = 'block';
     document.querySelector('.bottom-nav').style.display = 'flex';
 }
 
