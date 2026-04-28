@@ -969,18 +969,32 @@ function doSearch() {
 
 // ===== JUMP =====
 function jumpTo(idx) {
-    switchTab('book', document.getElementById('navBook'));
-    const el = document.getElementById('page-idx-' + idx);
-    if (el) {
-        // Apply highlight dynamically on the target block if there's an active search query
-        if (currentQuery) {
-            const page = bookData[idx];
-            let html = formatContent(page.content || '');
-            html = highlightQuery(html, currentQuery, searchMode);
-            el.querySelector('.urdu-text').innerHTML = html;
+    // 1. پہلے لوڈنگ اسکرین دکھائیں تاکہ صارف کو لگے کہ کام ہو رہا ہے
+    showLoading(true);
+
+    // 2. تھوڑا سا وقفہ تاکہ براؤزر ہینگ ہونے کے بجائے لوڈنگ دکھا سکے
+    setTimeout(() => {
+        const el = document.getElementById('page-idx-' + idx);
+        
+        if (el) {
+            // ہائی لائٹ کرنے کا کام ٹیب دکھانے سے پہلے ہی کر لیں (اس سے اسپیڈ تیز ہوتی ہے)
+            if (currentQuery) {
+                const page = bookData[idx];
+                let html = formatContent(page.content || '');
+                html = highlightQuery(html, currentQuery, searchMode);
+                el.querySelector('.urdu-text').innerHTML = html;
+            }
+            
+            // کتاب والے ٹیب پر شفٹ ہوں
+            switchTab('book', document.getElementById('navBook'));
+            
+            // سب سے اہم تبدیلی: 'smooth' کی جگہ 'auto' کر دیا گیا ہے تاکہ بغیر اینیمیشن کے فوراً جمپ کرے
+            el.scrollIntoView({ behavior: 'auto', block: 'start' });
         }
-        el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }
+        
+        // 3. جمپ ہونے کے فوراً بعد لوڈنگ ہٹا دیں
+        showLoading(false);
+    }, 10); // 10 ملی سیکنڈ کا معمولی وقفہ
 }
 
 function showJumpDialog() { document.getElementById('jumpDialog').classList.add('open'); }
