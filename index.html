@@ -1059,39 +1059,81 @@ function closeDrawer() {
 }
 
 // ===== PDF =====
+// PDF.js لائبریری کی سیٹنگ
+if (window['pdfjs-dist/build/pdf']) {
+    window.pdfjsLib = window['pdfjs-dist/build/pdf'];
+    pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.worker.min.js';
+}
+
+let pdfDoc = null;
+
 function getPdfPage(vol, txtPage) {
     vol = parseInt(vol);
     txtPage = parseInt(txtPage);
-    // Calculations as per logic provided:
-    // Vol 1: 20 -> 463
     if (vol === 1) return txtPage;
-    // Vol 2: Text 30 to 258 starts at PDF 493. (493 - 30 = 463 offset)
     if (vol === 2) return txtPage + 463;
-    // Vol 3: Text 2 to 283 starts at PDF 723. (723 - 2 = 721 offset)
     if (vol === 3) return txtPage + 721;
     return 1;
 }
 
 function openPdfAt(vol, txtPage) {
     const pdfPage = getPdfPage(vol, txtPage);
-    const pdfUrl = `https://masjidboard.github.io/Tohfat%20ul%20Bari%20Complete.pdf#page=${pdfPage}`;
-    const frame = document.getElementById('pdfFrame');
-    const bar = document.getElementById('pdfBar');
-    const toolbar = document.getElementById('mainToolbar');
-    frame.src = pdfUrl;
-    frame.style.display = 'block';
-    bar.classList.add('visible');
-    toolbar.style.display = 'none';
+    const pdfUrl = 'https://masjidboard.github.io/Tohfat%20ul%20Bari%20Complete.pdf';
+    
+    document.getElementById('pdfBar').classList.add('visible');
+    document.getElementById('mainToolbar').style.display = 'none';
     document.getElementById('contentArea').style.display = 'none';
     document.querySelector('.bottom-nav').style.display = 'none';
+    
+    const container = document.getElementById('pdfContainer');
+    container.style.display = 'block';
+    container.scrollTop = 0; // سکرول اوپر کرنے کے لیے
+    
+    showLoading(true);
+
+    // اگر پی ڈی ایف پہلی بار کھل رہی ہے تو لوڈ کرے گا
+    if (!pdfDoc) {
+        pdfjsLib.getDocument(pdfUrl).promise.then(function(pdfDoc_) {
+            pdfDoc = pdfDoc_;
+            renderPdfPage(pdfPage);
+        }).catch(function(err) {
+            showLoading(false);
+            alert("پی ڈی ایف لوڈ کرنے میں مسئلہ آیا: " + err.message);
+        });
+    } else {
+        renderPdfPage(pdfPage); // اگر لوڈ ہو چکی ہے تو ڈائریکٹ صفحہ دکھائے گا
+    }
+}
+
+function renderPdfPage(pageNum) {
+    pdfDoc.getPage(pageNum).then(function(page) {
+        const canvas = document.getElementById('pdfCanvas');
+        const ctx = canvas.getContext('2d');
+        
+        // موبائل کے حساب سے زوم کی سیٹنگ
+        let scale = window.innerWidth < 600 ? 1.5 : 2.0; 
+        const viewport = page.getViewport({scale: scale});
+        
+        canvas.height = viewport.height;
+        canvas.width = viewport.width;
+
+        const renderContext = {
+            canvasContext: ctx,
+            viewport: viewport
+        };
+        
+        page.render(renderContext).promise.then(function() {
+            showLoading(false);
+        });
+    });
 }
 
 function closePdf() { closePdfInternal(); }
 function closePdfInternal() {
-    const frame = document.getElementById('pdfFrame');
-    if (frame.style.display === 'none') return;
-    frame.style.display = 'none';
-    frame.src = '';
+    const container = document.getElementById('pdfContainer');
+    if (container.style.display === 'none') return;
+    container.style.display = 'none';
+    
     document.getElementById('pdfBar').classList.remove('visible');
     document.getElementById('mainToolbar').style.display = 'flex';
     document.getElementById('contentArea').style.display = 'block';
