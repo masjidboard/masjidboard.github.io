@@ -166,19 +166,25 @@
         }
         .splash-dev-label {
             font-family: 'JameelNoori', 'Noto Nastaliq Urdu', serif;
-            font-size: clamp(13px, 2vw, 15px);
-            color: var(--nav-inactive);
+            font-size: clamp(16px, 3.5vw, 22px); /* سائز بڑا کیا گیا ہے */
+            color: #C8DFF0; /* ہلکا چمکدار نیلا رنگ */
+            margin-bottom: 2px;
         }
         .splash-dev-name {
             font-family: 'JameelNoori', 'Noto Nastaliq Urdu', serif;
-            font-size: clamp(16px, 3.5vw, 22px);
-            color: var(--accent);
+            font-size: clamp(24px, 6vw, 34px); /* نام کو بہت نمایاں کر دیا گیا ہے */
             font-weight: 700;
+            color: #FFD700; /* مصنف کے نام جیسا تیز سنہری رنگ */
+            text-shadow: 0 3px 6px rgba(0,0,0,0.8); /* شیڈو کا اضافہ */
+            margin-bottom: 4px;
         }
         .splash-dev-place {
             font-family: 'JameelNoori', 'Noto Nastaliq Urdu', serif;
-            font-size: clamp(13px, 2.5vw, 16px);
-            color: #8AB4D4;
+            font-size: clamp(18px, 4.5vw, 26px); /* مدرسے کا نام بھی بڑا کر دیا گیا ہے */
+            color: #FFFFFF; /* خالص سفید رنگ تاکہ دور سے نظر آئے */
+            font-weight: 700;
+            text-shadow: 0 3px 6px rgba(0,0,0,0.8);
+            margin-bottom: 10px;
         }
         .btn-start {
             margin-top: 4px;
@@ -293,12 +299,12 @@
             direction: rtl;
             text-align: justify;
         }
-        .arabic-text {
+        .arabic-text  {
             font-family: 'AlQalam', 'Amiri', serif;
             font-size: var(--arabic-size);
             line-height: 2.4;
-            color: var(--arabic-color);
-            font-weight: 700;
+            color: var(--urdu-color); /* رنگ کو اردو ٹیکسٹ کے برابر کر دیا گیا ہے */
+            font-weight: normal; /* بولڈ (موٹاپن) ختم کر دیا گیا ہے */
             direction: rtl;
         }
         .book-heading {
