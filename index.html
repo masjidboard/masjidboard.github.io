@@ -1098,8 +1098,16 @@ function openPdfAt(vol, txtPage) {
     showLoading(true);
 
     // اگر پی ڈی ایف پہلی بار کھل رہی ہے تو لوڈ کرے گا
+    // اگر پی ڈی ایف پہلی بار کھل رہی ہے تو لوڈ کرے گا
     if (!pdfDoc) {
-        pdfjsLib.getDocument(pdfUrl).promise.then(function(pdfDoc_) {
+        // اردو اور عربی حروف کو جوڑنے کے لیے cMap کی سیٹنگ
+        const loadingTask = pdfjsLib.getDocument({
+            url: pdfUrl,
+            cMapUrl: 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/cmaps/',
+            cMapPacked: true
+        });
+        
+        loadingTask.promise.then(function(pdfDoc_) {
             pdfDoc = pdfDoc_;
             renderPdfPage(pdfPage);
         }).catch(function(err) {
