@@ -2,7 +2,7 @@
 <html lang="ur" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>تُحْفَةُ الْبَارِي</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Noto+Nastaliq+Urdu:wght@400;600;700&family=Amiri:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
@@ -96,11 +96,11 @@
         }
         .splash-bismillah {
             font-family: 'AlQalam', 'Amiri', serif;
-            font-size: clamp(22px, 5vw, 38px);
+            font-size: clamp(24px, 6vw, 40px);
             color: var(--accent);
             letter-spacing: 2px;
             text-shadow: 0 0 20px rgba(232,213,163,0.4);
-            margin-bottom: 16px; /* بسم اللہ اور تحفۃ الباری کے درمیان فاصلہ */
+            margin-bottom: 30px; /* بسم اللہ اور تحفۃ الباری کے درمیان فاصلہ بڑھا دیا گیا ہے */
         }
         .splash-book-title {
             font-family: 'AlQalam', 'Amiri', serif;
@@ -132,24 +132,23 @@
         }
         .splash-label {
             font-family: 'JameelNoori', 'Noto Nastaliq Urdu', serif;
-            font-size: clamp(14px, 2.5vw, 18px);
+            font-size: clamp(16px, 4vw, 22px); /* لیبل کا سائز بھی تھوڑا بڑا کیا ہے */
             color: var(--nav-inactive);
         }
         .splash-author {
             font-family: 'JameelNoori', 'Noto Nastaliq Urdu', serif;
-            font-size: clamp(24px, 5vw, 34px); /* سائز بڑا کیا گیا ہے */
+            font-size: clamp(26px, 7vw, 40px); /* موبائل پر بہت نمایاں نظر آئے گا */
             font-weight: 700;
-            color: #FFEAAD; /* دور سے واضح نظر آنے کے لیے چمکدار سنہری رنگ */
-            text-shadow: 0 2px 8px rgba(0,0,0,0.6); /* الفاظ کو ابھارنے کے لیے شیڈو */
+            color: #FFD700; /* تیز سنہری رنگ تاکہ دور سے چمکے */
             line-height: 1.6;
-            margin-top: 4px;
+            text-shadow: 0 3px 6px rgba(0,0,0,0.8);
         }
         .splash-madrasa {
             font-family: 'JameelNoori', 'Noto Nastaliq Urdu', serif;
-            font-size: clamp(18px, 4vw, 26px); /* سائز بڑا کیا گیا ہے */
-            color: #FFFFFF; /* نمایاں کرنے کے لیے سفید رنگ */
-            font-weight: 700; /* مزید بولڈ کیا گیا ہے */
-            text-shadow: 0 2px 6px rgba(0,0,0,0.5); /* شیڈو کا اضافہ */
+            font-size: clamp(20px, 5vw, 30px); /* مدرسے کا نام بھی نمایاں کر دیا ہے */
+            color: #FFFFFF; /* خالص سفید رنگ */
+            font-weight: 700;
+            text-shadow: 0 3px 6px rgba(0,0,0,0.8);
         }
         .splash-ornament {
             font-family: 'AlQalam', 'Amiri', serif;
@@ -610,6 +609,7 @@
         ::-webkit-scrollbar-track { background: transparent; }
         ::-webkit-scrollbar-thumb { background: var(--primary-light); border-radius: 4px; }
     </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
 </head>
 <body>
 
@@ -860,7 +860,10 @@ function formatContent(text) {
     html = html.replace(/\[H1\]([\s\S]*?)\[\/H1\]/g, '<div class="book-heading">$1</div>');
     html = html.replace(/\[H2\]([\s\S]*?)\[\/H2\]/g, '<div class="book-heading-h2">$1</div>');
     html = html.replace(/\[H3\]([\s\S]*?)\[\/H3\]/g, '<div class="book-heading-h3">$1</div>');
-    html = html.replace(/<ar>([\s\S]*?)<\/ar>/g, '<div class="arabic-text">$1</div>');
+    
+    /* یہاں div کی جگہ span کر دیا گیا ہے تاکہ عربی ٹیکسٹ اردو کے ساتھ ہی رہے */
+    html = html.replace(/<ar>([\s\S]*?)<\/ar>/g, '<span class="arabic-text">$1</span>');
+    
     html = html.replace(/\n/g, '<br>');
     return html;
 }
