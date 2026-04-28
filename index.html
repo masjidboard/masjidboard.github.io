@@ -615,7 +615,7 @@
         ::-webkit-scrollbar-track { background: transparent; }
         ::-webkit-scrollbar-thumb { background: var(--primary-light); border-radius: 4px; }
     </style>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
 </head>
 <body>
 
@@ -1068,7 +1068,7 @@ function closeDrawer() {
 // PDF.js لائبریری کی سیٹنگ
 if (window['pdfjs-dist/build/pdf']) {
     window.pdfjsLib = window['pdfjs-dist/build/pdf'];
-    pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.worker.min.js';
+    pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
 }
 
 let pdfDoc = null;
@@ -1100,11 +1100,12 @@ function openPdfAt(vol, txtPage) {
     // اگر پی ڈی ایف پہلی بار کھل رہی ہے تو لوڈ کرے گا
     // اگر پی ڈی ایف پہلی بار کھل رہی ہے تو لوڈ کرے گا
     if (!pdfDoc) {
-        // اردو اور عربی حروف کو جوڑنے کے لیے cMap کی سیٹنگ
+        // اردو اور عربی حروف کو جوڑنے کے لیے نئے ورژن کی سیٹنگ
         const loadingTask = pdfjsLib.getDocument({
             url: pdfUrl,
-            cMapUrl: 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/cmaps/',
-            cMapPacked: true
+            cMapUrl: 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/cmaps/',
+            cMapPacked: true,
+            standardFontDataUrl: 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/standard_fonts/'
         });
         
         loadingTask.promise.then(function(pdfDoc_) {
