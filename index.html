@@ -6,6 +6,9 @@
     <title>تُحْفَةُ الْبَارِي</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Noto+Nastaliq+Urdu:wght@400;600;700&family=Amiri:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#0D2137">
+    <link rel="apple-touch-icon" href="icon-192.png">
     <style>
         /* ===== CSS VARIABLES ===== */
         :root {
@@ -1209,6 +1212,14 @@ function applyFonts() {
 function showLoading(show) {
     const el = document.getElementById('loadingOverlay');
     if (el) el.classList.toggle('show', show);
+}
+    // PWA Service Worker Registration
+if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+        navigator.serviceWorker.register('sw.js')
+            .then(reg => console.log('Service Worker Registered Successfully'))
+            .catch(err => console.log('Service Worker Registration Failed', err));
+    });
 }
 </script>
 </body>
