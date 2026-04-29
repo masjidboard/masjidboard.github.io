@@ -1142,9 +1142,20 @@ function renderPdfPage(pageNum) {
         const canvas = document.getElementById('pdfCanvas');
         const ctx = canvas.getContext('2d');
         
-        // موبائل کے حساب سے زوم کی سیٹنگ
-        let scale = window.innerWidth < 600 ? 1.5 : 2.0; 
-        const viewport = page.getViewport({scale: scale});
+        // 1. پیج کا اصل سائز معلوم کریں (بغیر زوم کے)
+        let unscaledViewport = page.getViewport({ scale: 1.0 });
+        
+        // 2. کنٹینر (اسکرین) کی چوڑائی معلوم کریں
+        let containerWidth = document.getElementById('pdfContainer').clientWidth;
+        
+        // 3. اسکرین کے حساب سے فٹ (Fit to width) کرنے کا اسکیل نکالیں 
+        // (0.95 اس لیے لگایا ہے تاکہ دائیں بائیں تھوڑی سی خالی جگہ/مارجن رہے اور پیج اچھا لگے)
+        let scale = (containerWidth / unscaledViewport.width) * 0.95;
+        
+        // کمپیوٹر کی بہت بڑی اسکرین پر پی ڈی ایف کو حد سے زیادہ بڑا ہونے سے روکنے کے لیے ایک حد (Limit)
+        if (scale > 1.6) { scale = 1.6; }
+        
+        const viewport = page.getViewport({ scale: scale });
         
         canvas.height = viewport.height;
         canvas.width = viewport.width;
