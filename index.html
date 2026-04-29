@@ -69,7 +69,19 @@
 
         /* ===== RESET & BASE ===== */
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-        html, body { height: 100%; width: 100%; overflow: hidden; }
+        html, body { 
+    height: 100%; 
+    height: 100dvh; /* نئے آئی فونز کے لیے */
+    width: 100%; 
+    overflow: hidden; 
+}
+
+/* آئی فون سفاری کا خاص فکس */
+@supports (-webkit-touch-callout: none) {
+    html, body {
+        height: -webkit-fill-available;
+    }
+}
         body {
             font-family: 'JameelNoori', 'Noto Nastaliq Urdu', serif;
             background: var(--bg);
