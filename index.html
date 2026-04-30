@@ -936,7 +936,15 @@ function setMode(mode) {
     document.getElementById('mode' + mode.charAt(0).toUpperCase() + mode.slice(1)).classList.add('active');
 }
 
+// ===== SEARCH =====
+let searchTimeout = null; // ٹائپنگ کے دوران موبائل ہینگ ہونے سے بچانے کے لیے
+
 function onSearchInput(val) {
+    // اگر صارف ٹائپ کر رہا ہے تو پچھلی سرچ کو کینسل کریں
+    if (searchTimeout) {
+        clearTimeout(searchTimeout);
+    }
+
     if (!val.trim()) {
         currentQuery = '';
         document.getElementById('resultCount').style.display = 'none';
@@ -948,7 +956,13 @@ function onSearchInput(val) {
             parent.replaceChild(document.createTextNode(el.textContent), el);
             parent.normalize();
         });
+        return; // اگر باکس خالی ہے تو مزید آگے نہ بڑھیں
     }
+
+    // 300 ملی سیکنڈ کا انتظار کریں، پھر خود بخود تلاش (Search) شروع کر دیں
+    searchTimeout = setTimeout(() => {
+        doSearch();
+    }, 300);
 }
 
 function doSearch() {
